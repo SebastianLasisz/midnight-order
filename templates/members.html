@@ -2,11 +2,12 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Members</title>
+		<title>Midnight Order - Members</title>
         <!-- Bootstrap -->
         <link href="/media/css/bootstrap.min.css" rel="stylesheet">
         <script type="text/javascript" src="http://static.wowhead.com/widgets/power.js"></script>
         <script>var wowhead_tooltips = { "colorlinks": true, "iconizelinks": true, "renamelinks": true }</script>
+        <link rel="shortcut icon" href="/media/img/favicon.ico" type="image/x-icon" />
 	</head>
 
 	<body>
@@ -14,29 +15,41 @@
     <script src="/media/js/bootstrap.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-
-	<ul class="nav nav-pills">
+    <link href="/media/css/styles.css" rel="stylesheet" >
+	<div class="foo"><ul class="nav nav-pills">
       <li><a href="/">Home</a></li>
       <li><a href="/policies">Policies</a></li>
       <li><a href="/forum">Forum</a></li>
       <li class="active"><a href="/members">Members</a></li>
-      <li><a href="/talents">Talents</a></li>
-      <li><a href="/register">Register</a></li>
-      <li><a href="/contact">Contact Us</a></li>
-      <li><a href="/gallery">Gallery</a></li>
-      <li><a href="/calendar">Calendar</a></li>
-      <li><a href="/awards">Awards</a></li>
-      <li><a href="/video">Videos</a></li>
-      <li><a href="/roster">Roster</a></li>
       <li><a href="/recruitment">Recruitment</a></li>
       <li><a href="/login">Log in</a></li>
-    </ul>
-
-    {% block content %}
+    </ul></div>
+    <div class="foo"><table  class="table">
         <tr>
-            <td>{{yarr}}</td>
+            <td> Picture </td>
+            <td> Name </td>
+            <td> Level </td>
+            <td> Spec </td>
+            <td> Class </td>
+            <td> Guild Rank </td>
         </tr>
-    {% endblock %}
+        {% block content %}
+            {% for m in members2 %}
+            <tr>
+                <td>
+                    <a href={{ m.armory }} target="tabName">
+                        <img src = {{ m.thumbnail }} onerror="this.src='/media/img/logo3.jpg';" width=84 height=84 title="No picture avaiable" alt = "" class="img-rounded"/>
+                    </a>
+                </td>
+                <td> {{ m.name }}</td>
+                <td> {{ m.level }}</td>
+                <td> {{ m.spec }}</td>
+                <td> {{ m.class_name }}</td>
+                <td> {{ m.rank_name }}</td>
+            </tr>
+            {% endfor %}
+        {% endblock %}
+    </table></div>
 	</body>
 
 </html>

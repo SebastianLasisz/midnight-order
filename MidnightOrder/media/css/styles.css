@@ -1,0 +1,55 @@
+body {
+	margin-top: 170px;
+	padding-bottom: 50px; 
+	background-image: url("/media/img/background.jpg");
+	background-repeat: no-repeat; 
+	background-color: black;
+	color: #87CEFA;
+}
+
+div {
+	background-color: black;
+	color: #87CEFA
+	text-align: left;
+	margin: 0 auto 0 auto;
+}
+
+
+.page-header {
+	background-color: black;
+	margin-top: 0;
+}
+.panel-body {
+	background-color: black;
+	padding-top: 0;
+}
+.featuredImg {
+	margin-bottom: 15px;
+}
+.sidebar-nav {
+	position: fixed;
+	top:250px;
+	right: 20px;
+}
+.jumbotron {
+	background-color: rgb(0,0,0);
+}
+
+.footer-logo {
+	padding-top: 10px;
+}
+.foo{
+	text-align: left;
+	width: 50%;
+	background-color: transparent;
+	margin: 0 auto 0 auto;
+}
+
+.sidebar{
+	color: #87CEFA;
+}
+
+.list-group-item{
+	color: #87CEFA;
+	background-color:black;
+}

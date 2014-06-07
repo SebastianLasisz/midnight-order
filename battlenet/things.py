@@ -895,7 +895,7 @@ class EquippedItem(Thing):
 
         self.gems = collections.defaultdict(lambda: None)
 
-        for key, value in data['tooltipParams'].items():
+        for key, value in data['tooltipParams'].items:
             if key.startswith('gem'):
                 self.gems[int(key[3:])] = value
 
@@ -947,7 +947,7 @@ class Raid(Thing):
         self.id = id
 
     def expansion(self):
-        for exp, ids in RAIDS.items():
+        for exp, ids in RAIDS.items:
             if self.id in ids:
                 for e in EXPANSION.keys():
                     if EXPANSION[e][0] == exp:

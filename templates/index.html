@@ -14,27 +14,36 @@
     <script src="/media/js/bootstrap.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <link href="/media/css/styles.css" rel="stylesheet" >
 
-	<ul class="nav nav-pills">
+	<div class="foo"><ul class="nav nav-pills">
       <li class="active"><a href="#">Home</a></li>
       <li><a href="policies">Policies</a></li>
       <li><a href="forum">Forum</a></li>
       <li><a href="members">Members</a></li>
-      <li><a href="talents">Talents</a></li>
-      <li><a href="register">Register</a></li>
-      <li><a href="contact">Contact Us</a></li>
-      <li><a href="gallery">Gallery</a></li>
-      <li><a href="calendar">Calendar</a></li>
-      <li><a href="awards">Awards</a></li>
-      <li><a href="videos">Videos</a></li>
-      <li><a href="roster">Roster</a></li>
       <li><a href="recruitment">Recruitment</a></li>
       <li><a href="login">Log in</a></li>
-    </ul>
+    </ul></div>
 
-    <a href="#" rel="item=2828">hai</a>
-    <a href="http://www.wowhead.com/item=25697" class="q3" rel="pcs=25695:25696:25697">[Felstalker Bracers]</a>
-		Page in progress...
+    <div class="container">
+      <div class="row row-offcanvas row-offcanvas-right">
+        <div class="col-xs-12 col-sm-9">
+          <div class="panel panel-default">
+            <div class="panel-body">
+                {% block content %}
+                    {% for n in news2 %}
+                        <h4> {{ n.title }}</h4>
+                        <p> {{ n.description | safe }}</p>
+                        <p> <img alt="" src = {{ n.img }} /></p>
+                        <h6> {{ n.name }}</h6>
+                        <hr>
+                    {% endfor %}
+                {% endblock %}
+            </div>
+            </div>
+          </div>
+        </div><!--/span-->
+      </div><!--/row-->
 	</body>
 
 </html>
