@@ -13,3 +13,4 @@ class Member(models.Model):
     rank = models.IntegerField(max_length=2)
     rank_name = models.CharField(max_length=15)
     armory = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=40)

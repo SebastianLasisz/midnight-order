@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+ 
+<head>
+		<meta charset="UTF-8">
+		<title>Midnight Order - Page unavaiable</title>
+        <!-- Bootstrap -->
+        <link rel="stylesheet" type="text/css" title="slate" href="/media/css/bootstrap.min.css">
+        <script type="text/javascript" src="http://static.wowhead.com/widgets/power.js"></script>
+        <script>var wowhead_tooltips = { "colorlinks": true, "iconizelinks": true, "renamelinks": true }</script>
+        <!-- Scripts -->
+        <script src="/media/js/scripts2.js"></script>
+        <script src="http://code.jquery.com/jquery.js"></script>
+        <script src="/media/js/jquery/jquery.cookie.js"></script
+        <script src="/media/js/bootstrap.min.js"></script>
+        <script src="/media/js/scripts.js"></script>
+        <script src="/media/js/jquery_css.js"></script>
+        <script src="/media/js/scripts.js"></script>
+        <script src="/media/js/cookie.js"></script>
+	</head>
+ 
+<body>
+    <script src="/media/js/bootstrap.min.js"></script>
+    <div id="nav" class="btn-group butn-pos">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Change style
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#" rel="/media/css/bootstrap.min.css">Default CSS</a></li>
+            <li><a href="#" rel="/media/css/yeti.css">Yeti</a></li>
+            <li><a href="#" rel="/media/css/cerulean.css">Cerulean</a></li>
+            <li><a href="#" rel="/media/css/cosmo.css">Cosmo</a></li>
+            <li><a href="#" rel="/media/css/cyborg.css">Cyborg</a></li>
+            <li><a href="#" rel="/media/css/darkly.css">Darkly</a></li>
+            <li><a href="#" rel="/media/css/flatly.css">Flatly</a></li>
+            <li><a href="#" rel="/media/css/journal.css">Journal</a></li>
+            <li><a href="#" rel="/media/css/lumen.css">Lumen</a></li>
+            <li><a href="#" rel="/media/css/readable.css">Readable</a></li>
+            <li><a href="#" rel="/media/css/simplex.css">Simplex</a></li>
+            <li><a href="#" rel="/media/css/spacelab.css">Spacelab</a></li>
+            <li><a href="#" rel="/media/css/superhero.css">Superhero</a></li>
+            <li><a href="#" rel="/media/css/united.css">United</a></li>
+        </ul>
+    </div>
+    {% if logged_out %}
+        <div class="alert alert-success alert-dismissable foo2">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Success!</strong> You've logged out properly.
+        </div>
+    {% endif %}
+    <div class="div-pos">
+        <div class="foo">
+            <ul class="nav nav-pills">
+                <li><a href="/">Home</a></li>
+                <li><a href="/policies">Policies</a></li>
+                <li><a href="/forum">Forum</a></li><li>
+                <li><a href="/members">Members</a></li>
+                <li><a href="/recruitment">Recruitment</a></li>
+                {% if not user.is_authenticated %}
+                    <li><a href="/login">Log in</a></li>
+                {% else %}
+                    <li><a href="/log-out">Log out</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <p></p>
+    <div class="foo"><img src="/media/img/404kitten.jpg"></div>
+</body>
+</html>

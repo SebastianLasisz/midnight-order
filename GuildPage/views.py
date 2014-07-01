@@ -3,6 +3,11 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from Members.models import Member
 from News.models import News
+from Register.models import Register
+from Register.form import *
+from GuildPage.form import *
+from django.contrib.auth import logout
+from django.http import HttpResponseRedirect
 import json
 import urllib2
 import operator
@@ -18,20 +23,61 @@ def policies(request):
     return render(request, 'policies.html')
 
 
-def calendar(request):
-    return render(request, 'calendar.html')
-
-
-def contact(request):
-    return render(request, 'contact.html')
-
-
 def forum(request):
     return render(request, 'forum.html')
 
 
 def login(request):
     return render(request, 'login.html')
+
+
+def registered(request):
+    memb = Register.objects.all()
+    return render_to_response('registered.html', locals(), RequestContext(request))
+
+
+def log_out(request):
+    logout(request)
+    logged_out = True
+    news = News.objects.all()[:10]
+    news2 = list(reversed(news))
+    return render_to_response('index.html', locals(), RequestContext(request))
+
+
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+            sender = form.cleaned_data['sender']
+            cc_myself = form.cleaned_data['cc_myself']
+            recipients = ['sedi1ster@gmail.com']
+            if cc_myself:
+                recipients.append(sender)
+        else:
+            return render_to_response('contact.html', locals(), RequestContext(request))
+        from django.core.mail import send_mail
+        send_mail(subject, message, sender, recipients)
+        return HttpResponseRedirect('/thanks/')
+    else:
+        form = ContactForm()
+
+    return render(request, 'contact.html', {
+        'form': form,
+    })
+
+
+def thanks(request):
+    return render(request, 'thanks.html')
+
+
+def terms(request):
+    return render(request, "terms_of_service.html")
+
+
+def cookies(request):
+    return render(request, "cookies.html")
 
 
 def members(request):
@@ -121,4 +167,47 @@ def rank_to_string(request):
 
 
 def recruitment(request):
-    return render(request, 'recruitment.html')
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            irl_name = form.cleaned_data['irl_name']
+            age = form.cleaned_data['age']
+            country = form.cleaned_data['country']
+            about_yourself = form.cleaned_data['about_yourself']
+            username = form.cleaned_data['username']
+            class_1 = form.cleaned_data['class_1']
+            spec = form.cleaned_data['spec']
+            wol_logs = form.cleaned_data['wol_logs']
+            professions = form.cleaned_data['professions']
+            previous_guilds = form.cleaned_data['previous_guilds']
+            contacs = form.cleaned_data['contacs']
+            reason = form.cleaned_data['reason']
+            questions = form.cleaned_data['questions']
+            rules = form.cleaned_data['rules']
+            experience = form.cleaned_data['experience']
+
+            r = Register(name=irl_name,
+                         age=age,
+                         country=country,
+                         about_yourself=about_yourself,
+                         username=username,
+                         class_1=class_1,
+                         spec=spec,
+                         wol_logs=wol_logs,
+                         professions=professions,
+                         previous_guilds=previous_guilds,
+                         contacs=contacs,
+                         reason=reason,
+                         questions=questions,
+                         experience=experience,
+                         slug=username)
+            r.save()
+        else:
+            return render_to_response('recruitment.html', locals(), RequestContext(request))
+        return HttpResponseRedirect('/thanks/')
+    else:
+        form = RegisterForm()
+
+    return render(request, 'recruitment.html', {
+        'form': form,
+    })

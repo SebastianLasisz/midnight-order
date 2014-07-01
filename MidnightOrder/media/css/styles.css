@@ -1,26 +1,29 @@
 body {
-	margin-top: 170px;
 	padding-bottom: 50px; 
 	background-image: url("/media/img/background.jpg");
 	background-repeat: no-repeat; 
 	background-color: black;
-	color: #87CEFA;
 }
 
 div {
-	background-color: black;
-	color: #87CEFA
 	text-align: left;
 	margin: 0 auto 0 auto;
 }
 
+.div-pos{
+	margin-top: 170px;
+}
+
+.butn-pos{
+	position:absolute;
+	top: 10px;
+	right: 20px;
+}
 
 .page-header {
-	background-color: black;
 	margin-top: 0;
 }
 .panel-body {
-	background-color: black;
 	padding-top: 0;
 }
 .featuredImg {
@@ -31,9 +34,6 @@ div {
 	top:250px;
 	right: 20px;
 }
-.jumbotron {
-	background-color: rgb(0,0,0);
-}
 
 .footer-logo {
 	padding-top: 10px;
@@ -43,13 +43,4 @@ div {
 	width: 50%;
 	background-color: transparent;
 	margin: 0 auto 0 auto;
-}
-
-.sidebar{
-	color: #87CEFA;
-}
-
-.list-group-item{
-	color: #87CEFA;
-	background-color:black;
 }
