@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.shortcuts import render
 from django.template import RequestContext
 from django.shortcuts import render_to_response
@@ -8,6 +9,8 @@ from Register.form import *
 from GuildPage.form import *
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
+from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 import json
 import urllib2
 import operator
@@ -64,6 +67,44 @@ def contact(request):
         form = ContactForm()
 
     return render(request, 'contact.html', {
+        'form': form,
+    })
+
+
+def register(request):
+    if request.method == 'POST':
+        form = RegisterNewUserForm(request.POST)
+        try:
+            if form.is_valid():
+                username = form.cleaned_data['username']
+                email = form.cleaned_data['email']
+                password = form.cleaned_data['password']
+                repeat_password = form.cleaned_data['repeat_password']
+                captcha = form.cleaned_data['captcha']
+                r = User(username=username,
+                         email=email,
+                         password=password)
+                try:
+                    r.save()
+                    subject = "Your Midnight Order account confirmation"
+                    message = "Hello,"+username+", and thanks for signing up for a Midnight Order account."
+                    from django.core.mail import send_mail
+                    send_mail(subject, message, 'accounts@midnightorder.com', [email])
+                except IntegrityError:
+                    error = "That name is already taken"
+                    return render_to_response('register.html', locals(), RequestContext(request))
+                g = Group.objects.get(name='Member')
+                g.user_set.add(r)
+            else:
+                return render_to_response('register.html', locals(), RequestContext(request))
+            return HttpResponseRedirect('/register_complete/')
+        except:
+            error = "Captcha input doesn't match. Please reenter it."
+            return render_to_response('register.html', locals(), RequestContext(request))
+    else:
+        form = RegisterNewUserForm()
+
+    return render(request, 'register.html', {
         'form': form,
     })
 
@@ -211,3 +252,7 @@ def recruitment(request):
     return render(request, 'recruitment.html', {
         'form': form,
     })
+
+
+def register_complete(request):
+    return render(request, 'register_complete.html')

@@ -1,4 +1,5 @@
 from django import forms
+from captcha.fields import ReCaptchaField
 
 
 class RegisterForm(forms.Form):
@@ -50,3 +51,26 @@ class RegisterForm(forms.Form):
         if f == "":
             raise forms.ValidationError("Did you just enter more than 10?")
             return cleaned_data
+
+
+class RegisterNewUserForm(forms.Form):
+            username = forms.CharField(
+                widget=forms.TextInput(attrs={'style': 'width:400px'}),
+                required=True)
+            email = forms.CharField(
+                widget=forms.EmailInput(attrs={'style': 'width:400px'}),
+                required=True)
+            password = forms.CharField(
+                widget=forms.PasswordInput(attrs={'style': 'width:400px'}),
+                required=True)
+            repeat_password = forms.CharField(
+                widget=forms.PasswordInput(attrs={'style': 'width:400px'}),
+                required=True)
+            captcha = ReCaptchaField(attrs={'theme': 'clean'})
+
+            def clean(self):
+                cleaned_data = self.cleaned_data
+                f = cleaned_data.get('captcha')
+                if f == "":
+                    raise forms.ValidationError("Username cannot be empty")
+                    return cleaned_data

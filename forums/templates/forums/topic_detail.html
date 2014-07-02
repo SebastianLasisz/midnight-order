@@ -2,9 +2,10 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Midnight Order - Home</title>
+    <title>Midnight Order - Forum</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" title="slate" href="/media/css/bootstrap.min.css">
+    <link rel="Shortcut icon" href="/media/img/favicon.ico"/>
     <script type="text/javascript" src="http://static.wowhead.com/widgets/power.js"></script>
     <script>var wowhead_tooltips = { "colorlinks": true, "iconizelinks": true, "renamelinks": true }</script>
     <!-- Scripts -->
@@ -51,7 +52,7 @@
 <div class="div-pos">
     <div class="foo">
         <ul class="nav nav-pills">
-            <li><a href="/home">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="/policies">Policies</a></li>
             <li class="active"><a href="/forums">Forum</a></li>
             <li><a href="/members">Members</a></li>
@@ -95,7 +96,7 @@
                                     </div>
                                     <div class="span7">
                                         <div>
-                                            {{ post.body|linebreaks }}
+                                            {{ post.body|safe|linebreaks }}
                                         </div>
                                         <div style="clear: both;"></div>
                                     </div>
@@ -125,7 +126,7 @@
                                     </div>
                                     <div class="span7">
                                         <div>
-                                            {{ post.body|linebreaks }}
+                                            {{ post.body|safe|linebreaks }}
                                         </div>
                                         <div style="clear: both;"></div>
                                     </div>

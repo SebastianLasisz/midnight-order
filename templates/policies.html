@@ -1,267 +1,677 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Midnight Order - Policies</title>
-        <!-- Bootstrap -->
-        <link rel="stylesheet" type="text/css" title="slate" href="/media/css/bootstrap.min.css">
-        <script type="text/javascript" src="http://static.wowhead.com/widgets/power.js"></script>
-        <script>var wowhead_tooltips = { "colorlinks": true, "iconizelinks": true, "renamelinks": true }</script>
-        <!-- Scripts -->
-        <script src="/media/js/scripts2.js"></script>
-        <script src="http://code.jquery.com/jquery.js"></script>
-        <script src="/media/js/jquery/jquery.cookie.js"></script
-        <script src="/media/js/bootstrap.min.js"></script>
-        <script src="/media/js/scripts.js"></script>
-        <script src="/media/js/jquery_css.js"></script>
-        <script src="/media/js/scripts.js"></script>
-        <script src="/media/js/cookie.js"></script>
-	</head>
+<head>
+    <meta charset="UTF-8">
+    <title>Midnight Order - Policies</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" title="slate" href="/media/css/bootstrap.min.css">
+    <link rel="Shortcut icon" href="/media/img/favicon.ico"/>
+    <script type="text/javascript" src="http://static.wowhead.com/widgets/power.js"></script>
+    <script>var wowhead_tooltips = { "colorlinks": true, "iconizelinks": true, "renamelinks": true }</script>
+    <!-- Scripts -->
+    <script src="/media/js/scripts2.js"></script>
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="/media/js/jquery/jquery.cookie.js"></script
+    <script src="/media/js/bootstrap.min.js"></script>
+    <script src="/media/js/scripts.js"></script>
+    <script src="/media/js/jquery_css.js"></script>
+    <script src="/media/js/scripts.js"></script>
+    <script src="/media/js/cookie.js"></script>
+</head>
 
-	<body>
-        <script src="/media/js/bootstrap.min.js"></script>
-        <div id="nav" class="btn-group butn-pos">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              Change style
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="#" rel="/media/css/bootstrap.min.css">Default CSS</a></li>
-                <li><a href="#" rel="/media/css/yeti.css">Yeti</a></li>
-                <li><a href="#" rel="/media/css/cerulean.css">Cerulean</a></li>
-                <li><a href="#" rel="/media/css/cosmo.css">Cosmo</a></li>
-                <li><a href="#" rel="/media/css/cyborg.css">Cyborg</a></li>
-                <li><a href="#" rel="/media/css/darkly.css">Darkly</a></li>
-                <li><a href="#" rel="/media/css/flatly.css">Flatly</a></li>
-                <li><a href="#" rel="/media/css/journal.css">Journal</a></li>
-                <li><a href="#" rel="/media/css/lumen.css">Lumen</a></li>
-                <li><a href="#" rel="/media/css/readable.css">Readable</a></li>
-                <li><a href="#" rel="/media/css/simplex.css">Simplex</a></li>
-                <li><a href="#" rel="/media/css/spacelab.css">Spacelab</a></li>
-                <li><a href="#" rel="/media/css/superhero.css">Superhero</a></li>
-                <li><a href="#" rel="/media/css/united.css">United</a></li>
-            </ul>
-        </div>
-        {% if logged_out %}
-            <div class="alert alert-success alert-dismissable foo2">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <strong>Success!</strong> You've logged out properly.
-            </div>
-        {% endif %}
-        <div class="div-pos">
-            <div class="foo">
-                <ul class="nav nav-pills">
-                    <li><a href="/">Home</a></li>
-                    <li class="active"><a href="/policies">Policies</a></li>
-                    <li><a href="/forums">Forum</a></li><li>
-                    <li><a href="/members">Members</a></li>
-                    <li><a href="/recruitment">Recruitment</a></li>
-                    {% if not user.is_authenticated %}
-                        <li><a href="/login">Log in</a></li>
-                    {% else %}
-                        <li><a href="/log-out">Log out</a></li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
+<body>
+<script src="/media/js/bootstrap.min.js"></script>
+<div id="nav" class="btn-group butn-pos">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        Change style
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li><a href="#" rel="/media/css/bootstrap.min.css">Default CSS</a></li>
+        <li><a href="#" rel="/media/css/yeti.css">Yeti</a></li>
+        <li><a href="#" rel="/media/css/cerulean.css">Cerulean</a></li>
+        <li><a href="#" rel="/media/css/cosmo.css">Cosmo</a></li>
+        <li><a href="#" rel="/media/css/cyborg.css">Cyborg</a></li>
+        <li><a href="#" rel="/media/css/darkly.css">Darkly</a></li>
+        <li><a href="#" rel="/media/css/flatly.css">Flatly</a></li>
+        <li><a href="#" rel="/media/css/journal.css">Journal</a></li>
+        <li><a href="#" rel="/media/css/lumen.css">Lumen</a></li>
+        <li><a href="#" rel="/media/css/readable.css">Readable</a></li>
+        <li><a href="#" rel="/media/css/simplex.css">Simplex</a></li>
+        <li><a href="#" rel="/media/css/spacelab.css">Spacelab</a></li>
+        <li><a href="#" rel="/media/css/superhero.css">Superhero</a></li>
+        <li><a href="#" rel="/media/css/united.css">United</a></li>
+    </ul>
+</div>
+{% if logged_out %}
+    <div class="alert alert-success alert-dismissable foo2">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Success!</strong> You've logged out properly.
+    </div>
+{% endif %}
+<div class="div-pos">
+    <div class="foo">
+        <ul class="nav nav-pills">
+            <li><a href="/">Home</a></li>
+            <li class="active"><a href="/policies">Policies</a></li>
+            <li><a href="/forums">Forum</a></li>
+            <li>
+            <li><a href="/members">Members</a></li>
+            <li><a href="/recruitment">Recruitment</a></li>
+            {% if not user.is_authenticated %}
+                <li><a href="/login">Log in</a></li>
+            {% else %}
+                <li><a href="/log-out">Log out</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
 
-    <div class="container">
-      <div class="row row-offcanvas row-offcanvas-right">
+<div class="container">
+    <div class="row row-offcanvas row-offcanvas-right">
         <div class="col-xs-12 col-sm-9">
-          <div class="panel panel-default">
-            <div class="panel-body">
-              <div class="page-header">
-                <h1>Guild Policies</h1>
-              </div>
-              <h2 id="1">1. General guild policies</h2>
-              <p>Midnight Order is primarily a guild that aims to be friendly, easy-going and helpful towards its members. We engage in both end-game PvP and PvE content, so players interested in either or both aspects of this game are welcome. Since we primarily deal with such content, we generally don’t accept low level characters, unless they are alts or friends known to other guild members; in any case, each application from a low level character (alt, friend or totally new guild member) is considered on an individual basis. Even though we may accept a few low level characters, it is important to stress that bugging other people for help in a persistently rude manner is frequently frowned upon and should be avoided. Other than that, our guild welcomes both casual and hardcore gamers; in fact, one of the first goals considered, when the first incarnation of our guild was created (back then when we were the Wind Of Death on Sporeggar), was to create a group of people that could help players who don’t have the luxury to play many hours per day and thus miss content that requires others’ contribution.</p>
-              <p>One of the lessons learnt from our experience with our previous guild is that having relaxed rules on inactivity results in a guild looking more and more like a dumping ground for unwanted or forgotten characters. For this reason, we have a rule on activity, which is simple yet strict: a guild member who is inactive for a month or more gets kicked out of the guild, unless he or she notifies one of the Officers by in-game mail of his or her absence (and, preferably, of its duration). In that case, the Officers will make a relevant note on the guild member’s Officer Note. For obvious reasons, if a guild member has one or more alts in the guild, this rule does not apply if any of his or her characters (main or alts) are active. Also, if a guild member has the Veteran rank, this rule will not be strictly enforced, due to the requirements for obtaining that rank.</p>
-              <p>Additionally, a guild member will get kicked out if he or she is a trouble-maker. Trouble-making can be done in two fronts: inside and outside the guild. Inside the guild (public guild channels and Mumble), please be considerate of other people’s feelings and do not make any comments that may be inappropriate or offensive. If you have any comments to make about other members’ behaviour, keep it in private channels; our Officers are always willing to listen to complaints and concerns from our members and will do their best to solve any issues. We would like to keep this guild drama-free. Even if you talk to a fellow guild member privately, be mindful not to insult them; we reserve the right to kick members out of the guild if their behaviour is deemed unacceptable towards others. Especially regarding raid issues (raiders’ performance, loot, spots and rotation, time and date of raids) and PvP performance, the only permissible way to raise an issue is through whispers to Officers, raid leaders or PvP leaders or an in-game mail. Even outside the guild, however, we strongly believe that our members can build up our reputation on the server, so members whose behaviour and statements on public channels reflect poorly on our guild may well be kicked out of it.</p>
-              <p>Moreover, if a guild member has continuously shown that the only reason he or she stays in the guild is in order to earn money, either by getting items from the vault with the sole purpose of reselling them, withdrawing money from it when not needed for his or her level, or simply bothering other members all the time so that they lend him or her money for no reason other than him or her simply being lazy, it is also possible that such a member will eventually get kicked out from the guild. The guild does not demand money or specific items from its members; its members should have the same attitude towards their fellow guild members.</p>
-              <p>All of our guild members are required to register on our web site. If a guild member has not done so, he or she will also get kicked out of the guild. Obviously, if a guild member has alts in the guild, only one registration is required. Other than registration, active participation in our forums is not required, although strongly recommended. In any case, our raiders and PvP players, engaged in rated battlegrounds, will need to visit our forums on a regular basis and will find that they are the most convenient way to express their possible concerns and/or wishes concerning them.</p>
-              <p>The Officers of the guild are always willing to help, but they are not the only ones. We are particularly proud of the great atmosphere we have in our guild chat and of the generous help many of our members lend to each other, so don’t hesitate to ask for it when in need.</p>
-              <p>As mentioned before, the activities of Midnight Order include, among other things, engaging in end-game PvP and PvE content. Additionally, since Defias Brotherhood is an RPPvP server, any players who want to organise RP (role-playing) happenings are free to do so. Note, however, that we do not require of our members to act in character while in guild chat or when playing together, since our main philosophy is to be a guild that accommodates any play style, be it casual or hardcore, deep in role-playing or focusing on PvE or PvP only.</p>
-              <hr>
-              <h2 id="2">2. Guild Positions</h2>
-              <p>Our guild needs dedicated guild members who will help in the administration of specific aspects of the guild. With the exception of the position of “Vault Master”, which, due to its nature, can only be accepted by Officers, the other positions can be held by guild members of any rank. Nevertheless, when a guild member assumes a guild position and therefore becomes a leader, he or she gains the Leader rank, so that the duties that position entails can be fulfilled more easily.</p>
-              <p>At the moment, we have the following positions:</p>
-              <h4>1. Vault Master</h4>
-              <p>Vault Master, currently held by Sedi (and his alt Alvaren) and Emmique, responsible for clearing up the vault and giving items from it to other guild members who have reached the daily limit and urgently need a particular item from it; trading items between the guild vault and our guild members, between the guild vault and the AH (neutral and Alliance) and between Alliance and Horde, with the sole purpose of gaining profit for the guild vault; and assigning gathering and crafting tasks to guild members. Note that these positions are explained in more detail in our Guild Vault Policies section of our website. Furthermore, our raid and PvP leaders (with the Officer rank) also have advanced access to it and generally are responsible for specific tabs within the vault dedicated to raiding and end-game PvP content. We currently need one more Vault Master.</p>
-              <h4>2. Webmaster</h4>
-              <p>Webmaster, currently held by Borizian, responsible for the day-to-day running of our guild web site; any questions or requests regarding it should be addressed to our Webmaster. Please, use the “Paypal” button found on our website to donate real money to our site; unfortunately, this site is not free! The cost of it and the money gathered so far, as well as further details, can all be found in the appropriate section of our site. We currently need one more Webmaster.</p>
-              <h4>3. Forum Moderator</h4>
-              <p>Forum Moderator, currently not held by anyone, responsible, quite surprisingly, for moderating our forums. We currently need two Forum Moderators.</p>
-              <h4>4. Facebook Moderator</h4>
-              <p>Facebook Moderator, currently held provisionally by Ceradien (and her alt Eagyn) and Sedi (and his alt Alvaren), responsible for maintaining our Facebook page. We currently need one Facebook Moderator.</p>
-              <h4>5. Raid Leader</h4>
-              <p>Raid Leader, currently held by Galvino (and his alt Galariomaxos), Shadybrit and Tolinka, responsible for organising raids and heroic and challenge runs, maintaining our Mumble servers and setting up the rules for our raids, as explained in another part of our guild policies. The Raid Leaders are also responsible for our "Raiders’ retreat" section of our forums, which, among other things, is the one our members must use if they want to ask for a particular raid that is not on normal raiding schedule at any given period. Finally, as mentioned elsewhere, the Raid Leaders must organise the raids for each raiding week on the Sunday preceding it; that also includes sending all the invitations through the in-game calendar. We currently need no more Raid Leaders.</p>
-              <h4>6. Recruitment Officer</h4>
-              <p>Recruitment Officer, currently held by Ceradien (and her alt Eagyn) and Smáckdown, responsible for the recruitment of newcomers, especially those who wish to participate in our end-game raids and rated battlegrounds, which includes, among other things, replying to every single application thread on our site, updating our recruitment thread on the official Defias Brotherhood forum with information on what classes we are currently most interested in, always in coordination with our raid leaders and PvP leaders, and passing on all the relevant details to our Webmasters, so that they update our web site accordingly. The Recruitment Officers may not necessarily hold the Officer rank. We currently need one more Recruitment Officer.</p>
-              <h4>7. Class Leader</h4>
-              <p>Class Leader, whose duties consist of giving advice when needed to members who ask for it, posting important information on our subforums dedicated to specific classes and informing the raid leaders and PvP leaders on the suitability of guild members of the class our Class Leaders are responsible for to participate in specific raids or rated battlegrounds. The Class Leaders are expected to spend some time in-game with such members in order to show them how they can improve their performance and, most importantly, actually test them in a way deemed most adequate, in order to determine such members’ skills and understanding of their class. There may be more than one Class Leader for specific classes, especially if those classes are hybrid ones. We currently need Class Leaders for all classes and specs.</p>
-              <h4>8. Role Leader</h4>
-              <p>Role Leader, whose duties are similar to those of the Class Leaders, but specialized in specific roles inside raids (tanks, healers and DPS) or rated battlegrounds (heavy DPS, crowd controllers, flag carriers and healers), rather than classes. These duties include providing information on those roles regarding tactics as well as gear in general. We currently need Role Leaders for all PvE and PvP roles.</p>
-              <h4>9. PvP Leader</h4>
-              <p>PvP Leader, responsible mainly for organising premades for battlegrounds (BGs) and rated battlegrounds (RBGs), but also offering assistance to those of our members willing to explore that aspect of the game, especially by using the guild vault's resources, in close cooperation with our Vault Masters. Like Raid Leaders, PvP Leaders must send all the invitations through the in-game calendar for each raiding week on the Sunday preceding it; even though a raiding week has not much importance for rated battlegrounds, guild members who are active in the PvP aspect of the game should know well in advance the schedule and plan </p>
-              <h4>10. RP Leader</h4>
-              <p>RP Leader, currently not held by anyone, responsible for organising roleplaying (RP) events whenever the Guild Master, the Officers or the leaders need one, as well as staging more involved and complicated RP sessions, through the use of dedicated RP addons. We currently need two RP Leaders.</p>
-              <p>As is expected from our Officer and Guild Master, all leaders must show the same amount of patience with the guild members and their behaviour must be impeccable when dealing both with guild members and non-guild members. A proven level of maturity and leadership skills are required for a guild member to assume one of these positions. Any abuse of power will result in the guild member losing that position. As it is clear, becoming a leader entails a lot of work; consequently, we try to enforce a rule of one position per guild member only. Needless to say, it is up to the Guild Master and the Officers to decide on assigning such a task to a guild member; all applications are always considered, but there is no guarantee that they are accepted.</p>
-              <hr>
-              <h2 id="3">3. Guild Ranks</h2>
-              <p>Midnight Order has 9 ranks. The three highest ranks are “Guild Master”, “Officer” and “Leader”. Zoordavros is our Guild Master. We currently have five Officers: Borizian, Alvaren (and his alt Sedi), Galvino (and his alt Galariomaxos), Ceradien (and her alts Eagyn and Mezzidrel), Emmique and Shadybrit (and his alts Bekíe and Tethís). The ranks of “Officer” and “Leader” are not normal ranks that our members will one day reach; Officers have specific duties for the general functioning of the guild and are chosen by the Guild Master. The main duty of our Guild Master and our Officers is to grant promotions to our members, but if you have any problem or question regarding our guild, please refer it to them and they will be glad to help you. Similarly, Leaders have specific duties for specific activities of the guild.</p>
-              <p>The rest of the ranks can be potentially acquired by all guild members. The first three ranks are granted according to the level a guild member’s character has.</p>
-              <p>The next two ranks (“Raider” and “Vanquisher”) are granted to level 90 members only, whom our raid leaders or PvP leaders have accepted in their PvE or PvP raiding team, the difference between them being that the highest rank of the two (“Vanquisher”) requires the ability, gear- and knowledge-wise, to enter the latest raids in the game (in case of PvE players), as well as a recommendation from the raid and PvP leaders (for both PvE and PvP players). That recommendation will be a result of exceptional skills, as demonstrated in raids and rated BGs, and will be at our leaders’ discretion. Finally, the “Vanquisher” rank is also available to our RP players who have shown remarkable imagination and witty roleplaying skills during our RP events, as determined by our RP leaders.</p>
-              <p>The sixth rank (“Veteran”) is only granted to level 90 members (unless that member was a Veteran before the latest expansion), but it has some additional requirements: such member must be trustworthy and a long-time resident of our guild. The “Veteran” rank has extra privileges in end-game content and is truly a rank our members are expected to earn through their personal behaviour inside the guild. Note that it is possible to be granted this rank without being an active raider or PvP or RP player, even though a Veteran has more privileges to the guild vault than previous ranks; a Veteran can actually be a casual player or simply someone who merely wants to hang around with us.</p>
-              <p>Additionally, the first rank, “Initiate”, although it is a rank that level 1-20 guild members have, is also the testing phase of newcomers to the guild; no matter the level a newcomer has, he or she stays in the “Initiate” rank for exactly two weeks. After that period, that member will be promoted to his or her suitable rank, unless the character is still in the 1-20 bracket, in which case he stays in the “Initiate” rank. For this reason, every time a new member is added to the guild, it is our Officers’ and Leaders’ duty to write an Officer note on his profile, stating the date he joined, so that it is clearly known in advance when the testing period ends. This rule does not apply to alternative characters (“alts”) of current guild members who have been in the guild for more than two weeks. The reasoning behind this feature is twofold: on the guild’s behalf, it is there in order to prevent newcomers, especially of higher levels, to join the guild with the sole purpose of getting expensive items out of the guild vault and then leave the guild after a few days; on the members’ behalf, the two weeks are a period in which they can evaluate the guild and decide whether they want to stay or leave, if this guild is not what they expect.</p>
-              <p>With that being said, the following table contains all the ranks and the prerequisites for acquiring them:</p>
-              <table  class="table table-bordered">
-                  <tr>
-                      <td>Rank</td>
-                      <td>Level</td>
-                      <td>Requirements</td>
-                      <td>Notes</td>
-                  </tr>
-                  <tr>
-                      <td>Guild Master</td>
-                      <td>n/a</td>
-                      <td>n/a</td>
-                      <td>Can recruit, remove, promote or demote guild members and post on Officer’s note</td>
-                  </tr>
-                  <tr>
-                      <td>Officer</td>
-                      <td>n/a</td>
-                      <td>Chosen by the Guild Master</td>
-                      <td>Can recruit, remove, promote or demote guild members and post on Officer’s Note</td>
-                  </tr>
-                  <tr>
-                      <td>Leader</td>
-                      <td>n/a</td>
-                      <td>Chosen by the Guild Master</td>
-                      <td>Can recruit guild members and post on Officer’s Note</td>
-                  </tr>
-                  <tr>
-                      <td>Veteran</td>
-                      <td>90</td>
-                      <td>Long-time and trustworthy members only</td>
-                      <td>Can recruit guild members</td>
-                  </tr>
-                  <tr>
-                      <td>Vanquisher</td>
-                      <td>90</td>
-                      <td>Chosen by raid, PvP or RP leaders; must have demonstrated exceptional skills in end-game PvE or PvP content or in RP events</td>
-                      <td>-</td>
-                  </tr>
-                  <tr>
-                      <td>Raider</td>
-                      <td>90</td>
-                      <td>Chosen by raid leaders or PvP leaders; good knowledge of class and raid requirements</td>
-                      <td>-</td>
-                  </tr>
-                  <tr>
-                      <td>Cadet</td>
-                      <td>90</td>
-                      <td>Automatically</td>
-                      <td>-</td>
-                  </tr>
-                  <tr>
-                      <td>Member</td>
-                      <td>21-89</td>
-                      <td>Automatically</td>
-                      <td>-</td>
-                  </tr>
-                  <tr>
-                      <td>Initiate</td>
-                      <td>1-20</td>
-                      <td>Automatically</td>
-                      <td>Two-week testing period for all newcomers, regardless of level, unless another character is already in the guild for more than two weeks</td>
-                  </tr>
-              </table>
-              <hr>
-              <h2 id="4">4. Guild Vault Policies</h2>
-              <hr>
-              <h2 id="5">5. Raid Rules</h2>
-              <p>Raiding is admittedly the most difficult and stressful aspect of the game to be organised. It requires dedication, willingness to learn and listen to advice, reliability and availability, raid awareness and focus and, above all, perfect knowledge of your class’s strengths and weaknesses. Even though we have people willing to offer advice, it needs to be stressed that our Class Leaders’ role is primarily to alleviate the burden from our raid leader in determining who is eligible for our raids and who isn’t ready yet. It is our members’ personal responsibility to know everything about their class and spec, gear themselves up to the level that is feasible outside raids and, most importantly, to earn the spot in our raids they wish to participate in. Concerning the required gear, this means the best gear you can get before looting the latest raiding bosses; if one or two items are missing, it could be negotiable with the Raid Leaders, but it is always on their discretion, depending on what is best for the guild’s progress. There are several threads on our forums regarding sites one must visit in order to be sure his or her knowledge of his class, spec, glyphs, rotation, buffs in raids, enchants, gems, gears and boss tactics is excellent. Please, if you have problem finding such information on the internet, ask one of our Class Leaders and Officers and they will gladly offer you advice on where to start studying over the internet. Don’t expect from someone else to tell you what each new patch and expansion change about your class; if you dedicate 30 minutes every few weeks on reading up on class changes and new content, you will be adequately prepared for everything.</p>
-              <p>Please keep in mind a very important fact of this guild: most of our guild members are grown-up people with jobs and families. That means that we cannot raid every day of the week; we all have social lives we cherish. In that respect, we are not a hardcore raiding guild. Nevertheless, we expect from our raiders to know the fights, to enjoy raiding, to crave for progress and, most importantly, to achieve progress.</p>
-              <p>1. Apart from good knowledge of their class, our raiders must have certain addons installed: Omen Threat Meter, Deadly Boss Mods or BigWigs and some class-specific addons, like Decursive or something equivalent. It is also imperative that everyone has Mumble installed, together with headphones and a microphone. We currently have one Mumble server, the information for which can be found on our forums.</p>
-              <p>Especially during raid times, it is requested that talking over Mumble is kept to a minimum at boss fights, so that our raid leaders can be easily heard by every raid member. In general, during fights, raiders are not supposed to speak in Mumble, unless they are designated an attack or event to call out to the raid.</p>
-              <p>2. Please make your best to attend as often as possible. It is expected that our raiders log in about 30 minutes before the scheduled time of a raid, if possible of course, in order to make the final preparations before a given raid. If you can only make it online at the time a raid starts, you must inform the raid leader in advance of this, so that he is aware of it and forms the rest of the group as normal. If you show up for a raid on time but can only stay on-line for a limited amount of time, please say so ahead of time to the raid leaders. If you start raiding with the guild and, suddenly, in the middle of the raid, you declare that you have to go, your chances for being reinvited are severely reduced.</p>
-              <p>Not showing up on time for a raid you have accepted is considered a serious offence; such members will start gathering up penalty points. Each point will result in the member concerned not being given priority to raid spots for a week, starting from the next day after the raid concerned. Each additional point will prolong that period for one more week. Both the points gathered so far and the date this unprivileged status ends will be stated on the Officer note of the member concerned. Such notes will have the following form: “n P.-d.m.y” (where “d”, “m” and “y” stand for day, month and year respectively, indicating the date the “unprivileged” period ends, whereas “n” before “P.” is a number between 1 and 3 indicating the number of penalty points a member has). If a member with three points continues to not showing up to raids he or she has accepted, no further points are added, but such behaviour may well result in getting kicked out of the guild. The points gathered are only erased when the “unprivileged” period ends.</p>
-              <p>In general, it is absolutely mandatory that you report to a raid leader as soon as possible any reason why you cannot make it to a raid, so that the raid organiser can make an arrangement or replacement in order to accommodate your lateness or even absence.</p>
-              <p>3. When people show up for a raid, they must be fully prepared. They must have with them all the consumables and reagents needed, they must have read the tactics (including for trash) and watched the videos for the bosses we are about to meet and they must be properly geared and specced (no PvP items please). Proper gear includes proper enchants and gems.</p>
-              <p>Specifically regarding skill, gear and experience, we always seek to employ a policy of schooling raiders and gearing them (but not boosting), so far as this does not become a burden on the guild’s progress and on our guild members’ enjoyment of their WoW experience. Nevertheless, we have high standards in our raids and, if you do not put in the effort to learn your class, spec, rotation and gear buffing, we will not invest time in you. WoW is a gear-based game; quite simply, if you haven’t got the stats for the raid in question, you will be unlikely to come, unless everyone else seriously overgears it and can carry you (which will not be in our progression raids).</p>
-              <p>4. In case of some people having been left out of a certain raid due to lack of spots, it will be the raid leaders’ duty to make their best, so that those left behind join a raid the next time. In any case, there will be a rotation of guild members filling up spots, so that everyone has a chance to raid, if he or she so wishes and if the requirements for such a raid are met. For those left behind on a given raid, it is our raid leaders’ obligation to whisper to them, at the time the raid is formed, that they are not going to come and explain to them the reasons for that. Please note that for our progress teams this rule does not apply: a solid raiding progress team will have a fixed roster, as far as possible.</p>
-              <p>Every Sunday, our raid leaders will send invitations for all raids for the following raid period, which starts at 9:00 am on Wednesday and ends at 8:59 am on next week’s Wednesday. In addition, for each raid organised through the calendar, our raid leaders will also make an announcement there, informing every guild member of the raids that are going to happen on that particular day, so that everybody knows the raiding activity of our guild, even if they are not invited to particular raids.</p>
-              <p>As a result, every single member will be able to tell what raids are going to happen and schedule his or her playing time accordingly. Most importantly, however, he or she will be able to know ahead which raids he or she is allowed to visit with PuGs. Please note that, if you are invited to a raid, you are expected to keep your saves for the guild, unless you know well in advance that you will definitely not be able to attend on that given date and notified the raid leaders in advance. If, at the time a raid is formed, you are online and it is found out that you are saved to a raid you have been invited to and not denied, a penalty point will be added on your Officer note, the consequences of which will be exactly the same as those mentioned in part 2 above.</p>
-              <p>Keep in mind that all raids have some minimum requirements concerning performance and gear. Since it is very easy to collect the proper gear for the normal versions of even the most demanding raids (except at the beginning of each expansion), it is expected from our raiders to spend their non-raiding time to become fully prepared for our progress raids. It is important to note that we do not boost our members; each raider participating in a raid is expected to contribute to it, rather than be carried along. We will not enforce this rule to less demanding raids, mainly because, as a guild, we want to help members with less free time to experience as much content of the game as possible; nevertheless, if a member has the free time necessary, he or she should spend it in order to gear up his or her character. We strongly believe that, when boosted, you do not learn and, as such, it is discouraged at all times.</p>
-              <p>5. Attitude during a raid is something we very seriously take into account. Quite simply, if you have a poor attitude, you will not endear yourself to get raid spots, even less so if you cause offence to people. Disrupting the guild or annoying other members will get you kicked not just from the raid team, but from the guild too. Absolutely no one is allowed to comment on other people’s performance, except for the raid leaders. If you feel that something should be mentioned, please do so at an appropriate time (i.e. not during a boss fight) by whispering to a raid leader. Bragging about DPS and showing off Recount numbers is something frowned upon.</p>
-              <p>6. During boss fights, your full attention and focus will be required. If you repeatedly fail to follow the orders issued by the raid leaders (or tanks, in the absence of raid leaders) during a boss fight, you simply lower your chances to be reinvited to a raid. Going AFK is also something that should be avoided, unless it is an emergency; please wait until our raid leaders have called for a short break. Simply saying in raid chat or Ventrilo that you need to go AFK for a while is not enough; we try to minimise the time of our raids, so such breaks are kept to a bare minimum.</p>
-              <p>7. We do not use a DKP system for loot distribution. If the need arises, especially in 25-man raids, we prefer a Loot Council system, but only as a last resort, which means only if two or more people are interested in the same item and are not happy with a roll (or if the raid leaders are not happy with a roll). In that event, the Master Looter, together with two random leaders, on the condition that none of them are interested in that item (if they are, they are replaced), goes to a special Ventrilo channel and the three of them decide on whom that particular item goes to. Guild and raid enhancement, particularly regarding tanks and healers, is one of the most important factors taken into consideration, as well as raid attendance and punctuality. Another factor is how much of an upgrade for the raider interested the piece is, though this is not as important as the previous factor; to that end, those concerned should link their current piece of equipment, so that everyone sees the importance of their upgrade. General behaviour and participation within our guild is another factor that may be taken into consideration, as well as how recently the raider interested got his or her last upgrade.</p>
-              <p>Please refrain from using newly acquired items right away; absolutely no item should be used without the proper enchants and gems.</p>
-              <hr>
-              <h2 id="6">6. Raid Schedules and Invitations</h2>
-              <p>Each raid instance has certain requirements that need to be met in order to successfully clear it. It is unnecessary to list them here; a simple browsing over the internet will give the pertinent information.</p>
-              <p>As mentioned in the “Guild Positions” part of our Guild Policies, if a guild member believes that he or she is suitable for a raid of a certain difficulty, it is his or her duty to contact the appropriate class leader (or, in the absence of one, a raid leader or another officer) in order to be tested and determined for which raids he or she is eligible.</p>
-              <p>It is stressed once more that, if you are invited to a raid, you are supposed to keep your save until that day, unless you know in advance that you are not going to make it, in which case you must decline the invitation and notify the raid leaders of it, if possible. Even if you do not get a spot in that raid on that day, you will be on the standby team while the raid is happening, in case a spot is made unexpectedly available. Even though there is no penalty for not doing so, staying on-line in the standby team definitely shows an eagerness to raid that should and will be awarded with spots in future raids. As mentioned elsewhere, the raid leaders must whisper every single guild member who has accepted a raid invitation and shown up on time and explain to him or her, at the time the raid is formed, the reasons for not getting a spot on that raid. Other than that, it is actually forbidden to complain in public channels about being left behind; if one wants to do that, he or she can always talk about it with the raid leaders, the officers or the guild master at an opportune time, which can never be during a raid.</p>
-              <p>Our raiding schedule may change every week, but we will try to keep the following one every time:</p>
-              <p>Wednesday, 20:30 - 23:00: latest patch’s raids</p>
-              <p>Thursday - no scheduled raids</p>
-              <p>Friday, 20:30 - midnight: latest patch’s raids</p>
-              <p>Saturday - no scheduled raids</p>
-              <p>Sunday - no scheduled raids</p>
-              <p>Monday, 20:30 - 23:00: latest patch’s raids</p>
-              <p>Tuesday - no scheduled raids.</p>
-              <p>Please note that this schedule may change as our raid leaders see fit, in which case this bit of our guild policies will be updated.</p>
-              <p>There may be times when our raid leaders, on their own initiative or at the request of a guild member, decide that we visit a raid for certain achievements in it. When this happens, the invitations to it may not be the usual ones.</p>
-              <p>If you want to request a particular raid (especially a raid that was introduced in the game before the latest expansion) or particular achievements for a raid, please say so in the “Raiders’ retreat” part of our forums (the parent subforum), so that our raid leaders can arrange for it on the next raiding week, if possible.</p>
-              <p>Keep in mind that the raiding schedules shown above are the ones most suited to our current members’ needs. If you cannot make it on one or more days, rather than persistently asking for our raiding schedules to be changed, it would suit you better to find another guild with more convenient raiding times for you. Simply put, when you cannot make it on our raiding times, you gain no progress in our guild, you contribute nothing to our guild and, from your point of view, you gain no progress yourself.</p>
-              <hr>
-              <h2 id="7">7. Recruitment</h2>
-              <p>As mentioned in the “Guild Ranks” section of our Guild Policies, only Veterans, Leaders, Officers and the GM can recruit. You are free to suggest people for recruitment for our casual, RP or leveling sections; if, however, you know of someone who wishes to join us for our raids or rated battlegrounds, you are kindly requested to redirect him or her to our site and our recruitment form found therein.</p>
-              <p>New members wishing to raid with us (for either PvP or PvE content) are kindly requested to fill in the recruitment form found in our Recruitment section of our site. Our officers, in collaboration to the recruitment officers, will then decide on your admittance a trial raid or rated battleground in order to ascertain your skills and experience. After a satisfactory performance on that trial, you will be offered an invitation to the guild and to its PvE or PvP section (or both). Being admitted to the guild does not entitle you to a spot on the very first raid or rated battleground since you logged; please understand that current members may have priority over you and that you will also need to be tested, especially in terms of attendance and character. In addition, as explained elsewhere in our Guild Policies, all newcomers in our guild remain in the Initiative rank for 2 weeks, after which they are accorded higher ranks with more privileges.</p>
-              <p>We have specific rules regarding alts. First of all, as mentioned elsewhere, we may accept low level characters, but as a general rule, we only allow newcomers with the highest possible character level. After each expansion, with the exception of those members with the Veteran rank or higher, guild members are demoted back to the Member rank until they reach the highest possible character level again and get promoted to the pertaining ranks, where appropriate. Since the one-month inactivity rule applies to all guild members, those characters are expected to reach that level as fast as possible. In order to bring an alt to the guild, a member must have his main in it, who must be of the highest character level possible. Secondly, a guild member can bring as many alts as he wishes in the guild, as long as they are of the highest character level possible. Furthermore, such a member can bring one alt only of lower level. If he wants to bring more, he can either remove his low level alt from the guild, in order to make space for another one, or simply wait for that alt to reach the highest level, in which case another low level alt can join.</p>
-              <p>One final note: absolutely no new raider will be admitted to our raids or rated battlegrounds, unless he has completed his registration on our web site. A proper e-mail must be given during registration, which will be completed only after you confirm your registration in the e-mail sent to you.</p>
-            </div>
-          </div>
-        </div><!--/span-->
-      </div><!--/row-->
-     <div class="col-xs-6 col-sm-3 sidebar-offcanvas sidebar-nav" id="sidebar" role="navigation">
-          <div class="list-group">
-            <a href="#1" class="list-group-item"><div class="sidebar">General policies</div></a>
-            <a href="#2" class="list-group-item"><div class="sidebar">Guild Position</div></a>
-            <a href="#3" class="list-group-item"><div class="sidebar">Guild Ranks</div></a>
-            <a href="#4" class="list-group-item"><div class="sidebar">Guild Vault Policies</div></a>
-            <a href="#5" class="list-group-item"><div class="sidebar">Raid Rules</div></a>
-            <a href="#6" class="list-group-item"><div class="sidebar">Raid Schedules and Invitations</div></a>
-            <a href="#7" class="list-group-item"><div class="sidebar">Recruitment</div></a>
-          </div>
-      </div>
-    </div><!--/.container-->
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="page-header">
+                        <h1>Guild Policies</h1>
+                    </div>
+                    <h2 id="1">1. General guild policies</h2>
 
-     <footer>
-            <div class="container">
-                <div class="row row-offcanvas row-offcanvas-right">
-                    <div class="col-xs-12 col-sm-9">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="foo">
-                                    <tr>
-                                        <h6>
-                                            <td> <a href="/contact-us"> Contact Us</a></td>
-                                            <td> <a href="/terms-of-service"> Terms of service</a></td>
-                                            <td> <a href="/privacy-cookies-policy"> Cookie policies</a></td>
-                                            <td> <a href="#"> Top</a></td>
-                                            <td> <a href="/rss"> <img src="/media/img/rss.png" width=12 height=12/></a></td>
-                                            <td> <a href="http://www.worldoflogs.com/guilds/184354/" target="wolName"> <img src="/media/img/wol.png" width=12 height=12/></a></td>
-                                        </h6>
-                                    </tr>
-                                    <h6>Website software by Sedi©2014-2014. All rights reserved.</h6>
-                                </div>
-                            </div>
+                    <p>Midnight Order is primarily a guild that aims to be friendly, easy-going and helpful towards its
+                        members. We engage in both end-game PvP and PvE content, so players interested in either or both
+                        aspects of this game are welcome. Since we primarily deal with such content, we generally don’t
+                        accept low level characters, unless they are alts or friends known to other guild members; in
+                        any case, each application from a low level character (alt, friend or totally new guild member)
+                        is considered on an individual basis. Even though we may accept a few low level characters, it
+                        is important to stress that bugging other people for help in a persistently rude manner is
+                        frequently frowned upon and should be avoided. Other than that, our guild welcomes both casual
+                        and hardcore gamers; in fact, one of the first goals considered, when the first incarnation of
+                        our guild was created (back then when we were the Wind Of Death on Sporeggar), was to create a
+                        group of people that could help players who don’t have the luxury to play many hours per day and
+                        thus miss content that requires others’ contribution.</p>
+
+                    <p>One of the lessons learnt from our experience with our previous guild is that having relaxed
+                        rules on inactivity results in a guild looking more and more like a dumping ground for unwanted
+                        or forgotten characters. For this reason, we have a rule on activity, which is simple yet
+                        strict: a guild member who is inactive for a month or more gets kicked out of the guild, unless
+                        he or she notifies one of the Officers by in-game mail of his or her absence (and, preferably,
+                        of its duration). In that case, the Officers will make a relevant note on the guild member’s
+                        Officer Note. For obvious reasons, if a guild member has one or more alts in the guild, this
+                        rule does not apply if any of his or her characters (main or alts) are active. Also, if a guild
+                        member has the Veteran rank, this rule will not be strictly enforced, due to the requirements
+                        for obtaining that rank.</p>
+
+                    <p>Additionally, a guild member will get kicked out if he or she is a trouble-maker. Trouble-making
+                        can be done in two fronts: inside and outside the guild. Inside the guild (public guild channels
+                        and Mumble), please be considerate of other people’s feelings and do not make any comments that
+                        may be inappropriate or offensive. If you have any comments to make about other members’
+                        behaviour, keep it in private channels; our Officers are always willing to listen to complaints
+                        and concerns from our members and will do their best to solve any issues. We would like to keep
+                        this guild drama-free. Even if you talk to a fellow guild member privately, be mindful not to
+                        insult them; we reserve the right to kick members out of the guild if their behaviour is deemed
+                        unacceptable towards others. Especially regarding raid issues (raiders’ performance, loot, spots
+                        and rotation, time and date of raids) and PvP performance, the only permissible way to raise an
+                        issue is through whispers to Officers, raid leaders or PvP leaders or an in-game mail. Even
+                        outside the guild, however, we strongly believe that our members can build up our reputation on
+                        the server, so members whose behaviour and statements on public channels reflect poorly on our
+                        guild may well be kicked out of it.</p>
+
+                    <p>Moreover, if a guild member has continuously shown that the only reason he or she stays in the
+                        guild is in order to earn money, either by getting items from the vault with the sole purpose of
+                        reselling them, withdrawing money from it when not needed for his or her level, or simply
+                        bothering other members all the time so that they lend him or her money for no reason other than
+                        him or her simply being lazy, it is also possible that such a member will eventually get kicked
+                        out from the guild. The guild does not demand money or specific items from its members; its
+                        members should have the same attitude towards their fellow guild members.</p>
+
+                    <p>All of our guild members are required to register on our web site. If a guild member has not done
+                        so, he or she will also get kicked out of the guild. Obviously, if a guild member has alts in
+                        the guild, only one registration is required. Other than registration, active participation in
+                        our forums is not required, although strongly recommended. In any case, our raiders and PvP
+                        players, engaged in rated battlegrounds, will need to visit our forums on a regular basis and
+                        will find that they are the most convenient way to express their possible concerns and/or wishes
+                        concerning them.</p>
+
+                    <p>The Officers of the guild are always willing to help, but they are not the only ones. We are
+                        particularly proud of the great atmosphere we have in our guild chat and of the generous help
+                        many of our members lend to each other, so don’t hesitate to ask for it when in need.</p>
+
+                    <p>As mentioned before, the activities of Midnight Order include, among other things, engaging in
+                        end-game PvP and PvE content. Additionally, since Defias Brotherhood is an RPPvP server, any
+                        players who want to organise RP (role-playing) happenings are free to do so. Note, however, that
+                        we do not require of our members to act in character while in guild chat or when playing
+                        together, since our main philosophy is to be a guild that accommodates any play style, be it
+                        casual or hardcore, deep in role-playing or focusing on PvE or PvP only.</p>
+                    <hr>
+                    <h2 id="2">2. Guild Positions</h2>
+
+                    <p>Our guild needs dedicated guild members who will help in the administration of specific aspects
+                        of the guild. With the exception of the position of “Vault Master”, which, due to its nature,
+                        can only be accepted by Officers, the other positions can be held by guild members of any rank.
+                        Nevertheless, when a guild member assumes a guild position and therefore becomes a leader, he or
+                        she gains the Leader rank, so that the duties that position entails can be fulfilled more
+                        easily.</p>
+
+                    <p>At the moment, we have the following positions:</p>
+                    <h4>1. Vault Master</h4>
+
+                    <p>Vault Master, currently held by Sedi (and his alt Alvaren) and Emmique, responsible for clearing
+                        up the vault and giving items from it to other guild members who have reached the daily limit
+                        and urgently need a particular item from it; trading items between the guild vault and our guild
+                        members, between the guild vault and the AH (neutral and Alliance) and between Alliance and
+                        Horde, with the sole purpose of gaining profit for the guild vault; and assigning gathering and
+                        crafting tasks to guild members. Note that these positions are explained in more detail in our
+                        Guild Vault Policies section of our website. Furthermore, our raid and PvP leaders (with the
+                        Officer rank) also have advanced access to it and generally are responsible for specific tabs
+                        within the vault dedicated to raiding and end-game PvP content. We currently need one more Vault
+                        Master.</p>
+                    <h4>2. Webmaster</h4>
+
+                    <p>Webmaster, currently held by Borizian, responsible for the day-to-day running of our guild web
+                        site; any questions or requests regarding it should be addressed to our Webmaster. Please, use
+                        the “Paypal” button found on our website to donate real money to our site; unfortunately, this
+                        site is not free! The cost of it and the money gathered so far, as well as further details, can
+                        all be found in the appropriate section of our site. We currently need one more Webmaster.</p>
+                    <h4>3. Forum Moderator</h4>
+
+                    <p>Forum Moderator, currently not held by anyone, responsible, quite surprisingly, for moderating
+                        our forums. We currently need two Forum Moderators.</p>
+                    <h4>4. Facebook Moderator</h4>
+
+                    <p>Facebook Moderator, currently held provisionally by Ceradien (and her alt Eagyn) and Sedi (and
+                        his alt Alvaren), responsible for maintaining our Facebook page. We currently need one Facebook
+                        Moderator.</p>
+                    <h4>5. Raid Leader</h4>
+
+                    <p>Raid Leader, currently held by Galvino (and his alt Galariomaxos), Shadybrit and Tolinka,
+                        responsible for organising raids and heroic and challenge runs, maintaining our Mumble servers
+                        and setting up the rules for our raids, as explained in another part of our guild policies. The
+                        Raid Leaders are also responsible for our "Raiders’ retreat" section of our forums, which, among
+                        other things, is the one our members must use if they want to ask for a particular raid that is
+                        not on normal raiding schedule at any given period. Finally, as mentioned elsewhere, the Raid
+                        Leaders must organise the raids for each raiding week on the Sunday preceding it; that also
+                        includes sending all the invitations through the in-game calendar. We currently need no more
+                        Raid Leaders.</p>
+                    <h4>6. Recruitment Officer</h4>
+
+                    <p>Recruitment Officer, currently held by Ceradien (and her alt Eagyn) and Smáckdown, responsible
+                        for the recruitment of newcomers, especially those who wish to participate in our end-game raids
+                        and rated battlegrounds, which includes, among other things, replying to every single
+                        application thread on our site, updating our recruitment thread on the official Defias
+                        Brotherhood forum with information on what classes we are currently most interested in, always
+                        in coordination with our raid leaders and PvP leaders, and passing on all the relevant details
+                        to our Webmasters, so that they update our web site accordingly. The Recruitment Officers may
+                        not necessarily hold the Officer rank. We currently need one more Recruitment Officer.</p>
+                    <h4>7. Class Leader</h4>
+
+                    <p>Class Leader, whose duties consist of giving advice when needed to members who ask for it,
+                        posting important information on our subforums dedicated to specific classes and informing the
+                        raid leaders and PvP leaders on the suitability of guild members of the class our Class Leaders
+                        are responsible for to participate in specific raids or rated battlegrounds. The Class Leaders
+                        are expected to spend some time in-game with such members in order to show them how they can
+                        improve their performance and, most importantly, actually test them in a way deemed most
+                        adequate, in order to determine such members’ skills and understanding of their class. There may
+                        be more than one Class Leader for specific classes, especially if those classes are hybrid ones.
+                        We currently need Class Leaders for all classes and specs.</p>
+                    <h4>8. Role Leader</h4>
+
+                    <p>Role Leader, whose duties are similar to those of the Class Leaders, but specialized in specific
+                        roles inside raids (tanks, healers and DPS) or rated battlegrounds (heavy DPS, crowd
+                        controllers, flag carriers and healers), rather than classes. These duties include providing
+                        information on those roles regarding tactics as well as gear in general. We currently need Role
+                        Leaders for all PvE and PvP roles.</p>
+                    <h4>9. PvP Leader</h4>
+
+                    <p>PvP Leader, responsible mainly for organising premades for battlegrounds (BGs) and rated
+                        battlegrounds (RBGs), but also offering assistance to those of our members willing to explore
+                        that aspect of the game, especially by using the guild vault's resources, in close cooperation
+                        with our Vault Masters. Like Raid Leaders, PvP Leaders must send all the invitations through the
+                        in-game calendar for each raiding week on the Sunday preceding it; even though a raiding week
+                        has not much importance for rated battlegrounds, guild members who are active in the PvP aspect
+                        of the game should know well in advance the schedule and plan </p>
+                    <h4>10. RP Leader</h4>
+
+                    <p>RP Leader, currently not held by anyone, responsible for organising roleplaying (RP) events
+                        whenever the Guild Master, the Officers or the leaders need one, as well as staging more
+                        involved and complicated RP sessions, through the use of dedicated RP addons. We currently need
+                        two RP Leaders.</p>
+
+                    <p>As is expected from our Officer and Guild Master, all leaders must show the same amount of
+                        patience with the guild members and their behaviour must be impeccable when dealing both with
+                        guild members and non-guild members. A proven level of maturity and leadership skills are
+                        required for a guild member to assume one of these positions. Any abuse of power will result in
+                        the guild member losing that position. As it is clear, becoming a leader entails a lot of work;
+                        consequently, we try to enforce a rule of one position per guild member only. Needless to say,
+                        it is up to the Guild Master and the Officers to decide on assigning such a task to a guild
+                        member; all applications are always considered, but there is no guarantee that they are
+                        accepted.</p>
+                    <hr>
+                    <h2 id="3">3. Guild Ranks</h2>
+
+                    <p>Midnight Order has 9 ranks. The three highest ranks are “Guild Master”, “Officer” and “Leader”.
+                        Zoordavros is our Guild Master. We currently have five Officers: Borizian, Alvaren (and his alt
+                        Sedi), Galvino (and his alt Galariomaxos), Ceradien (and her alts Eagyn and Mezzidrel), Emmique
+                        and Shadybrit (and his alts Bekíe and Tethís). The ranks of “Officer” and “Leader” are not
+                        normal ranks that our members will one day reach; Officers have specific duties for the general
+                        functioning of the guild and are chosen by the Guild Master. The main duty of our Guild Master
+                        and our Officers is to grant promotions to our members, but if you have any problem or question
+                        regarding our guild, please refer it to them and they will be glad to help you. Similarly,
+                        Leaders have specific duties for specific activities of the guild.</p>
+
+                    <p>The rest of the ranks can be potentially acquired by all guild members. The first three ranks are
+                        granted according to the level a guild member’s character has.</p>
+
+                    <p>The next two ranks (“Raider” and “Vanquisher”) are granted to level 90 members only, whom our
+                        raid leaders or PvP leaders have accepted in their PvE or PvP raiding team, the difference
+                        between them being that the highest rank of the two (“Vanquisher”) requires the ability, gear-
+                        and knowledge-wise, to enter the latest raids in the game (in case of PvE players), as well as a
+                        recommendation from the raid and PvP leaders (for both PvE and PvP players). That recommendation
+                        will be a result of exceptional skills, as demonstrated in raids and rated BGs, and will be at
+                        our leaders’ discretion. Finally, the “Vanquisher” rank is also available to our RP players who
+                        have shown remarkable imagination and witty roleplaying skills during our RP events, as
+                        determined by our RP leaders.</p>
+
+                    <p>The sixth rank (“Veteran”) is only granted to level 90 members (unless that member was a Veteran
+                        before the latest expansion), but it has some additional requirements: such member must be
+                        trustworthy and a long-time resident of our guild. The “Veteran” rank has extra privileges in
+                        end-game content and is truly a rank our members are expected to earn through their personal
+                        behaviour inside the guild. Note that it is possible to be granted this rank without being an
+                        active raider or PvP or RP player, even though a Veteran has more privileges to the guild vault
+                        than previous ranks; a Veteran can actually be a casual player or simply someone who merely
+                        wants to hang around with us.</p>
+
+                    <p>Additionally, the first rank, “Initiate”, although it is a rank that level 1-20 guild members
+                        have, is also the testing phase of newcomers to the guild; no matter the level a newcomer has,
+                        he or she stays in the “Initiate” rank for exactly two weeks. After that period, that member
+                        will be promoted to his or her suitable rank, unless the character is still in the 1-20 bracket,
+                        in which case he stays in the “Initiate” rank. For this reason, every time a new member is added
+                        to the guild, it is our Officers’ and Leaders’ duty to write an Officer note on his profile,
+                        stating the date he joined, so that it is clearly known in advance when the testing period ends.
+                        This rule does not apply to alternative characters (“alts”) of current guild members who have
+                        been in the guild for more than two weeks. The reasoning behind this feature is twofold: on the
+                        guild’s behalf, it is there in order to prevent newcomers, especially of higher levels, to join
+                        the guild with the sole purpose of getting expensive items out of the guild vault and then leave
+                        the guild after a few days; on the members’ behalf, the two weeks are a period in which they can
+                        evaluate the guild and decide whether they want to stay or leave, if this guild is not what they
+                        expect.</p>
+
+                    <p>With that being said, the following table contains all the ranks and the prerequisites for
+                        acquiring them:</p>
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>Rank</td>
+                            <td>Level</td>
+                            <td>Requirements</td>
+                            <td>Notes</td>
+                        </tr>
+                        <tr>
+                            <td>Guild Master</td>
+                            <td>n/a</td>
+                            <td>n/a</td>
+                            <td>Can recruit, remove, promote or demote guild members and post on Officer’s note</td>
+                        </tr>
+                        <tr>
+                            <td>Officer</td>
+                            <td>n/a</td>
+                            <td>Chosen by the Guild Master</td>
+                            <td>Can recruit, remove, promote or demote guild members and post on Officer’s Note</td>
+                        </tr>
+                        <tr>
+                            <td>Leader</td>
+                            <td>n/a</td>
+                            <td>Chosen by the Guild Master</td>
+                            <td>Can recruit guild members and post on Officer’s Note</td>
+                        </tr>
+                        <tr>
+                            <td>Veteran</td>
+                            <td>90</td>
+                            <td>Long-time and trustworthy members only</td>
+                            <td>Can recruit guild members</td>
+                        </tr>
+                        <tr>
+                            <td>Vanquisher</td>
+                            <td>90</td>
+                            <td>Chosen by raid, PvP or RP leaders; must have demonstrated exceptional skills in end-game
+                                PvE or PvP content or in RP events
+                            </td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>Raider</td>
+                            <td>90</td>
+                            <td>Chosen by raid leaders or PvP leaders; good knowledge of class and raid requirements
+                            </td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>Cadet</td>
+                            <td>90</td>
+                            <td>Automatically</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>Member</td>
+                            <td>21-89</td>
+                            <td>Automatically</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>Initiate</td>
+                            <td>1-20</td>
+                            <td>Automatically</td>
+                            <td>Two-week testing period for all newcomers, regardless of level, unless another character
+                                is already in the guild for more than two weeks
+                            </td>
+                        </tr>
+                    </table>
+                    <hr>
+                    <h2 id="4">4. Guild Vault Policies</h2>
+                    <hr>
+                    <h2 id="5">5. Raid Rules</h2>
+
+                    <p>Raiding is admittedly the most difficult and stressful aspect of the game to be organised. It
+                        requires dedication, willingness to learn and listen to advice, reliability and availability,
+                        raid awareness and focus and, above all, perfect knowledge of your class’s strengths and
+                        weaknesses. Even though we have people willing to offer advice, it needs to be stressed that our
+                        Class Leaders’ role is primarily to alleviate the burden from our raid leader in determining who
+                        is eligible for our raids and who isn’t ready yet. It is our members’ personal responsibility to
+                        know everything about their class and spec, gear themselves up to the level that is feasible
+                        outside raids and, most importantly, to earn the spot in our raids they wish to participate in.
+                        Concerning the required gear, this means the best gear you can get before looting the latest
+                        raiding bosses; if one or two items are missing, it could be negotiable with the Raid Leaders,
+                        but it is always on their discretion, depending on what is best for the guild’s progress. There
+                        are several threads on our forums regarding sites one must visit in order to be sure his or her
+                        knowledge of his class, spec, glyphs, rotation, buffs in raids, enchants, gems, gears and boss
+                        tactics is excellent. Please, if you have problem finding such information on the internet, ask
+                        one of our Class Leaders and Officers and they will gladly offer you advice on where to start
+                        studying over the internet. Don’t expect from someone else to tell you what each new patch and
+                        expansion change about your class; if you dedicate 30 minutes every few weeks on reading up on
+                        class changes and new content, you will be adequately prepared for everything.</p>
+
+                    <p>Please keep in mind a very important fact of this guild: most of our guild members are grown-up
+                        people with jobs and families. That means that we cannot raid every day of the week; we all have
+                        social lives we cherish. In that respect, we are not a hardcore raiding guild. Nevertheless, we
+                        expect from our raiders to know the fights, to enjoy raiding, to crave for progress and, most
+                        importantly, to achieve progress.</p>
+
+                    <p>1. Apart from good knowledge of their class, our raiders must have certain addons installed: Omen
+                        Threat Meter, Deadly Boss Mods or BigWigs and some class-specific addons, like Decursive or
+                        something equivalent. It is also imperative that everyone has Mumble installed, together with
+                        headphones and a microphone. We currently have one Mumble server, the information for which can
+                        be found on our forums.</p>
+
+                    <p>Especially during raid times, it is requested that talking over Mumble is kept to a minimum at
+                        boss fights, so that our raid leaders can be easily heard by every raid member. In general,
+                        during fights, raiders are not supposed to speak in Mumble, unless they are designated an attack
+                        or event to call out to the raid.</p>
+
+                    <p>2. Please make your best to attend as often as possible. It is expected that our raiders log in
+                        about 30 minutes before the scheduled time of a raid, if possible of course, in order to make
+                        the final preparations before a given raid. If you can only make it online at the time a raid
+                        starts, you must inform the raid leader in advance of this, so that he is aware of it and forms
+                        the rest of the group as normal. If you show up for a raid on time but can only stay on-line for
+                        a limited amount of time, please say so ahead of time to the raid leaders. If you start raiding
+                        with the guild and, suddenly, in the middle of the raid, you declare that you have to go, your
+                        chances for being reinvited are severely reduced.</p>
+
+                    <p>Not showing up on time for a raid you have accepted is considered a serious offence; such members
+                        will start gathering up penalty points. Each point will result in the member concerned not being
+                        given priority to raid spots for a week, starting from the next day after the raid concerned.
+                        Each additional point will prolong that period for one more week. Both the points gathered so
+                        far and the date this unprivileged status ends will be stated on the Officer note of the member
+                        concerned. Such notes will have the following form: “n P.-d.m.y” (where “d”, “m” and “y” stand
+                        for day, month and year respectively, indicating the date the “unprivileged” period ends,
+                        whereas “n” before “P.” is a number between 1 and 3 indicating the number of penalty points a
+                        member has). If a member with three points continues to not showing up to raids he or she has
+                        accepted, no further points are added, but such behaviour may well result in getting kicked out
+                        of the guild. The points gathered are only erased when the “unprivileged” period ends.</p>
+
+                    <p>In general, it is absolutely mandatory that you report to a raid leader as soon as possible any
+                        reason why you cannot make it to a raid, so that the raid organiser can make an arrangement or
+                        replacement in order to accommodate your lateness or even absence.</p>
+
+                    <p>3. When people show up for a raid, they must be fully prepared. They must have with them all the
+                        consumables and reagents needed, they must have read the tactics (including for trash) and
+                        watched the videos for the bosses we are about to meet and they must be properly geared and
+                        specced (no PvP items please). Proper gear includes proper enchants and gems.</p>
+
+                    <p>Specifically regarding skill, gear and experience, we always seek to employ a policy of schooling
+                        raiders and gearing them (but not boosting), so far as this does not become a burden on the
+                        guild’s progress and on our guild members’ enjoyment of their WoW experience. Nevertheless, we
+                        have high standards in our raids and, if you do not put in the effort to learn your class, spec,
+                        rotation and gear buffing, we will not invest time in you. WoW is a gear-based game; quite
+                        simply, if you haven’t got the stats for the raid in question, you will be unlikely to come,
+                        unless everyone else seriously overgears it and can carry you (which will not be in our
+                        progression raids).</p>
+
+                    <p>4. In case of some people having been left out of a certain raid due to lack of spots, it will be
+                        the raid leaders’ duty to make their best, so that those left behind join a raid the next time.
+                        In any case, there will be a rotation of guild members filling up spots, so that everyone has a
+                        chance to raid, if he or she so wishes and if the requirements for such a raid are met. For
+                        those left behind on a given raid, it is our raid leaders’ obligation to whisper to them, at the
+                        time the raid is formed, that they are not going to come and explain to them the reasons for
+                        that. Please note that for our progress teams this rule does not apply: a solid raiding progress
+                        team will have a fixed roster, as far as possible.</p>
+
+                    <p>Every Sunday, our raid leaders will send invitations for all raids for the following raid period,
+                        which starts at 9:00 am on Wednesday and ends at 8:59 am on next week’s Wednesday. In addition,
+                        for each raid organised through the calendar, our raid leaders will also make an announcement
+                        there, informing every guild member of the raids that are going to happen on that particular
+                        day, so that everybody knows the raiding activity of our guild, even if they are not invited to
+                        particular raids.</p>
+
+                    <p>As a result, every single member will be able to tell what raids are going to happen and schedule
+                        his or her playing time accordingly. Most importantly, however, he or she will be able to know
+                        ahead which raids he or she is allowed to visit with PuGs. Please note that, if you are invited
+                        to a raid, you are expected to keep your saves for the guild, unless you know well in advance
+                        that you will definitely not be able to attend on that given date and notified the raid leaders
+                        in advance. If, at the time a raid is formed, you are online and it is found out that you are
+                        saved to a raid you have been invited to and not denied, a penalty point will be added on your
+                        Officer note, the consequences of which will be exactly the same as those mentioned in part 2
+                        above.</p>
+
+                    <p>Keep in mind that all raids have some minimum requirements concerning performance and gear. Since
+                        it is very easy to collect the proper gear for the normal versions of even the most demanding
+                        raids (except at the beginning of each expansion), it is expected from our raiders to spend
+                        their non-raiding time to become fully prepared for our progress raids. It is important to note
+                        that we do not boost our members; each raider participating in a raid is expected to contribute
+                        to it, rather than be carried along. We will not enforce this rule to less demanding raids,
+                        mainly because, as a guild, we want to help members with less free time to experience as much
+                        content of the game as possible; nevertheless, if a member has the free time necessary, he or
+                        she should spend it in order to gear up his or her character. We strongly believe that, when
+                        boosted, you do not learn and, as such, it is discouraged at all times.</p>
+
+                    <p>5. Attitude during a raid is something we very seriously take into account. Quite simply, if you
+                        have a poor attitude, you will not endear yourself to get raid spots, even less so if you cause
+                        offence to people. Disrupting the guild or annoying other members will get you kicked not just
+                        from the raid team, but from the guild too. Absolutely no one is allowed to comment on other
+                        people’s performance, except for the raid leaders. If you feel that something should be
+                        mentioned, please do so at an appropriate time (i.e. not during a boss fight) by whispering to a
+                        raid leader. Bragging about DPS and showing off Recount numbers is something frowned upon.</p>
+
+                    <p>6. During boss fights, your full attention and focus will be required. If you repeatedly fail to
+                        follow the orders issued by the raid leaders (or tanks, in the absence of raid leaders) during a
+                        boss fight, you simply lower your chances to be reinvited to a raid. Going AFK is also something
+                        that should be avoided, unless it is an emergency; please wait until our raid leaders have
+                        called for a short break. Simply saying in raid chat or Ventrilo that you need to go AFK for a
+                        while is not enough; we try to minimise the time of our raids, so such breaks are kept to a bare
+                        minimum.</p>
+
+                    <p>7. We do not use a DKP system for loot distribution. If the need arises, especially in 25-man
+                        raids, we prefer a Loot Council system, but only as a last resort, which means only if two or
+                        more people are interested in the same item and are not happy with a roll (or if the raid
+                        leaders are not happy with a roll). In that event, the Master Looter, together with two random
+                        leaders, on the condition that none of them are interested in that item (if they are, they are
+                        replaced), goes to a special Ventrilo channel and the three of them decide on whom that
+                        particular item goes to. Guild and raid enhancement, particularly regarding tanks and healers,
+                        is one of the most important factors taken into consideration, as well as raid attendance and
+                        punctuality. Another factor is how much of an upgrade for the raider interested the piece is,
+                        though this is not as important as the previous factor; to that end, those concerned should link
+                        their current piece of equipment, so that everyone sees the importance of their upgrade. General
+                        behaviour and participation within our guild is another factor that may be taken into
+                        consideration, as well as how recently the raider interested got his or her last upgrade.</p>
+
+                    <p>Please refrain from using newly acquired items right away; absolutely no item should be used
+                        without the proper enchants and gems.</p>
+                    <hr>
+                    <h2 id="6">6. Raid Schedules and Invitations</h2>
+
+                    <p>Each raid instance has certain requirements that need to be met in order to successfully clear
+                        it. It is unnecessary to list them here; a simple browsing over the internet will give the
+                        pertinent information.</p>
+
+                    <p>As mentioned in the “Guild Positions” part of our Guild Policies, if a guild member believes that
+                        he or she is suitable for a raid of a certain difficulty, it is his or her duty to contact the
+                        appropriate class leader (or, in the absence of one, a raid leader or another officer) in order
+                        to be tested and determined for which raids he or she is eligible.</p>
+
+                    <p>It is stressed once more that, if you are invited to a raid, you are supposed to keep your save
+                        until that day, unless you know in advance that you are not going to make it, in which case you
+                        must decline the invitation and notify the raid leaders of it, if possible. Even if you do not
+                        get a spot in that raid on that day, you will be on the standby team while the raid is
+                        happening, in case a spot is made unexpectedly available. Even though there is no penalty for
+                        not doing so, staying on-line in the standby team definitely shows an eagerness to raid that
+                        should and will be awarded with spots in future raids. As mentioned elsewhere, the raid leaders
+                        must whisper every single guild member who has accepted a raid invitation and shown up on time
+                        and explain to him or her, at the time the raid is formed, the reasons for not getting a spot on
+                        that raid. Other than that, it is actually forbidden to complain in public channels about being
+                        left behind; if one wants to do that, he or she can always talk about it with the raid leaders,
+                        the officers or the guild master at an opportune time, which can never be during a raid.</p>
+
+                    <p>Our raiding schedule may change every week, but we will try to keep the following one every
+                        time:</p>
+
+                    <p>Wednesday, 20:30 - 23:00: latest patch’s raids</p>
+
+                    <p>Thursday - no scheduled raids</p>
+
+                    <p>Friday, 20:30 - midnight: latest patch’s raids</p>
+
+                    <p>Saturday - no scheduled raids</p>
+
+                    <p>Sunday - no scheduled raids</p>
+
+                    <p>Monday, 20:30 - 23:00: latest patch’s raids</p>
+
+                    <p>Tuesday - no scheduled raids.</p>
+
+                    <p>Please note that this schedule may change as our raid leaders see fit, in which case this bit of
+                        our guild policies will be updated.</p>
+
+                    <p>There may be times when our raid leaders, on their own initiative or at the request of a guild
+                        member, decide that we visit a raid for certain achievements in it. When this happens, the
+                        invitations to it may not be the usual ones.</p>
+
+                    <p>If you want to request a particular raid (especially a raid that was introduced in the game
+                        before the latest expansion) or particular achievements for a raid, please say so in the
+                        “Raiders’ retreat” part of our forums (the parent subforum), so that our raid leaders can
+                        arrange for it on the next raiding week, if possible.</p>
+
+                    <p>Keep in mind that the raiding schedules shown above are the ones most suited to our current
+                        members’ needs. If you cannot make it on one or more days, rather than persistently asking for
+                        our raiding schedules to be changed, it would suit you better to find another guild with more
+                        convenient raiding times for you. Simply put, when you cannot make it on our raiding times, you
+                        gain no progress in our guild, you contribute nothing to our guild and, from your point of view,
+                        you gain no progress yourself.</p>
+                    <hr>
+                    <h2 id="7">7. Recruitment</h2>
+
+                    <p>As mentioned in the “Guild Ranks” section of our Guild Policies, only Veterans, Leaders, Officers
+                        and the GM can recruit. You are free to suggest people for recruitment for our casual, RP or
+                        leveling sections; if, however, you know of someone who wishes to join us for our raids or rated
+                        battlegrounds, you are kindly requested to redirect him or her to our site and our recruitment
+                        form found therein.</p>
+
+                    <p>New members wishing to raid with us (for either PvP or PvE content) are kindly requested to fill
+                        in the recruitment form found in our Recruitment section of our site. Our officers, in
+                        collaboration to the recruitment officers, will then decide on your admittance a trial raid or
+                        rated battleground in order to ascertain your skills and experience. After a satisfactory
+                        performance on that trial, you will be offered an invitation to the guild and to its PvE or PvP
+                        section (or both). Being admitted to the guild does not entitle you to a spot on the very first
+                        raid or rated battleground since you logged; please understand that current members may have
+                        priority over you and that you will also need to be tested, especially in terms of attendance
+                        and character. In addition, as explained elsewhere in our Guild Policies, all newcomers in our
+                        guild remain in the Initiative rank for 2 weeks, after which they are accorded higher ranks with
+                        more privileges.</p>
+
+                    <p>We have specific rules regarding alts. First of all, as mentioned elsewhere, we may accept low
+                        level characters, but as a general rule, we only allow newcomers with the highest possible
+                        character level. After each expansion, with the exception of those members with the Veteran rank
+                        or higher, guild members are demoted back to the Member rank until they reach the highest
+                        possible character level again and get promoted to the pertaining ranks, where appropriate.
+                        Since the one-month inactivity rule applies to all guild members, those characters are expected
+                        to reach that level as fast as possible. In order to bring an alt to the guild, a member must
+                        have his main in it, who must be of the highest character level possible. Secondly, a guild
+                        member can bring as many alts as he wishes in the guild, as long as they are of the highest
+                        character level possible. Furthermore, such a member can bring one alt only of lower level. If
+                        he wants to bring more, he can either remove his low level alt from the guild, in order to make
+                        space for another one, or simply wait for that alt to reach the highest level, in which case
+                        another low level alt can join.</p>
+
+                    <p>One final note: absolutely no new raider will be admitted to our raids or rated battlegrounds,
+                        unless he has completed his registration on our web site. A proper e-mail must be given during
+                        registration, which will be completed only after you confirm your registration in the e-mail
+                        sent to you.</p>
+                </div>
+            </div>
+        </div>
+        <!--/span-->
+    </div>
+    <!--/row-->
+    <div class="col-xs-6 col-sm-3 sidebar-offcanvas sidebar-nav" id="sidebar" role="navigation">
+        <div class="list-group">
+            <a href="#1" class="list-group-item">
+                <div class="sidebar">General policies</div>
+            </a>
+            <a href="#2" class="list-group-item">
+                <div class="sidebar">Guild Position</div>
+            </a>
+            <a href="#3" class="list-group-item">
+                <div class="sidebar">Guild Ranks</div>
+            </a>
+            <a href="#4" class="list-group-item">
+                <div class="sidebar">Guild Vault Policies</div>
+            </a>
+            <a href="#5" class="list-group-item">
+                <div class="sidebar">Raid Rules</div>
+            </a>
+            <a href="#6" class="list-group-item">
+                <div class="sidebar">Raid Schedules and Invitations</div>
+            </a>
+            <a href="#7" class="list-group-item">
+                <div class="sidebar">Recruitment</div>
+            </a>
+        </div>
+    </div>
+</div>
+<!--/.container-->
+
+<footer>
+    <div class="container">
+        <div class="row row-offcanvas row-offcanvas-right">
+            <div class="col-xs-12 col-sm-9">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="foo">
+                            <tr>
+                                <h6>
+                                    <td><a href="/contact-us"> Contact Us</a></td>
+                                    <td><a href="/terms-of-service"> Terms of service</a></td>
+                                    <td><a href="/privacy-cookies-policy"> Cookie policies</a></td>
+                                    <td><a href="#"> Top</a></td>
+                                    <td><a href="/rss"> <img src="/media/img/rss.png" width=12 height=12/></a></td>
+                                    <td><a href="http://www.worldoflogs.com/guilds/184354/" target="wolName"> <img
+                                            src="/media/img/wol.png" width=12 height=12/></a></td>
+                                </h6>
+                            </tr>
+                            <h6>Website software by Sedi©2014-2014. All rights reserved.</h6>
                         </div>
                     </div>
                 </div>
             </div>
-        </footer>
-	</body>
+        </div>
+    </div>
+</footer>
+</body>
 
 </html>

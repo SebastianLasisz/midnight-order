@@ -1,4 +1,3 @@
-from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, FormView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect

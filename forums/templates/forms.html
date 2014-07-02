@@ -1,11 +1,17 @@
-{{form.non_field_errors}}
+{{ form.non_field_errors }}
 <table>
-<tr>
-{% for field in form %}
-  <div class="form-group">
-    <label for="{{ field.id_for_label }}">{{field.label}}<span>{{field.errors}}</span></label>
-    {{field}}
-  </div>
-{% endfor %}
-</tr>
+    <tr>
+        <table class="table_background">
+            {% for field in form %}
+                <div class="form-group">
+                    <tr>
+                        <td><label
+                                for="{{ field.id_for_label }}">{{ field.label }}<span>{{ field.errors }}</span></label>
+                        </td>
+                        <td>{{ field }}</td>
+                    </tr>
+                </div>
+            {% endfor %}
+        </table>
+    </tr>
 </table>

@@ -18,4 +18,4 @@ class ContactForm(forms.Form):
         f = cleaned_data.get('subject')
         if f == "":
             raise forms.ValidationError("Did you just enter more than 10?")
-            return cleaned_data # Never forget this otherwise you will end up
+            return cleaned_data  # Never forget this otherwise you will end up
