@@ -74,3 +74,18 @@ class RegisterNewUserForm(forms.Form):
                 if f == "":
                     raise forms.ValidationError("Username cannot be empty")
                     return cleaned_data
+
+
+
+from django.core.files.images import get_image_dimensions
+from Register.models import UserProfile
+
+class UserProfileForm(forms.Form):
+    avatar = forms.ImageField()
+
+    def clean(self):
+                cleaned_data = self.cleaned_data
+                f = cleaned_data.get('avatar')
+                if f == "":
+                    raise forms.ValidationError("Username cannot be empty")
+                    return cleaned_data

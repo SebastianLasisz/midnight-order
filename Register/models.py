@@ -1,6 +1,5 @@
 from django.db import models
-
-# Create your models here.
+from django.contrib.auth.models import User
 
 
 class Register(models.Model):
@@ -19,3 +18,8 @@ class Register(models.Model):
     questions = models.CharField(max_length=200)
     experience = models.CharField(max_length=200)
     slug = models.SlugField(max_length=40)
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    avatar = models.ImageField(upload_to='pic_folder/', default='pic_folder/None/no-img.jpg')

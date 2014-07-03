@@ -4,7 +4,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from Members.models import Member
 from News.models import News
-from Register.models import Register
+from Register.models import Register, UserProfile
 from Register.form import *
 from GuildPage.form import *
 from django.contrib.auth import logout
@@ -82,8 +82,8 @@ def register(request):
                 repeat_password = form.cleaned_data['repeat_password']
                 captcha = form.cleaned_data['captcha']
                 r = User(username=username,
-                         email=email,
-                         password=password)
+                                email=email,
+                                password=password)
                 try:
                     r.save()
                     subject = "Your Midnight Order account confirmation"
@@ -256,3 +256,31 @@ def recruitment(request):
 
 def register_complete(request):
     return render(request, 'register_complete.html')
+
+
+def upload_pic(request):
+    username = None
+    if request.user.is_authenticated():
+        username = request.user.username
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            up = UserProfile.objects.filter(user=User.objects.get(username=username))
+            if up.exists():
+                r = UserProfile.objects.get(user=User.objects.get(username=username))
+                r.avatar = form.cleaned_data['avatar']
+                r.save()
+            else:
+                r = UserProfile(user=User.objects.get(username=username),
+                                avatar=form.cleaned_data['avatar'])
+                r.save()
+            return render_to_response('thanks.html', locals(), RequestContext(request))
+        else:
+            return render_to_response('upload_avatar.html', locals(), RequestContext(request))
+    else:
+        form = UserProfileForm()
+
+    return render(request, 'upload_avatar.html', {
+        'form': form,
+    })

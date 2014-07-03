@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib import admin
 from GuildPage.views import *
 from Feed.feed import LatestEntries
+from django.contrib.auth.decorators import login_required
 
 admin.autodiscover()
 
@@ -23,6 +24,7 @@ urlpatterns = patterns('',
                        url(r'^terms-of-service/$', terms),
                        url(r'^contact-us/', contact),
                        url(r'^register_complete', register_complete),
+                       url(r'^upload', login_required(upload_pic)),
                        url(r'^thanks', thanks),
                        (r'^login/$', 'django.contrib.auth.views.login'),
                        url(r'^admin/', include(admin.site.urls)),
