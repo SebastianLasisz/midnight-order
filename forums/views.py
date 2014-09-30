@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from forums.forms import TopicCreateForm, PostCreateForm
 from forums.models import Category, Topic, Forum, Post
+from Register.models import UserProfile
 
 
 class CategoryListView(ListView):
@@ -16,13 +17,14 @@ class CategoryListView(ListView):
 class ForumDetailView(DetailView):
     model = Forum
 
-from Register.models import UserProfile
+
 class TopicDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(TopicDetailView, self).get_context_data(**kwargs)
         username = self.request.user.username
         picture = UserProfile.objects.get(user=User.objects.get(username=username))
-        context['now'] = picture.avatar
+        context['avatar'] = picture.avatar
+        context['signature'] = picture.signature
         return context
     model = Topic
 
@@ -56,6 +58,9 @@ class TopicCreateView(FormView):
     def get_context_data(self, **kwargs):
         context = super(TopicCreateView, self).get_context_data(**kwargs)
         context['forum'] = Forum.objects.get(id=self.kwargs.get('forum_id', None))
+        username = self.request.user.username
+        picture = UserProfile.objects.get(user=User.objects.get(username=username))
+        context['avatar'] = picture.avatar
         return context
 
 
@@ -86,4 +91,7 @@ class PostCreateView(FormView):
     def get_context_data(self, **kwargs):
         context = super(PostCreateView, self).get_context_data(**kwargs)
         context['topic'] = Topic.objects.get(id=self.kwargs.get('pk', None))
+        username = self.request.user.username
+        picture = UserProfile.objects.get(user=User.objects.get(username=username))
+        context['avatar'] = picture.avatar
         return context
