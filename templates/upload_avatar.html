@@ -72,6 +72,7 @@
                 <div class="panel-body">
                     <p></p>
                     <form action="/upload-avatar/" method="post" enctype="multipart/form-data">
+                        <img src="/media/{{ avatar }}" />
                         {% csrf_token %}
                         {{ form }}
                         <input type="submit" value="Submit"/>

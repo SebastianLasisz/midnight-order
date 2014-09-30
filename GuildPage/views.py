@@ -34,11 +34,6 @@ def login(request):
     return render(request, 'login.html')
 
 
-def registered(request):
-    memb = Register.objects.all()
-    return render_to_response('registered.html', locals(), RequestContext(request))
-
-
 def log_out(request):
     logout(request)
     logged_out = True
@@ -208,6 +203,7 @@ def rank_to_string(request):
 
 
 def recruitment(request):
+    memb = Register.objects.all()
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
@@ -250,7 +246,7 @@ def recruitment(request):
         form = RegisterForm()
 
     return render(request, 'recruitment.html', {
-        'form': form,
+        'form': form, 'memb':memb
     })
 
 
@@ -262,6 +258,8 @@ def upload_pic(request):
     username = None
     if request.user.is_authenticated():
         username = request.user.username
+        picture = UserProfile.objects.get(user=User.objects.get(username=username))
+        avatar = picture.avatar
 
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES)
@@ -282,5 +280,5 @@ def upload_pic(request):
         form = UserProfileForm()
 
     return render(request, 'upload_avatar.html', {
-        'form': form,
+        'form': form, 'avatar':avatar
     })

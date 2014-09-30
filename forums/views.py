@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, FormView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
@@ -15,8 +16,14 @@ class CategoryListView(ListView):
 class ForumDetailView(DetailView):
     model = Forum
 
-
+from Register.models import UserProfile
 class TopicDetailView(DetailView):
+    def get_context_data(self, **kwargs):
+        context = super(TopicDetailView, self).get_context_data(**kwargs)
+        username = self.request.user.username
+        picture = UserProfile.objects.get(user=User.objects.get(username=username))
+        context['now'] = picture.avatar
+        return context
     model = Topic
 
 
@@ -35,7 +42,6 @@ class TopicCreateView(FormView):
         topic_name = form.cleaned_data['topic']
         post_body = form.cleaned_data['message']
         user = self.request.user
-
         topic = Topic(forum=self.forum, name=topic_name)
         topic.save()
         post = Post(topic=topic, body=post_body, user=user)
