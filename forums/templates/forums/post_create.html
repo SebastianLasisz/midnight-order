@@ -103,7 +103,7 @@
                                     <form method="post" action="{% url 'forums:post_create' topic.id %}">
                                         {% csrf_token %}
                                         {% include "forms.html" %}
-                                        <p><input type="submit" class="btn btn-primary"
+                                        <p><input type="submit" class="btn btn-primary"(
                                                   value="{% trans "Create post" %}"></p>
                                     </form>
                                 </div>
