@@ -26,10 +26,6 @@ def policies(request):
     return render(request, 'policies.html')
 
 
-def forum(request):
-    return render(request, 'forum.html')
-
-
 def login(request):
     return render(request, 'login.html')
 
