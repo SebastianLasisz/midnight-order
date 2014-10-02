@@ -3,34 +3,37 @@
 {% load url from future %}
 
 {% block content %}
-<h1>{% trans "View Message" %}</h1>
-<dl class="message-headers">
-    <dt>{% trans "Subject" %}</dt>
-    <dd><strong>{{ message.subject }}</strong></dd>
-    <dt>{% trans "Sender" %}</dt>
-    <dd>{{ message.sender }}</dd>
-    <dt>{% trans "Date" %} </dt>
-    <dd>{{ message.sent_at|date:_("DATETIME_FORMAT")}}</dd>
-    <dt>{% trans "Recipient" %}</dt>
-    <dd>{{ message.recipient }}</dd>
-</dl>
-{{ message.body|linebreaksbr }}<br /><br />
+    <div class="col-xs-6 col-sm-3 sidebar-offcanvas sidebar-nav" id="sidebar" role="navigation">
+        <div class="list-group">
+            <a href="{% url 'messages_inbox' %} " class="list-group-item">
+                <div class="sidebar">Inbox</div>
+            </a>
+            <a href="{% url 'messages_outbox' %} " class="list-group-item">
+                <div class="sidebar">Sent Messages</div>
+            </a>
+            <a href="{% url 'messages_compose' %} " class="list-group-item">
+                <div class="sidebar">New Message</div>
+            </a>
+            <a href="{% url 'messages_trash' %}" class="list-group-item">
+                <div class="sidebar">Trash</div>
+            </a>
+        </div>
+    </div>
+    <h1>{% trans "View Message" %}</h1>
+    <dl class="message-headers">
+        <dt>{% trans "Subject" %}</dt>
+        <dd>{{ message.subject }}</dd>
+        <dt>{% trans "Sender" %}</dt>
+        <dd>{{ message.sender }}</dd>
+        <dt>{% trans "Date" %} </dt>
+        <dd>{{ message.sent_at|date:_("DATETIME_FORMAT") }}</dd>
+        <dt>{% trans "Recipient" %}</dt>
+        <dd>{{ message.recipient }}</dd>
+    </dl>
+    {{ message.body|linebreaksbr }}<br/><br/>
 
-{% ifequal message.recipient.pk user.pk %}
-<a href="{% url 'messages_reply' message.id %}">{% trans "Reply" %}</a>
-{% endifequal %}
-<a href="{% url 'messages_delete' message.id %}">{% trans "Delete" %}</a>
-
-{% comment %}Example reply_form integration
-{% if reply_form %}
-<h1>{% trans "Compose reply"%}</h1>
-<form action="{% url 'messages_reply' message.id %}" method="post">
-{% csrf_token %}
-<table>
-{{ reply_form.as_table }}
-</table>
-<input type="submit" value="{% trans "Send" %} &raquo;"/>
-</form>
-{% endif %}
-{% endcomment %}
+    {% ifequal message.recipient.pk user.pk %}
+        <a href="{% url 'messages_reply' message.id %}">{% trans "Reply" %}</a>
+    {% endifequal %}
+    <a href="{% url 'messages_delete' message.id %}">{% trans "Delete" %}</a>
 {% endblock %}

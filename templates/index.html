@@ -5,7 +5,7 @@
     <title>Midnight Order - Home</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" title="slate" href="/media/css/bootstrap.min.css">
-    <link rel="Shortcut icon" href="/media/img/favicon.ico" />
+    <link rel="Shortcut icon" href="/media/img/favicon.ico"/>
     <script type="text/javascript" src="http://static.wowhead.com/widgets/power.js"></script>
     <script>var wowhead_tooltips = { "colorlinks": true, "iconizelinks": true, "renamelinks": true }</script>
     <!-- Scripts -->
@@ -64,45 +64,46 @@
         <div class="col-xs-12 col-sm-9">
             <div class="panel panel-default">
                 <div class="panel-body">
-                            {% block content %}
-                                {% for n in news2 %}
-                                    <h4> <b>{{ n.title }} </b></h4>
-                                    <p> {{ n.description | safe }}</p>
-                                    <p> <img alt="" src = {{ n.img }}/></p>
-                                    <h6> <em>{{ n.name }}</em></h6>
-                                    <hr>
-                                {% endfor %}
-                            {% endblock %}
+                    {% block content %}
+                        {% for n in news2 %}
+                            <h4><b>{{ n.title }} </b></h4>
+                            <p> {{ n.description | safe }}</p>
+                            <p><img alt="" src= {{ n.img }}/></p>
+                            <h6><em>{{ n.name }}</em></h6>
+                            <hr>
+                        {% endfor %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/media/js/scripts.js"></script>
+<footer>
+    <div class="container">
+        <div class="row row-offcanvas row-offcanvas-right">
+            <div class="col-xs-12 col-sm-9">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="foo">
+                            <tr>
+                                <h6>
+                                    <td><a href="/contact-us"> Contact Us</a></td>
+                                    <td><a href="/terms-of-service"> Terms of service</a></td>
+                                    <td><a href="/privacy-cookies-policy"> Cookie policies</a></td>
+                                    <td><a href="#"> Top</a></td>
+                                    <td><a href="/rss"> <img src="/media/img/rss.png" width=12 height=12/></a></td>
+                                    <td><a href="http://www.worldoflogs.com/guilds/184354/" target="wolName"> <img
+                                            src="/media/img/wol.png" width=12 height=12/></a></td>
+                                </h6>
+                            </tr>
+                            <h6>Website software by Sedi©2014-2014. All rights reserved.</h6>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="/media/js/scripts.js"></script>
-        <footer>
-            <div class="container">
-                <div class="row row-offcanvas row-offcanvas-right">
-                    <div class="col-xs-12 col-sm-9">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="foo">
-                                    <tr>
-                                        <h6>
-                                            <td> <a href="/contact-us"> Contact Us</a></td>
-                                            <td> <a href="/terms-of-service"> Terms of service</a></td>
-                                            <td> <a href="/privacy-cookies-policy"> Cookie policies</a></td>
-                                            <td> <a href="#"> Top</a></td>
-                                            <td> <a href="/rss"> <img src="/media/img/rss.png" width=12 height=12/></a></td>
-                                            <td> <a href="http://www.worldoflogs.com/guilds/184354/" target="wolName"> <img src="/media/img/wol.png" width=12 height=12/></a></td>
-                                        </h6>
-                                    </tr>
-                                    <h6>Website software by Sedi©2014-2014. All rights reserved.</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-	</body>
+    </div>
+</footer>
+</body>
 </html>
