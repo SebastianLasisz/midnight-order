@@ -79,6 +79,8 @@ def register(request):
                          password=make_password(password))
                 try:
                     r.save()
+                    us = UserProfile(user=r, avatar="", signature="")
+                    us.save()
                     subject = "Your Midnight Order account confirmation"
                     message = "Hello," + username + ", and thanks for signing up for a Midnight Order account."
                     from django.core.mail import send_mail
@@ -92,7 +94,7 @@ def register(request):
             else:
                 return render_to_response('register.html', locals(), RequestContext(request))
             return HttpResponseRedirect('/register_complete/')
-        except:
+        except IndentationError:
             error = "Captcha input doesn't match. Please reenter it."
             return render_to_response('register.html', locals(), RequestContext(request))
     else:
