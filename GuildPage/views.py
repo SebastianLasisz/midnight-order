@@ -76,15 +76,15 @@ def register(request):
                 captcha = form.cleaned_data['captcha']
                 r = User(username=username,
                          email=email,
-                         password=password)
+                         password=make_password(password))
                 try:
                     r.save()
                     subject = "Your Midnight Order account confirmation"
                     message = "Hello," + username + ", and thanks for signing up for a Midnight Order account."
                     from django.core.mail import send_mail
 
-                    send_mail(subject, message, 'accounts@midnightorder.com', [email])
-                except IntegrityError:
+                    send_mail(subject, message, 'sedi1ster@gmail.com', [email])
+                except:
                     error = "That name is already taken"
                     return render_to_response('register.html', locals(), RequestContext(request))
                 g = Group.objects.get(name='Member')
@@ -92,7 +92,7 @@ def register(request):
             else:
                 return render_to_response('register.html', locals(), RequestContext(request))
             return HttpResponseRedirect('/register_complete/')
-        except:
+        except IndentationError:
             error = "Captcha input doesn't match. Please reenter it."
             return render_to_response('register.html', locals(), RequestContext(request))
     else:

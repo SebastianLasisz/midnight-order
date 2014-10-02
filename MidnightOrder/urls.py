@@ -26,7 +26,7 @@ urlpatterns = patterns('',
                        url(r'^profile/$', login_required(upload_pic)),
                        url(r'^thanks/$', thanks),
                        (r'^login/$', 'django.contrib.auth.views.login'),
-                       url(r'^admin/$', include(admin.site.urls)),
+                       url(r'^admin/', include(admin.site.urls)),
                        url(r'^recruitment/(?P<slug>[-_\w]+)/$', RegisterDetailView.as_view(), name='register-detail'),
                        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 )
