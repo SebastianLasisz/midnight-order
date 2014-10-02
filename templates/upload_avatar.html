@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Midnight Order - Thanks</title>
+    <title>Midnight Order - Profile</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" title="slate" href="/media/css/bootstrap.min.css">
     <link rel="Shortcut icon" href="/media/img/favicon.ico"/>
@@ -65,11 +65,63 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <p></p>
-                    <form action="/upload-avatar/" method="post" enctype="multipart/form-data">
-                        <img src="/media/{{ avatar }}" />
-                        {% csrf_token %}
-                        {{ form }}
-                        <input type="submit" value="Submit"/>
+
+                    <div class="foo"><b>{{ error }}
+                        {{ error1 }}</b></div>
+                    <form action="/profile/" method="post" enctype="multipart/form-data">
+                        <table class="table_background">
+                            <tr>
+                                <td>
+                                    <div><b>{{ username }}</b></div>
+
+                                    <div><img src="/media/{{ avatar }}" widht="120" height="120"/></div>
+
+                                    <div>{{ form.avatar.errors }}
+                                        {{ avatar_errors }}
+                                        {{ form.avatar }}
+                                    </div>
+
+                                    {% csrf_token %}
+                                </td>
+                                <td>
+                                    <table class="table_background">
+                                        <tr>
+                                            <div class="fieldWrapper">
+                                                {{ form.signature.errors }}
+                                                Current signature: {{ signature }}
+                                                <td><label for="id_signature">Signature: </label></td>
+                                                <td>{{ form.signature }}</td>
+                                            </div>
+                                        </tr>
+                                        <tr>
+                                            <div class="fieldWrapper">
+                                                {{ form.old_password.errors }}
+                                                {{ old_password }}
+                                                <td><label for="id_old_password">Old password: </label></td>
+                                                <td>{{ form.old_password }}</td>
+                                            </div>
+                                        </tr>
+                                        <tr>
+                                            <div class="fieldWrapper">
+                                                {{ form.password.errors }}
+                                                {{ password }}
+                                                <td><label for="id_password">Password: </label></td>
+                                                <td>{{ form.password }}</td>
+                                            </div>
+                                        </tr>
+                                        <tr>
+                                            <div class="fieldWrapper">
+                                                {{ form.repeat_password.errors }}
+                                                {{ repeat_password }}
+                                                <td><label for="id_repeat_password">Repeat password: </label></td>
+                                                <td>{{ form.repeat_password }}</td>
+                                            </div>
+                                        </tr>
+                                    </table>
+                                    <input type="submit" value="Submit"/>
+                                </td>
+                            </tr>
+                        </table>
                     </form>
                 </div>
             </div>

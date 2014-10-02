@@ -11,6 +11,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
+from django.contrib.auth.hashers import make_password
 import json
 import urllib2
 import operator
@@ -52,6 +53,7 @@ def contact(request):
         else:
             return render_to_response('contact.html', locals(), RequestContext(request))
         from django.core.mail import send_mail
+
         send_mail(subject, message, sender, recipients)
         return HttpResponseRedirect('/thanks/')
     else:
@@ -73,13 +75,14 @@ def register(request):
                 repeat_password = form.cleaned_data['repeat_password']
                 captcha = form.cleaned_data['captcha']
                 r = User(username=username,
-                                email=email,
-                                password=password)
+                         email=email,
+                         password=password)
                 try:
                     r.save()
                     subject = "Your Midnight Order account confirmation"
-                    message = "Hello,"+username+", and thanks for signing up for a Midnight Order account."
+                    message = "Hello," + username + ", and thanks for signing up for a Midnight Order account."
                     from django.core.mail import send_mail
+
                     send_mail(subject, message, 'accounts@midnightorder.com', [email])
                 except IntegrityError:
                     error = "That name is already taken"
@@ -242,7 +245,7 @@ def recruitment(request):
         form = RegisterForm()
 
     return render(request, 'recruitment.html', {
-        'form': form, 'memb':memb
+        'form': form, 'memb': memb
     })
 
 
@@ -256,25 +259,42 @@ def upload_pic(request):
         username = request.user.username
         picture = UserProfile.objects.get(user=User.objects.get(username=username))
         avatar = picture.avatar
+        signature = picture.signature
 
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES)
         if form.is_valid():
             up = UserProfile.objects.filter(user=User.objects.get(username=username))
+            u = User.objects.get(username=username)
+            if form.cleaned_data['password'] != "" and form.cleaned_data['repeat_password'] != "" and form.cleaned_data[
+                'old_password'] != "":
+                if form.cleaned_data['password'] == form.cleaned_data[
+                    'repeat_password'] and request.user.check_password(
+                        form.cleaned_data['old_password']):
+                    u.password = make_password(form.cleaned_data['password'])
+                    u.save()
+                else:
+                    error = "Current password is invalid or new passwords doesn't match."
+                    return render_to_response('upload_avatar.html', locals(), RequestContext(request))
             if up.exists():
                 r = UserProfile.objects.get(user=User.objects.get(username=username))
-                r.avatar = form.cleaned_data['avatar']
+                if form.cleaned_data['avatar'] is not None:
+                    r.avatar = form.cleaned_data['avatar']
+                if form.cleaned_data['signature'] != "":
+                    r.signature = form.cleaned_data['signature']
                 r.save()
             else:
                 r = UserProfile(user=User.objects.get(username=username),
-                                avatar=form.cleaned_data['avatar'])
+                                avatar=form.cleaned_data['avatar'],
+                                signature=form.cleaned_data['signature'])
                 r.save()
-            return render_to_response('thanks.html', locals(), RequestContext(request))
+            error1 = "Your settings have been saved."
+            return render_to_response('upload_avatar.html', locals(), RequestContext(request))
         else:
             return render_to_response('upload_avatar.html', locals(), RequestContext(request))
     else:
         form = UserProfileForm()
 
     return render(request, 'upload_avatar.html', {
-        'form': form, 'avatar':avatar
+        'form': form, 'avatar': avatar, 'username': username, 'signature': signature
     })
