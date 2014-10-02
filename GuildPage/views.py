@@ -84,7 +84,7 @@ def register(request):
                     from django.core.mail import send_mail
 
                     send_mail(subject, message, 'sedi1ster@gmail.com', [email])
-                except:
+                except IntegrityError:
                     error = "That name is already taken"
                     return render_to_response('register.html', locals(), RequestContext(request))
                 g = Group.objects.get(name='Member')
@@ -92,7 +92,7 @@ def register(request):
             else:
                 return render_to_response('register.html', locals(), RequestContext(request))
             return HttpResponseRedirect('/register_complete/')
-        except IndentationError:
+        except:
             error = "Captcha input doesn't match. Please reenter it."
             return render_to_response('register.html', locals(), RequestContext(request))
     else:
@@ -253,7 +253,7 @@ def register_complete(request):
     return render(request, 'register_complete.html')
 
 
-def upload_pic(request):
+def profile(request):
     username = None
     if request.user.is_authenticated():
         username = request.user.username
@@ -275,7 +275,7 @@ def upload_pic(request):
                     u.save()
                 else:
                     error = "Current password is invalid or new passwords doesn't match."
-                    return render_to_response('upload_avatar.html', locals(), RequestContext(request))
+                    return render_to_response('profile.html', locals(), RequestContext(request))
             if up.exists():
                 r = UserProfile.objects.get(user=User.objects.get(username=username))
                 if form.cleaned_data['avatar'] is not None:
@@ -289,12 +289,12 @@ def upload_pic(request):
                                 signature=form.cleaned_data['signature'])
                 r.save()
             error1 = "Your settings have been saved."
-            return render_to_response('upload_avatar.html', locals(), RequestContext(request))
+            return render_to_response('profile.html', locals(), RequestContext(request))
         else:
-            return render_to_response('upload_avatar.html', locals(), RequestContext(request))
+            return render_to_response('profile.html', locals(), RequestContext(request))
     else:
         form = UserProfileForm()
 
-    return render(request, 'upload_avatar.html', {
+    return render(request, 'profile.html', {
         'form': form, 'avatar': avatar, 'username': username, 'signature': signature
     })
