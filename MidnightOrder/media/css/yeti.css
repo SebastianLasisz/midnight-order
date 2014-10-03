@@ -7425,8 +7425,8 @@ label,
 body {
     padding-bottom: 50px;
     background-image: url('/media/img/logo_new.png'), url('/media/img/background_2.jpg');
-    background-color: rgb(19, 10, 11);
-    background-repeat: no-repeat;
+    #background-color: rgb(19, 10, 11);
+    background-repeat: no-repeat,repeat;
     background-size: 100%;
 }
 
@@ -7437,8 +7437,8 @@ div {
 
 .div-pos {
     margin-top: 170px;
-    #opacity: 0.7;
-    color: White;
+    opacity: 0.7;
+    #color: White;
 }
 
 .butn-pos {
@@ -7457,8 +7457,8 @@ div {
 }
 
 .panel-default {
-    color: #c8c8c8;
-    background-color: rgba(62, 68, 76, 0.6);
+    #color: #c8c8c8;
+    #background-color: rgba(62, 68, 76, 0.6);
     border-color: rgba(0, 0, 0, 0.4);
 }
 
