@@ -5,7 +5,7 @@
     <title>Midnight Order - Forum</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" title="slate" href="/media/css/bootstrap.min.css">
-    <link rel="Shortcut icon" href="/media/img/favicon.ico" />
+    <link rel="Shortcut icon" href="/media/img/favicon.ico"/>
     <script type="text/javascript" src="http://static.wowhead.com/widgets/power.js"></script>
     <script>var wowhead_tooltips = { "colorlinks": true, "iconizelinks": true, "renamelinks": true }</script>
     <!-- Scripts -->
@@ -43,11 +43,8 @@
         <li><a href="#" rel="/media/css/united.css">United</a></li>
     </ul>
 </div>
-{% if logged_out %}
-    <div class="alert alert-success alert-dismissable foo2">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <strong>Success!</strong> You've logged out properly.
-    </div>
+{% if  messages_inbox_count  > 0 %}
+    <a href="/messages">You've got {{ messages_inbox_count }} unread messages.</a>
 {% endif %}
 <div class="div-pos">
     <div class="foo">
@@ -60,6 +57,8 @@
             {% if not user.is_authenticated %}
                 <li><a href="/login">Log in</a></li>
             {% else %}
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/messages">Inbox</a></li>
                 <li><a href="/log-out">Log out</a></li>
             {% endif %}
         </ul>
@@ -85,15 +84,17 @@
                         </ol>
                     {% endblock %}
                     {% block content %}
-                        {% if user.groups.all.0.name == "Officer" and topic.forum.category.name == "Officer Forums" %}
+                        {% if user.groups.all.0.name == "Officer" and topic.forum.category.name == "Officer Chat" %}
                             <div class="page-header">
                                 <h1>{% trans "Create Post" %}</h1>
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
                                     <p><b><strong><i>&nbsp{{ user.username }}</i></strong></b></p>
+
                                     <div class="thumbnail pull-left" style="margin-right: 15px;">
-                                        <img src="/media/{{ avatar }}" onerror="this.src='/media/img/logo3.jpg';" alt="" width = 100 height = 100 class="img-rounded" alt="avatar">
+                                        <img src="/media/{{ avatar }}" onerror="this.src='/media/img/logo3.jpg';" alt=""
+                                             width=100 height=100 class="img-rounded" alt="avatar">
                                     </div>
                                     <div>
                                         <p>{{ user.username }}</p>
@@ -104,20 +105,22 @@
                                         {% csrf_token %}
                                         {% include "forms.html" %}
                                         <p><input type="submit" class="btn btn-primary"(
-                                                  value="{% trans "Create post" %}"></p>
+                                            value="{% trans "Create post" %}"></p>
                                     </form>
                                 </div>
                             </div>
                         {% endif %}
-                        {% if topic.forum.category.name != "Officer Forums" %}
+                        {% if topic.forum.category.name != "Officer Chat" %}
                             <div class="page-header">
                                 <h1>{% trans "Create Post" %}</h1>
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
                                     <p><b><strong><i>&nbsp{{ user.username }}</i></strong></b></p>
+
                                     <div class="thumbnail pull-left" style="margin-right: 15px;">
-                                        <img src="/media/{{ avatar }}" onerror="this.src='/media/img/logo3.jpg';" alt="" width = 100 height = 100 class="img-rounded" alt="avatar">
+                                        <img src="/media/{{ avatar }}" onerror="this.src='/media/img/logo3.jpg';" alt=""
+                                             width=100 height=100 class="img-rounded" alt="avatar">
                                     </div>
                                 </div>
                                 <div class="col-md-9">
@@ -147,11 +150,12 @@
                             <tr>
                                 <h6>
                                     <td><a href="/contact-us"> Contact Us</a></td>
+                                    <td><a href="/credits">Credits</a></td>
                                     <td><a href="/terms-of-service"> Terms of service</a></td>
                                     <td><a href="/privacy-cookies-policy"> Cookie policies</a></td>
                                     <td><a href="#"> Top</a></td>
                                     <td><a href="/rss"> <img src="/media/img/rss.png" width=12 height=12/></a></td>
-                                    <td><a href="http://www.worldoflogs.com/guilds/184354/" target="wolName"> <img
+                                    <td><a href="http://www.warcraftlogs.com/guilds/13339/" target="wolName"> <img
                                             src="/media/img/wol.png" width=12 height=12/></a></td>
                                 </h6>
                             </tr>

@@ -60,7 +60,9 @@
             {% if not user.is_authenticated %}
                 <li class="active"><a href="/login">Log in</a></li>
             {% else %}
-                <li class="active"><a href="/log-out">Log out</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/messages">Inbox</a></li>
+                <li><a href="/log-out">Log out</a></li>
             {% endif %}
         </ul>
     </div>
@@ -103,10 +105,13 @@
                             <tr>
                                 <h6>
                                     <td><a href="/contact-us"> Contact Us</a></td>
+                                    <td><a href="/credits">Credits</a></td>
                                     <td><a href="/terms-of-service"> Terms of service</a></td>
                                     <td><a href="/privacy-cookies-policy"> Cookie policies</a></td>
                                     <td><a href="#"> Top</a></td>
                                     <td><a href="/rss"> <img src="/media/img/rss.png" width=12 height=12/></a></td>
+                                    <td><a href="http://www.warcraftlogs.com/guilds/13339/" target="wolName"> <img
+                                            src="/media/img/wol.png" width=12 height=12/></a></td>
                                 </h6>
                             </tr>
                             <h6>Website software by Sedi©2014-2014. All rights reserved.</h6>

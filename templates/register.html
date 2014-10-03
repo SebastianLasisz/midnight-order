@@ -43,6 +43,9 @@
         <li><a href="#" rel="/media/css/united.css">United</a></li>
     </ul>
 </div>
+{% if  messages_inbox_count  > 0 %}
+    <a href="/messages">You've got {{ messages_inbox_count }} unread messages.</a>
+{% endif %}
 <div class="div-pos">
     <div class="foo">
         <ul class="nav nav-pills">
@@ -55,6 +58,8 @@
             {% if not user.is_authenticated %}
                 <li><a href="/login">Log in</a></li>
             {% else %}
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/messages">Inbox</a></li>
                 <li><a href="/log-out">Log out</a></li>
             {% endif %}
         </ul>
@@ -96,11 +101,12 @@
                             <tr>
                                 <h6>
                                     <td><a href="/contact-us"> Contact Us</a></td>
+                                    <td><a href="/credits">Credits</a></td>
                                     <td><a href="/terms-of-service"> Terms of service</a></td>
                                     <td><a href="/privacy-cookies-policy"> Cookie policies</a></td>
                                     <td><a href="#"> Top</a></td>
                                     <td><a href="/rss"> <img src="/media/img/rss.png" width=12 height=12/></a></td>
-                                    <td><a href="http://www.worldoflogs.com/guilds/184354/" target="wolName"> <img
+                                    <td><a href="http://www.warcraftlogs.com/guilds/13339/" target="wolName"> <img
                                             src="/media/img/wol.png" width=12 height=12/></a></td>
                                 </h6>
                             </tr>

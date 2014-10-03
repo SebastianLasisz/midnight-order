@@ -254,6 +254,9 @@ def recruitment(request):
 def register_complete(request):
     return render(request, 'register_complete.html')
 
+def credit(request):
+    return render(request, 'credits.html')
+
 
 def profile(request):
     username = None
@@ -268,16 +271,15 @@ def profile(request):
         if form.is_valid():
             up = UserProfile.objects.filter(user=User.objects.get(username=username))
             u = User.objects.get(username=username)
-            if form.cleaned_data['password'] != "" and form.cleaned_data['repeat_password'] != "" and form.cleaned_data[
-                'old_password'] != "":
+            if form.cleaned_data['password'] is not None and form.cleaned_data['repeat_password'] is not None and form.cleaned_data['old_password'] is not None:
                 if form.cleaned_data['password'] == form.cleaned_data[
                     'repeat_password'] and request.user.check_password(
                         form.cleaned_data['old_password']):
                     u.password = make_password(form.cleaned_data['password'])
-                    u.save()
-                else:
-                    error = "Current password is invalid or new passwords doesn't match."
-                    return render_to_response('profile.html', locals(), RequestContext(request))
+                u.save()
+            else:
+                error = "Current password is invalid or new passwords doesn't match."
+                return render_to_response('profile.html', locals(), RequestContext(request))
             if up.exists():
                 r = UserProfile.objects.get(user=User.objects.get(username=username))
                 if form.cleaned_data['avatar'] is not None:
@@ -291,6 +293,9 @@ def profile(request):
                                 signature=form.cleaned_data['signature'])
                 r.save()
             error1 = "Your settings have been saved."
+            picture = UserProfile.objects.get(user=User.objects.get(username=username))
+            avatar = picture.avatar
+            signature = picture.signature
             return render_to_response('profile.html', locals(), RequestContext(request))
         else:
             return render_to_response('profile.html', locals(), RequestContext(request))
