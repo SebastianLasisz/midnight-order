@@ -81,16 +81,27 @@ def register(request):
                     r.save()
                     us = UserProfile(user=r, avatar="", signature="")
                     us.save()
+                    g = Group.objects.get(name='Member')
+                    g.user_set.add(r)
                     subject = "Your Midnight Order account confirmation"
                     message = "Hello," + username + ", and thanks for signing up for a Midnight Order account."
-                    from django.core.mail import send_mail
+                    import smtplib
 
-                    send_mail(subject, message, 'sedi1ster@gmail.com', [email])
+                    try:
+                        # server = smtplib.SMTP(SERVER)
+                        server = smtplib.SMTP("smtp.gmail.com", 587)  #or port 465 doesn't seem to work!
+                        server.ehlo()
+                        server.starttls()
+                        server.login('sedi1ster@gmail.com', 'delleextreme13')
+                        server.sendmail('sedi1ster@gmail.com', [email], message)
+                        #server.quit()
+                        server.close()
+                        print 'successfully sent the mail'
+                    except:
+                        print "failed to send mail"
                 except IntegrityError:
                     error = "That name is already taken"
                     return render_to_response('register.html', locals(), RequestContext(request))
-                g = Group.objects.get(name='Member')
-                g.user_set.add(r)
             else:
                 return render_to_response('register.html', locals(), RequestContext(request))
             return HttpResponseRedirect('/register_complete/')
@@ -254,6 +265,7 @@ def recruitment(request):
 def register_complete(request):
     return render(request, 'register_complete.html')
 
+
 def credit(request):
     return render(request, 'credits.html')
 
@@ -271,8 +283,10 @@ def profile(request):
         if form.is_valid():
             up = UserProfile.objects.filter(user=User.objects.get(username=username))
             u = User.objects.get(username=username)
-            if form.cleaned_data['password'] is not None and form.cleaned_data['repeat_password'] is not None and form.cleaned_data['old_password'] is not None:
-                if form.cleaned_data['password'] == form.cleaned_data[
+            if form.cleaned_data['password'] is not None and form.cleaned_data['repeat_password'] is not None and \
+                            form.cleaned_data['old_password'] is not None:
+                if form.cleaned_data['password'] != '' and form.cleaned_data['password'] != "" and form.cleaned_data[
+                    'password'] is not None and form.cleaned_data['password'] == form.cleaned_data[
                     'repeat_password'] and request.user.check_password(
                         form.cleaned_data['old_password']):
                     u.password = make_password(form.cleaned_data['password'])
