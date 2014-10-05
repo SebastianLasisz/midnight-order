@@ -11,8 +11,7 @@
     <!-- Scripts -->
     <script src="/media/js/scripts2.js"></script>
     <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="/media/js/jquery/jquery.cookie.js"></script
-    <script src="/media/js/bootstrap.min.js"></script>
+    <script src="/media/js/jquery/jquery.cookie.js"></script>
     <script src="/media/js/scripts.js"></script>
     <script src="/media/js/jquery_css.js"></script>
     <script src="/media/js/scripts.js"></script>
@@ -98,99 +97,121 @@
                         </ol>
                     {% endblock %}
                     {% block content %}
-                        {% if user.groups.all.0.name == "Officer" and topic.forum.category.name == "Officer Chat" %}
-                            <table class="table table-bordered">
-                                {% for post in topic.posts.all %}
-                                    <div class="row">
-                                        <tr>
-                                            <td>
-                                                <div class="span3">
-                                                    <center><p><b><strong><i>&nbsp{{ post.user.username }}</i></strong></b>
-                                                    </p></center>
+                        {% if user.groups.all.0.name == "Officer" or user.groups.all.0.name == "Leader" %}
+                            {% if topic.forum.name == "Officer's Chat" and  user.groups.all.0.name == "Leader" %}
+                            {% else %}
+                                <table class="table table-bordered">
+                                    {% for post in topic.posts.all %}
+                                        <div class="row">
+                                            <tr>
+                                                <td width="100">
+                                                    <div class="span3">
+                                                        <center><p>
+                                                            <b><strong><i>&nbsp{{ post.user.user.username }}</i></strong></b>
+                                                        </p></center>
 
-                                                    <div class="thumbnail pull-left" style="margin-right: 15px;">
-                                                        <img src="/media/{{ avatar }}"
-                                                             onerror="this.src='/media/img/logo3.jpg';"
-                                                             alt="" width=100 height=100 class="img-rounded"
-                                                             alt="avatar">
+                                                        <div class="thumbnail pull-left" style="margin-right: 15px;">
+                                                            <img src="/media/{{ post.user.avatar }}"
+                                                                 onerror="this.src='/media/img/logo3.jpg';"
+                                                                 alt="" width=100 height=100 class="img-rounded"
+                                                                 alt="avatar">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="span7">
-                                                    <div>
-                                                        {{ post.body|safe|linebreaks }}
+                                                </td>
+                                                <td>
+                                                    <div class="span7">
+                                                        <div>
+                                                            {{ post.body|safe|linebreaks }}
+                                                        </div>
+                                                        <div>
+                                                            <p>--------------------</p>
+                                                            {{ post.user.signature }}
+                                                        </div>
+                                                        <div style="clear: both;"></div>
                                                     </div>
-                                                    <div>
-                                                        <p>--------------------</p>
-                                                        {{ signature }}
+                                                    <div class="span2">
+                                                        <p class="pull-right">
+                                                            <small><a href="#{{ forloop.counter }}"
+                                                                      name="{{ forloop.counter }}">#{{ forloop.counter }}</a>
+                                                            </small>
+                                                        </p>
+                                                        <p class="pull-right">
+                                                            <small>{{ post.created }}</small>
+                                                        </p>
                                                     </div>
-                                                    <div style="clear: both;"></div>
-                                                </div>
-                                                <div class="span2">
-                                                    <p class="pull-right">
-                                                        <small><a href="#{{ forloop.counter }}"
-                                                                  name="{{ forloop.counter }}">#{{ forloop.counter }}</a>
-                                                        </small>
-                                                    </p>
-                                                    <p class="pull-right">
-                                                        <small>{{ post.created }}</small>
-                                                    </p>
-                                                </div>
-                                            </td>
-                                    </div>
-                                    <hr>
-                                {% endfor %}
-                            </table>
-                        {% endif %}
-                        {% if topic.forum.category.name != "Officer Chat" %}
-                            <table class="table table-bordered">
-                                {% for post in topic.posts.all %}
-                                    <div class="row">
-                                        <tr>
-                                            <td>
-                                                <div class="span3">
-                                                    <center><p><b><strong><i>&nbsp{{ post.user.username }}</i></strong></b>
-                                                    </p></center>
+                                                </td>
+                                            </tr>
+                                        </div>
+                                    {% endfor %}
+                                </table>
+                            {% endif %}
+                        {% else %}
+                            {% if user.groups.all.0.name != "Officer" and user.groups.all.0.name != "Leader" and topic.forum.category.name != "Forum: Restricted forums" %}
+                                <table class="table table-bordered">
+                                    {% for post in topic.posts.all %}
+                                        <div class="row">
+                                            <tr>
+                                                <td width="100">
+                                                    <div class="span3">
+                                                        <center><p>
+                                                            <b><strong><i>&nbsp{{ post.user.user.username }}</i></strong></b>
+                                                        </p></center>
 
-                                                    <div class="thumbnail pull-left" style="margin-right: 15px;">
-                                                        <img src="/media/{{ avatar }}"
-                                                             onerror="this.src='/media/img/logo3.jpg';"
-                                                             alt="" width=100 height=100 class="img-rounded"
-                                                             alt="avatar">
+                                                        <div class="thumbnail pull-left" style="margin-right: 15px;">
+                                                            <img src="/media/{{ post.user.avatar }}"
+                                                                 onerror="this.src='/media/img/logo3.jpg';"
+                                                                 alt="" width=100 height=100 class="img-rounded"
+                                                                 alt="avatar">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="span7">
-                                                    <div>
-                                                        {{ post.body|safe|linebreaks }}
+                                                </td>
+                                                <td>
+                                                    <div class="span7">
+                                                        <div>
+                                                            {{ post.body|safe|linebreaks }}
+                                                        </div>
+                                                        <div>
+                                                            <p>--------------------</p>
+                                                            {{ post.user.signature }}
+                                                        </div>
+                                                        <div style="clear: both;"></div>
                                                     </div>
-                                                    <div>
-                                                        <p>--------------------</p>
-                                                        {{ signature }}
+                                                    <div class="span2">
+                                                        <p class="pull-right">
+                                                            <small><a href="#{{ forloop.counter }}"
+                                                                      name="{{ forloop.counter }}">#{{ forloop.counter }}</a>
+                                                            </small>
+                                                        </p>
+                                                        <p class="pull-right">
+                                                            <small>{{ post.created }}</small>
+                                                        </p>
                                                     </div>
-                                                    <div style="clear: both;"></div>
-                                                </div>
-                                                <div class="span2">
-                                                    <p class="pull-right">
-                                                        <small><a href="#{{ forloop.counter }}"
-                                                                  name="{{ forloop.counter }}">#{{ forloop.counter }}</a>
-                                                        </small>
-                                                    </p>
-                                                    <p class="pull-right">
-                                                        <small>{{ post.created }}</small>
-                                                    </p>
-                                                </div>
-                                            </td>
-                                    </div>
-                                    <hr>
-                                {% endfor %}
-                            </table>
+                                                </td>
+                                            </tr>
+                                        </div>
+                                    {% endfor %}
+                                </table>
+                            {% endif %}
                         {% endif %}
                         <div class="row">
                             <div class="span12">
-                                {% if user.groups.all.0.name == "Officer" and topic.forum.category.name == "Officer Chat" %}
+                                {% if user.groups.all.0.name == "Officer" or user.groups.all.0.name == "Leader"%}
+                                    {% if topic.forum.name == "Officer's Chat" and  user.groups.all.0.name == "Leader" %}
+                                    {% else %}
+                                        {% if not topic.forum.is_closed or user.is_staff %}
+                                            {% if topic.forum.name == "Leader's Chat" and  user.groups.all.0.name == "Leader" %}
+                                                <p><a href="{% url 'forums:post_create' topic.id %}"
+                                                      class="btn btn-primary">{% trans "Create post" %}</a></p>
+                                            {% else %}
+                                                <p><a href="{% url 'forums:post_create' topic.id %}"
+                                                      class="btn btn-primary">{% trans "Create post" %}</a></p>
+                                            {% endif %}
+                                        {% else %}
+                                            <p>{% trans "This forum is closed, only admins can create and post here." %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% else %}
+                                {% if user.groups.all.0.name != "Officer" and user.groups.all.0.name != "Leader" and topic.forum.category.name != "Forum: Restricted forums" %}
                                     {% if not topic.forum.is_closed or user.is_staff %}
                                         <p><a href="{% url 'forums:post_create' topic.id %}"
                                               class="btn btn-primary">{% trans "Create post" %}</a></p>
@@ -198,13 +219,6 @@
                                         <p>{% trans "This forum is closed, only admins can create and post here." %}
                                     {% endif %}
                                 {% endif %}
-                                {% if topic.forum.category.name != "Officer Chat" %}
-                                    {% if not topic.forum.is_closed or user.is_staff %}
-                                        <p><a href="{% url 'forums:post_create' topic.id %}"
-                                              class="btn btn-primary">{% trans "Create post" %}</a></p>
-                                    {% else %}
-                                        <p>{% trans "This forum is closed, only admins can create and post here." %}
-                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>

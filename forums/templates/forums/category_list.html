@@ -11,8 +11,7 @@
     <!-- Scripts -->
     <script src="/media/js/scripts2.js"></script>
     <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="/media/js/jquery/jquery.cookie.js"></script
-    <script src="/media/js/bootstrap.min.js"></script>
+    <script src="/media/js/jquery/jquery.cookie.js"></script>
     <script src="/media/js/scripts.js"></script>
     <script src="/media/js/jquery_css.js"></script>
     <script src="/media/js/scripts.js"></script>
@@ -94,7 +93,7 @@
                     {% endblock %}
                     {% block content %}
                         <table class="table">
-                            {% if user.groups.all.0.name == "Officer" %}
+                            {% if user.groups.all.0.name == "Officer" or user.groups.all.0.name == "Leader"%}
                                 {% for category in category_list %}
                                     <thead>
                                     <tr>
@@ -107,22 +106,25 @@
                                     </thead>
                                     <tbody>
                                     {% for forum in category.forums.all %}
-                                        <tr>
-                                            <td style="width: 14px;"><i class="icon-circle-arrow-right"
-                                                                        style="margin-top: 1px;"></i></td>
-                                            <td style="width: 70%;">
-                                                <a href="{% url 'forums:forum' forum.id %}">{{ forum.name }}</a>
-                                            </td>
-                                            <td>{{ forum.get_latest_poster }}</td>
-                                            <td>{{ forum.count_topics }}</td>
-                                            <td>{{ forum.count_posts }}</td>
-                                        </tr>
+                                        {% if forum.name == "Officer's Chat" and user.groups.all.0.name == "Leader" %}
+                                        {% else %}
+                                            <tr>
+                                                <td style="width: 14px;"><i class="icon-circle-arrow-right"
+                                                                            style="margin-top: 1px;"></i></td>
+                                                <td style="width: 70%;">
+                                                    <a href="{% url 'forums:forum' forum.id %}">{{ forum.name }}</a>
+                                                </td>
+                                                <td>{{ forum.get_latest_poster }}</td>
+                                                <td>{{ forum.count_topics }}</td>
+                                                <td>{{ forum.count_posts }}</td>
+                                            </tr>
+                                        {% endif %}
                                     {% endfor %}
                                     </tbody>
                                 {% endfor %}
                             {% else %}
                                 {% for category in category_list %}
-                                    {% if category.name != "Officer Chat" %}
+                                    {% if category.name != "Forum: Restricted forums" %}
                                         <thead>
                                         <tr>
                                             <th colspan="2"><a name="{{ category.id }}">{{ category.name }}</a></th>

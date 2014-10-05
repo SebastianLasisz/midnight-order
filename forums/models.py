@@ -32,7 +32,7 @@ class Forum(models.Model):
     def get_latest_poster(self):
         latest_topic = self.get_latest_topic()
         if latest_topic:
-            return latest_topic.last_post.user.username
+            return latest_topic.last_post.user.user.username
         return '-'
 
     def count_topics(self):
@@ -62,10 +62,11 @@ class Topic(models.Model):
     def __unicode__(self):
         return self.name
 
-
+from Register.models import UserProfile
 class Post(models.Model):
     topic = models.ForeignKey(Topic, related_name='posts')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='forum_posts')
+    #user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='forum_posts')
+    user = models.ForeignKey(UserProfile, related_name='forum_posts')
     created = models.DateTimeField(_("Created"), auto_now_add=True)
     updated = models.DateTimeField(_("Updated"), auto_now=True)
     body = models.TextField(_("Body"))

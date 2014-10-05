@@ -21,10 +21,6 @@ class ForumDetailView(DetailView):
 class TopicDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(TopicDetailView, self).get_context_data(**kwargs)
-        username = self.request.user.username
-        picture = UserProfile.objects.get(user=User.objects.get(username=username))
-        context['avatar'] = picture.avatar
-        context['signature'] = picture.signature
         return context
     model = Topic
 
@@ -43,7 +39,8 @@ class TopicCreateView(FormView):
     def form_valid(self, form):
         topic_name = form.cleaned_data['topic']
         post_body = form.cleaned_data['message']
-        user = self.request.user
+        #user = self.request.user
+        user = UserProfile.objects.get(user=User.objects.get(username=self.request.user.username))
         topic = Topic(forum=self.forum, name=topic_name)
         topic.save()
         post = Post(topic=topic, body=post_body, user=user)
@@ -77,7 +74,7 @@ class PostCreateView(FormView):
 
     def form_valid(self, form):
         body = form.cleaned_data['message']
-        user = self.request.user
+        user = UserProfile.objects.get(user=User.objects.get(username=self.request.user.username))
 
         post = Post(topic=self.topic, body=body, user=user)
         post.save()
