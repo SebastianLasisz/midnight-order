@@ -89,12 +89,12 @@ def register(request):
 
                     try:
                         # server = smtplib.SMTP(SERVER)
-                        server = smtplib.SMTP("smtp.gmail.com", 587)  #or port 465 doesn't seem to work!
+                        server = smtplib.SMTP("smtp.gmail.com", 587)  # or port 465 doesn't seem to work!
                         server.ehlo()
                         server.starttls()
                         server.login('sedi1ster@gmail.com', 'delleextreme13')
                         server.sendmail('sedi1ster@gmail.com', [email], message)
-                        #server.quit()
+                        # server.quit()
                         server.close()
                         print 'successfully sent the mail'
                     except:
@@ -105,7 +105,7 @@ def register(request):
             else:
                 return render_to_response('register.html', locals(), RequestContext(request))
             return HttpResponseRedirect('/register_complete/')
-        except IndentationError:
+        except:
             error = "Captcha input doesn't match. Please reenter it."
             return render_to_response('register.html', locals(), RequestContext(request))
     else:
@@ -234,7 +234,7 @@ def recruitment(request):
             questions = form.cleaned_data['questions']
             rules = form.cleaned_data['rules']
             experience = form.cleaned_data['experience']
-
+            import datetime
             r = Register(name=irl_name,
                          age=age,
                          country=country,
@@ -249,8 +249,21 @@ def recruitment(request):
                          reason=reason,
                          questions=questions,
                          experience=experience,
-                         slug=username)
+                         slug=username+datetime.datetime.now().strftime("%y-%m-%d-%H-%M"))
             r.save()
+            from forums.models import Topic, Post, Forum
+
+            user = UserProfile.objects.get(user=User.objects.get(username="Unregistered"))
+            topic_forum = Forum.objects.get(name="Applications")
+            topic_name = username + "'s Application"
+            topic = Topic(forum=topic_forum, name=topic_name)
+            topic.save()
+            post_body = "Real name: 	" + irl_name + "\nAge: 	" + str(age) + "\nFrom: 	" + country + "\nAbout: 	" + about_yourself + "\nCharacter name: 	" + username + "\nClass: 	" + class_1 + "\nSpecialisation: 	" + spec + "\nWorld of Logs: 	" + wol_logs + "\nProfessions: 	" + professions + "\nReason of leaving previous guilds: 	" + previous_guilds + "\nKnowledge of other people in guild: 	" + contacs + "\nReason to join us: 	" + reason + "\nQuestions to us: 	" + questions + "\nRaiding experience: 	" + experience
+
+            post = Post(topic=topic, body=post_body, user=user)
+            post.save()
+            topic.last_post = post
+            topic.save()
         else:
             return render_to_response('recruitment.html', locals(), RequestContext(request))
         return HttpResponseRedirect('/thanks/')
