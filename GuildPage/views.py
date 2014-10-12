@@ -81,7 +81,7 @@ def register(request):
                     r.save()
                     us = UserProfile(user=r, avatar="", signature="")
                     us.save()
-                    g = Group.objects.get(name='Member')
+                    g = Group.objects.get(name='Initiate')
                     g.user_set.add(r)
                     subject = "Your Midnight Order account confirmation"
                     message = "Hello," + username + ", and thanks for signing up for a Midnight Order account."
@@ -235,6 +235,7 @@ def recruitment(request):
             rules = form.cleaned_data['rules']
             experience = form.cleaned_data['experience']
             import datetime
+
             r = Register(name=irl_name,
                          age=age,
                          country=country,
@@ -249,7 +250,7 @@ def recruitment(request):
                          reason=reason,
                          questions=questions,
                          experience=experience,
-                         slug=username+datetime.datetime.now().strftime("%y-%m-%d-%H-%M"))
+                         slug=username + datetime.datetime.now().strftime("%y-%m-%d-%H-%M"))
             r.save()
             from forums.models import Topic, Post, Forum
 
@@ -258,7 +259,8 @@ def recruitment(request):
             topic_name = username + "'s Application"
             topic = Topic(forum=topic_forum, name=topic_name)
             topic.save()
-            post_body = "Real name: 	" + irl_name + "\nAge: 	" + str(age) + "\nFrom: 	" + country + "\nAbout: 	" + about_yourself + "\nCharacter name: 	" + username + "\nClass: 	" + class_1 + "\nSpecialisation: 	" + spec + "\nWorld of Logs: 	" + wol_logs + "\nProfessions: 	" + professions + "\nReason of leaving previous guilds: 	" + previous_guilds + "\nKnowledge of other people in guild: 	" + contacs + "\nReason to join us: 	" + reason + "\nQuestions to us: 	" + questions + "\nRaiding experience: 	" + experience
+            post_body = "Real name: 	" + irl_name + "\nAge: 	" + str(
+                age) + "\nFrom: 	" + country + "\nAbout: 	" + about_yourself + "\nCharacter name: 	" + username + "\nClass: 	" + class_1 + "\nSpecialisation: 	" + spec + "\nWorld of Logs: 	" + wol_logs + "\nProfessions: 	" + professions + "\nReason of leaving previous guilds: 	" + previous_guilds + "\nKnowledge of other people in guild: 	" + contacs + "\nReason to join us: 	" + reason + "\nQuestions to us: 	" + questions + "\nRaiding experience: 	" + experience
 
             post = Post(topic=topic, body=post_body, user=user)
             post.save()
