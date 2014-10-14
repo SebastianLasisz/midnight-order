@@ -19,8 +19,14 @@ class Register(models.Model):
     experience = models.CharField(max_length=200)
     slug = models.SlugField(max_length=40)
 
+    def __unicode__(self):
+        return self.username
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     avatar = models.ImageField(upload_to='pic_folder/', default='pic_folder/None/no-img.jpg')
     signature = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        return self.user.username
