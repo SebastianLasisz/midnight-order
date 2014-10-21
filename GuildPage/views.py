@@ -1,20 +1,25 @@
+import json
+import urllib2
+import operator
+import datetime
+
 from django.db import IntegrityError
 from django.shortcuts import render
 from django.template import RequestContext
 from django.shortcuts import render_to_response
-from Members.models import Member
-from News.models import News
-from Register.models import Register, UserProfile
-from Register.form import *
-from GuildPage.form import *
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib.auth.hashers import make_password
-import json
-import urllib2
-import operator
+from django.core.mail import send_mail
+
+from Members.models import Member
+from News.models import News
+from News.form import *
+from Register.models import Register, UserProfile
+from Register.form import *
+from GuildPage.form import *
 
 
 def index(request):
@@ -39,6 +44,27 @@ def log_out(request):
     return render_to_response('index.html', locals(), RequestContext(request))
 
 
+def add_news(request):
+    if request.method == 'POST':
+        form = NewsForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+            img = form.cleaned_data['img']
+            n = News(title=title, description=description, name=request.user.username, img=img,
+                     time=datetime.datetime.now())
+            n.save()
+        else:
+            return render_to_response('add_news.html', locals(), RequestContext(request))
+        return HttpResponseRedirect('/index/')
+    else:
+        form = NewsForm()
+
+    return render(request, 'add_news.html', {
+        'form': form,
+    })
+
+
 def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -52,9 +78,7 @@ def contact(request):
                 recipients.append(sender)
         else:
             return render_to_response('contact.html', locals(), RequestContext(request))
-        from django.core.mail import send_mail
-
-        send_mail(subject, message, sender, recipients)
+        send_mail("Midnight Order: contact_us - " + subject, message, sender, recipients)
         return HttpResponseRedirect('/thanks/')
     else:
         form = ContactForm()
@@ -79,26 +103,13 @@ def register(request):
                          password=make_password(password))
                 try:
                     r.save()
-                    us = UserProfile(user=r, avatar="", signature="")
+                    us = UserProfile(user=r, avatar="/pic_folder/logo3.jpg", signature="")
                     us.save()
                     g = Group.objects.get(name='Initiate')
                     g.user_set.add(r)
                     subject = "Your Midnight Order account confirmation"
-                    message = "Hello," + username + ", and thanks for signing up for a Midnight Order account."
-                    import smtplib
-
-                    try:
-                        # server = smtplib.SMTP(SERVER)
-                        server = smtplib.SMTP("smtp.gmail.com", 587)  # or port 465 doesn't seem to work!
-                        server.ehlo()
-                        server.starttls()
-                        server.login('sedi1ster@gmail.com', 'delleextreme13')
-                        server.sendmail('sedi1ster@gmail.com', [email], message)
-                        # server.quit()
-                        server.close()
-                        print 'successfully sent the mail'
-                    except:
-                        print "failed to send mail"
+                    message = "Hello " + username + " and thanks for signing up for a Midnight Order account."
+                    send_mail(subject, message, 'noreply@midnightorder.com', [email], fail_silently=False)
                 except IntegrityError:
                     error = "That name is already taken"
                     return render_to_response('register.html', locals(), RequestContext(request))

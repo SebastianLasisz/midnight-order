@@ -49,9 +49,10 @@ div {
 	margin-bottom: 15px;
 }
 .sidebar-nav {
+    width: 300px;
 	position: fixed;
-	top:250px;
-	right: 20px;
+	top: 250px;
+	right: 150px;
 }
 
 .footer-logo {
@@ -89,4 +90,24 @@ h1{
 
 .text_center{
     text-align: center
+}
+
+.undefeated{
+    color: #878787;
+}
+
+.normal{
+    color: #199A19;
+}
+
+.heroic{
+    color: #E68A5C;
+}
+
+.mythic{
+    color: #E62E00;
+}
+
+.center{
+    text-align: center;
 }

@@ -6,11 +6,12 @@ from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext as _
 from django.utils import timezone
 from django.core.urlresolvers import reverse
-from django.conf import settings
+from django.core.mail import send_mail
 
 from django_messages.models import Message
 from django_messages.forms import ComposeForm
 from django_messages.utils import format_quote, get_user_model, get_username_field
+
 
 User = get_user_model()
 
@@ -82,6 +83,10 @@ def compose(request, recipient=None, form_class=ComposeForm,
                 success_url = reverse('messages_inbox')
             if 'next' in request.GET:
                 success_url = request.GET['next']
+
+            send_mail("You've received new message",
+                      "You've received new message: \n" + form.cleaned_data['body'],
+                      'noreply@midnightorder.com', [form.cleaned_data['recipient'][0].email], fail_silently=False)
             return HttpResponseRedirect(success_url)
     else:
         form = form_class()
@@ -117,6 +122,9 @@ def reply(request, message_id, form_class=ComposeForm,
         if form.is_valid():
             form.save(sender=request.user, parent_msg=parent)
             messages.info(request, _(u"Message successfully sent."))
+            send_mail("You've received new message",
+                      "You've received new message: \n" + form.cleaned_data['body'],
+                      'noreply@midnightorder.com', [form.cleaned_data['recipient'][0].email], fail_silently=False)
             if success_url is None:
                 success_url = reverse('messages_inbox')
             return HttpResponseRedirect(success_url)

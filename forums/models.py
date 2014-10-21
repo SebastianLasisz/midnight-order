@@ -63,6 +63,8 @@ class Topic(models.Model):
         return self.name
 
 from Register.models import UserProfile
+
+
 class Post(models.Model):
     topic = models.ForeignKey(Topic, related_name='posts')
     #user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='forum_posts')
