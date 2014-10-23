@@ -2,7 +2,7 @@
 {% block content %}
     {% for n in news2 %}
         <h4><b>{{ n.title }} </b></h4>
-        <p> {{ n.description | safe }}</p>
+        <p> {{ n.description | safe | urlize  }}</p>
         <p><img alt="" src= {{ n.img }}/></p>
         <h6><em>by {{ n.name }} Published on {{ n.time }}</em></h6>
         <hr>

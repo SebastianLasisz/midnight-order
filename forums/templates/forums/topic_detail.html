@@ -43,7 +43,7 @@
                             <td>
                                 <div class="span7">
                                     <div>
-                                        {{ post.body|safe|linebreaks }}
+                                        {{ post.body|safe|linebreaks|urlize  }}
                                     </div>
                                     <div>
                                         <p>--------------------</p>
@@ -101,7 +101,7 @@
                                 <td>
                                     <div class="span7">
                                         <div>
-                                            {{ post.body|safe|linebreaks }}
+                                            {{ post.body|safe|linebreaks|urlize  }}
                                         </div>
                                         <div>
                                             <p>--------------------</p>
@@ -157,7 +157,7 @@
                                 <td>
                                     <div class="span7">
                                         <div>
-                                            {{ post.body|safe|linebreaks }}
+                                            {{ post.body|safe|linebreaks|urlize  }}
                                         </div>
                                         <div>
                                             <p>--------------------</p>
