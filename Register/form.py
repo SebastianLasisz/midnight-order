@@ -79,16 +79,16 @@ class RegisterNewUserForm(forms.Form):
 class UserProfileForm(forms.Form):
     avatar = forms.ImageField(required=False)
     signature = forms.CharField(
-        widget=forms.TextInput(attrs={'style': 'width:200px'}),
+        widget=forms.PasswordInput(attrs={'style': 'width:200px'}),
         required=False)
     old_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'style': 'width:100px'}),
+        widget=forms.PasswordInput(attrs={'style': 'width:200px'}),
         required=False)
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'style': 'width:100px'}),
+        widget=forms.PasswordInput(attrs={'style': 'width:200px'}),
         required=False)
     repeat_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'style': 'width:100px'}),
+        widget=forms.PasswordInput(attrs={'style': 'width:200px'}),
         required=False)
 
     def clean(self):

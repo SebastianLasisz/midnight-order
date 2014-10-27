@@ -52,6 +52,7 @@ class Topic(models.Model):
     forum = models.ForeignKey(Forum, related_name='topics')
     name = models.CharField(_("Name"), max_length=255)
     last_post = models.ForeignKey('Post', verbose_name=_("Last post"), related_name='forum_last_post', blank=True, null=True)
+    counter = models.IntegerField(_("Counter"), default=0)
 
     class Meta:
         ordering = ['-last_post__created']
@@ -67,7 +68,6 @@ from Register.models import UserProfile
 
 class Post(models.Model):
     topic = models.ForeignKey(Topic, related_name='posts')
-    #user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='forum_posts')
     user = models.ForeignKey(UserProfile, related_name='forum_posts')
     created = models.DateTimeField(_("Created"), auto_now_add=True)
     updated = models.DateTimeField(_("Updated"), auto_now=True)

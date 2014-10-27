@@ -31,7 +31,7 @@
                         </td>
                         <td>{{ topic.last_post.user.user.username }}</td>
                         <td>{{ topic.count_posts }}</td>
-                        <td>0</td>
+                        <td>{{ topic.counter }}</td>
                     </tr>
                 {% empty %}
                     {% if forum.is_closed %}
@@ -58,7 +58,7 @@
                             </td>
                             <td>{{ topic.last_post.user.user.username }}</td>
                             <td>{{ topic.count_posts }}</td>
-                            <td>0</td>
+                            <td>{{ topic.counter }}</td>
                         </tr>
                     {% empty %}
                         {% if forum.is_closed %}
@@ -84,7 +84,7 @@
                             </td>
                             <td>{{ topic.last_post.user.user.username }}</td>
                             <td>{{ topic.count_posts }}</td>
-                            <td>0</td>
+                            <td>{{ topic.counter }}</td>
                         </tr>
                     {% empty %}
                         {% if forum.is_closed %}

@@ -21,6 +21,8 @@ class ForumDetailView(DetailView):
 class TopicDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(TopicDetailView, self).get_context_data(**kwargs)
+        self.object.counter += 1
+        self.object.save()
         return context
     model = Topic
 
@@ -39,9 +41,8 @@ class TopicCreateView(FormView):
     def form_valid(self, form):
         topic_name = form.cleaned_data['topic']
         post_body = form.cleaned_data['message']
-        #user = self.request.user
         user = UserProfile.objects.get(user=User.objects.get(username=self.request.user.username))
-        topic = Topic(forum=self.forum, name=topic_name)
+        topic = Topic(forum=self.forum, name=topic_name, counter=0)
         topic.save()
         post = Post(topic=topic, body=post_body, user=user)
         post.save()

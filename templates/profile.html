@@ -1,62 +1,68 @@
 {% extends "base.html" %}
 {% block content %}
-    <p></p>
+    <div>
+        <h1>Update profile</h1>
+        <hr>
 
-    <div class="foo"><b>{{ error }}
-        {{ error1 }}</b></div>
-    <form action="/profile/" method="post" enctype="multipart/form-data">
-        <table class="table_background">
-            <tr>
-                <td>
-                    <div><b>{{ username }}</b></div>
-
-                    <div><img src="/media/{{ avatar }}" widht="120" height="120"/></div>
-
-                    <div>{{ form.avatar.errors }}
-                        {{ avatar_errors }}
-                        {{ form.avatar }}
-                    </div>
-
-                    {% csrf_token %}
-                </td>
-                <td>
-                    <table class="table_background">
-                        <tr>
-                            <div class="fieldWrapper">
-                                {{ form.signature.errors }}
-                                Current signature: {{ signature }}
-                                <td><label for="id_signature">Signature: </label></td>
-                                <td>{{ form.signature }}</td>
-                            </div>
-                        </tr>
-                        <tr>
-                            <div class="fieldWrapper">
-                                {{ form.old_password.errors }}
-                                {{ old_password }}
-                                <td><label for="id_old_password">Old password: </label></td>
-                                <td>{{ form.old_password }}</td>
-                            </div>
-                        </tr>
-                        <tr>
-                            <div class="fieldWrapper">
-                                {{ form.password.errors }}
-                                {{ password }}
-                                <td><label for="id_password">Password: </label></td>
-                                <td>{{ form.password }}</td>
-                            </div>
-                        </tr>
-                        <tr>
-                            <div class="fieldWrapper">
-                                {{ form.repeat_password.errors }}
-                                {{ repeat_password }}
-                                <td><label for="id_repeat_password">Repeat password: </label></td>
-                                <td>{{ form.repeat_password }}</td>
-                            </div>
-                        </tr>
-                    </table>
-                    <input type="submit" value="Submit"/>
-                </td>
-            </tr>
-        </table>
-    </form>
+        <div class="foo"><b>{{ error }}
+            {{ error1 }}</b></div>
+        <form action="/profile/" method="post" enctype="multipart/form-data">
+            <table class="table_background">
+                <tr>
+                    <td width="100">
+                        <div class="span3">
+                            <p>
+                                <b><strong><i>&nbsp{{ user.username }}</i></strong></b>
+                            </p>
+                            <img src="/media/{{ avatar }}"
+                                 onerror="this.src='/media/img/logo3.jpg';"
+                                 alt="" width=150 height=150 class="img-rounded"
+                                 alt="avatar">
+                            {{ form.avatar.errors }}
+                            {{ avatar_errors }}
+                            {{ form.avatar }}
+                            {% csrf_token %}
+                        </div>
+                    </td>
+                    <td>
+                        <table class="table_background">
+                            <tr>
+                                <div class="fieldWrapper">
+                                    {{ form.signature.errors }}
+                                    <td><label for="id_signature">Signature: </label></td>
+                                    <td><input id="id_signature" type="text" maxlength="200"
+                                               name="signature" tabindex="1" value="{{ signature }}"/></td>
+                                </div>
+                            </tr>
+                            <tr>
+                                <div class="fieldWrapper">
+                                    {{ form.old_password.errors }}
+                                    {{ old_password }}
+                                    <td><label for="id_old_password">Old password: </label></td>
+                                    <td>{{ form.old_password }}</td>
+                                </div>
+                            </tr>
+                            <tr>
+                                <div class="fieldWrapper">
+                                    {{ form.password.errors }}
+                                    {{ password }}
+                                    <td><label for="id_password">Password: </label></td>
+                                    <td>{{ form.password }}</td>
+                                </div>
+                            </tr>
+                            <tr>
+                                <div class="fieldWrapper">
+                                    {{ form.repeat_password.errors }}
+                                    {{ repeat_password }}
+                                    <td><label for="id_repeat_password">Repeat password: </label></td>
+                                    <td>{{ form.repeat_password }}</td>
+                                </div>
+                            </tr>
+                        </table>
+                        <input type="submit" class="btn btn-default" value="Update profile"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
 {% endblock %}
