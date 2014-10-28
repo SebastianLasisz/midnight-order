@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib import admin
 from GuildPage.views import *
 from Feed.feed import LatestEntries
+from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 
 admin.autodiscover()
@@ -29,6 +30,7 @@ urlpatterns = patterns('',
                        url(r'^credits/$', credit),
                        (r'^messages/', include('django_messages.urls')),
                        (r'^login/$', 'django.contrib.auth.views.login'),
+                       (r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^recruitment/(?P<slug>[-_\w]+)/$', RegisterDetailView.as_view(), name='register-detail'),
                        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
