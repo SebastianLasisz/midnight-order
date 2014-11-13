@@ -1,8 +1,10 @@
-{% extends "base.html" %}
+{% extends "creation/base_create.html" %}
 {% block content %}
     {% load i18n %}
     {% block title %}
     {% endblock %}
+    <link href="/media/css/summernote.css" rel="stylesheet">
+    <script src="/media/js/summernote.min.js"></script>
     {% block breadcrumb %}
         <ol class="breadcrumb">
             <li><a href="{% url 'forums:overview' %}">{% trans "Forums" %}</a></li>

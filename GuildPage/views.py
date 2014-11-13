@@ -50,8 +50,7 @@ def add_news(request):
         if form.is_valid():
             title = form.cleaned_data['title']
             description = form.cleaned_data['description']
-            img = form.cleaned_data['img']
-            n = News(title=title, description=description, name=request.user.username, img=img,
+            n = News(title=title, description=description, name=request.user,
                      time=datetime.datetime.now())
             n.save()
         else:
@@ -141,7 +140,8 @@ def cookies(request):
 
 def members(request):
     a = []
-    j = urllib2.urlopen('http://eu.battle.net/api/wow/guild/defias-brotherhood/Midnight%20Order?fields=members')
+    j = urllib2.urlopen(
+        'https://eu.api.battle.net/wow/guild/Defias%20Brotherhood/Midnight%20Order?fields=members&locale=en_GB&apikey=a7w8cuncze9u7nqrnubfx3dzkmahdy55')
     js = json.load(j)
     arr = js['members']
     for rs in arr:

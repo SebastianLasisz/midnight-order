@@ -1,15 +1,16 @@
-{% extends "base.html" %}
+{% extends "creation/base.html" %}
 {% block content %}
     {% for n in news2 %}
         <h4><b>{{ n.title }} </b></h4>
-        <p> {{ n.description | safe | urlize  }}</p>
+        <p> {{ n.description | safe | urlize }}</p>
         <p><img alt="" src= {{ n.img }}/></p>
-        <h6><em>by {{ n.name }} Published on {{ n.time }}</em></h6>
+        <h6><em>by {{ n.name.username }} Published on {{ n.time }}</em></h6>
         <hr>
     {% endfor %}
     {% if user.is_authenticated and user.groups.all.0.name == "Officer" %}
         <a href="/add_news" class="btn btn-primary btn-lg active" role="button">Add new news</a>
     {% endif %}
+
     <div class="col-xs-6 col-sm-3 sidebar-offcanvas sidebar-nav" id="sidebar" role="navigation">
         <div class="panel panel-default">
             <b><h4 class="center">Progress</h4></b>
@@ -38,4 +39,5 @@
             </ul>
         </div>
     </div>
+
 {% endblock %}

@@ -1,16 +1,14 @@
 from django import forms
 
+from django_summernote.widgets import SummernoteInplaceWidget,SummernoteWidget
+
 
 class NewsForm(forms.Form):
-    title = forms.CharField(
-        widget=forms.TextInput(attrs={'style': 'width:400px'}),
-        required=True, max_length=5000)
-    description = forms.CharField(
-        widget=forms.Textarea(attrs={'style': 'width:400px'}),
-        required=True)
-    img = forms.CharField(
-        widget=forms.TextInput(attrs={'style': 'width:400px'}),
-        required=False, max_length=5000)
+    title = forms.CharField(label="", min_length=3, widget=forms.Textarea(
+        attrs={'rows': 1, 'width': '100%', 'placeholder': 'Name of the topic'}))
+    description = forms.CharField(label="", min_length=3,
+                                  widget=SummernoteInplaceWidget(
+                                      attrs={'width': '10%', 'height': '400px', 'placeholder': 'Body of the topic'}))
 
     def clean(self):
         cleaned_data = self.cleaned_data

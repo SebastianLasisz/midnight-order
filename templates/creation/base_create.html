@@ -12,12 +12,20 @@
     <!-- Scripts -->
     <script src="/media/js/scripts2.js"></script>
     <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="/media/js/jquery/jquery.cookie.js"></script>
     <script src="/media/js/scripts.js"></script>
     <script src="/media/js/jquery_css.js"></script>
     <script src="/media/js/scripts.js"></script>
     <script src="/media/js/cookie.js"></script>
     <script src="/media/js/analytics.js"></script>
+    <!-- Summernote -->
+    <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/media/css/summernote.css" rel="stylesheet">
+    <script src="/media/js/summernote.min.js"></script>
+    {{ form.media }}
 </head>
 
 <body>
@@ -45,8 +53,13 @@
     </ul>
 </div>
 {% if  messages_inbox_count  > 0 %}
-    <a href="/messages">You've got {{ messages_inbox_count }} unread messages.</a>
+    <div class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span
+                class="sr-only">Close</span></button>
+        <strong>Information!</strong> You've got <a href="/messages">{{ messages_inbox_count }}</a> unread messages.
+    </div>
 {% endif %}
+
 <div class="div-pos">
     <div class="foo">
         <ul class="nav nav-pills">
@@ -84,7 +97,7 @@
             <div class="col-xs-12 col-sm-9">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <div class="foo">
+                        <div class="foo3">
                             <tr>
                                 <h6>
                                     <td><a href="/contact-us"> Contact Us</a></td>
