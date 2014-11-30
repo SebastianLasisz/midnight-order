@@ -6,6 +6,7 @@ from GuildPage.views import *
 from Feed.feed import LatestEntries
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
+from django.conf.urls.static import static
 
 admin.autodiscover()
 
@@ -35,4 +36,4 @@ urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^recruitment/(?P<slug>[-_\w]+)/$', RegisterDetailView.as_view(), name='register-detail'),
                        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
-)
+)+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

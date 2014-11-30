@@ -10,8 +10,8 @@
 body {
     padding-bottom: 50px;
     background-image: url('/media/img/logo_new.png'), url('/media/img/background_2.jpg');
-    #background-color: rgb(19, 10, 11);
-    background-repeat: no-repeat,repeat;
+    background-color: rgb(245, 246, 248);
+    background-repeat: no-repeat;
     background-size: 100%;
 }
 
@@ -93,4 +93,12 @@ h1 {
 
 .text_center {
     text-align: center
+}
+
+
+.register-user{
+	text-align: left;
+	width: 50%;
+	background-color: transparent;
+	margin: 0 auto 0 auto;
 }

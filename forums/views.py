@@ -21,6 +21,7 @@ class ForumDetailView(DetailView):
 class TopicDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(TopicDetailView, self).get_context_data(**kwargs)
+
         self.object.counter += 1
         self.object.save()
         return context
@@ -93,3 +94,27 @@ class PostCreateView(FormView):
         picture = UserProfile.objects.get(user=User.objects.get(username=username))
         context['avatar'] = picture.avatar
         return context
+
+
+class LockTopicView(DetailView):
+    def get_context_data(self, **kwargs):
+        context = super(LockTopicView, self).get_context_data(**kwargs)
+        if self.request.user.groups.all()[0].name == "Officer":
+            if self.object.is_closed:
+                self.object.is_closed = False
+            else:
+                self.object.is_closed = True
+        self.object.save()
+        return context
+    model = Topic
+
+    def dispatch(self, request, *args, **kwargs):
+        self.pk = kwargs.get('pk')
+        object = Topic.objects.get(id=self.pk)
+        if self.request.user.groups.all()[0].name == "Officer":
+            if object.is_closed:
+                object.is_closed = False
+            else:
+                object.is_closed = True
+        object.save()
+        return HttpResponseRedirect('/forums/topic/'+self.pk)

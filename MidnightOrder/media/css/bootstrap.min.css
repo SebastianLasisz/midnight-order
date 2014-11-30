@@ -6615,6 +6615,7 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
     border-color: #000
 }
 
+
 body {
     padding-bottom: 50px;
     background-image: url('/media/img/logo_new.png'), url('/media/img/background_3.jpg');
@@ -6747,4 +6748,11 @@ textarea {
     margin: 50 auto 0 auto;
     margin-top: -70px;
     margin-left: 280px;
+}
+
+.register-user{
+	text-align: left;
+	width: 50%;
+	background-color: transparent;
+	margin: 0 auto 0 auto;
 }

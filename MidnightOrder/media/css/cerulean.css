@@ -73,3 +73,11 @@ div {
 .table{
     background-color: transparent;
 }
+
+
+.register-user{
+	text-align: left;
+	width: 50%;
+	background-color: transparent;
+	margin: 0 auto 0 auto;
+}
