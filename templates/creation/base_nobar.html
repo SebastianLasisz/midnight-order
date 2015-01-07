@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Midnight Order</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" title="slate" href="/media/css/bootstrap.min.css">
+    <link rel="Shortcut icon" href="/media/img/favicon.ico"/>
+    <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+    <!-- wowhead API -->
+    <script type="text/javascript" src="http://static.wowhead.com/widgets/power.js"></script>
+    <script>var wowhead_tooltips = { "colorlinks": true, "iconizelinks": true, "renamelinks": true }</script>
+    <!-- Scripts -->
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="/media/js/jquery/jquery.cookie.js"></script>
+    <script src="/media/js/cookie.js"></script>
+    <script src="/media/js/analytics.js"></script>
+    <script src="/media/js/scripts2.js"></script>
+</head>
+
+<body>
+<script src="/media/js/bootstrap.min.js"></script>
+<div id="nav" class="btn-group butn-pos" style="overflow: visible">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        Change style
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li><a href="#" rel="/media/css/bootstrap.min.css">Default CSS</a></li>
+        <li><a href="#" rel="/media/css/yeti.css">Yeti</a></li>
+        <li><a href="#" rel="/media/css/cerulean.css">Cerulean</a></li>
+        <li><a href="#" rel="/media/css/cosmo.css">Cosmo</a></li>
+        <li><a href="#" rel="/media/css/cyborg.css">Cyborg</a></li>
+        <li><a href="#" rel="/media/css/darkly.css">Darkly</a></li>
+        <li><a href="#" rel="/media/css/flatly.css">Flatly</a></li>
+        <li><a href="#" rel="/media/css/journal.css">Journal</a></li>
+        <li><a href="#" rel="/media/css/lumen.css">Lumen</a></li>
+        <li><a href="#" rel="/media/css/readable.css">Readable</a></li>
+        <li><a href="#" rel="/media/css/simplex.css">Simplex</a></li>
+        <li><a href="#" rel="/media/css/spacelab.css">Spacelab</a></li>
+        <li><a href="#" rel="/media/css/superhero.css">Superhero</a></li>
+        <li><a href="#" rel="/media/css/united.css">United</a></li>
+    </ul>
+</div>
+{% if  messages_inbox_count  > 0 %}
+    <div class="alert alert-info alert-dismissible informationbar" role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span
+                class="sr-only">Close</span></button>
+        <strong>Information!</strong> You've got <a href="/messages">{{ messages_inbox_count }}</a> unread messages.
+    </div>
+{% endif %}
+
+<div class="div-pos">
+    <div class="foo">
+        <ul class="nav nav-pills">
+            <li><a href="/">Home</a></li>
+            <li><a href="/policies">Policies</a></li>
+            <li><a href="/forums">Forum</a></li>
+            <li><a href="/members">Members</a></li>
+            <li><a href="/recruitment">Recruitment</a></li>
+            {% if not user.is_authenticated %}
+                <li><a href="/login">Log in</a></li>
+            {% else %}
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/messages">Inbox</a></li>
+                <li><a href="/log-out">Log out</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% block sidebar %}
+{% endblock %}
+<div class="container">
+    <div class="row row-offcanvas row-offcanvas-right ">
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body word-break">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block progressbar %}
+{% endblock %}
+<footer>
+    <div class="container">
+        <div class="row row-offcanvas row-offcanvas-right">
+            <div class="col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="foo3">
+                            <tr>
+                                <h6>
+                                    <td><a href="/contact-us"> Contact Us</a></td>
+                                    <td><a href="/credits">Credits</a></td>
+                                    <td><a href="/terms-of-service"> Terms of service</a></td>
+                                    <td><a href="/privacy-cookies-policy"> Cookie policies</a></td>
+                                    <td><a href="#"> Top</a></td>
+                                    <td><a href="/rss"> <img src="/media/img/rss.png" width=12 height=12/></a></td>
+                                    <td><a href="http://www.warcraftlogs.com/guilds/13339/" target="wolName"> <img
+                                            src="/media/img/wol.png" width=12 height=12/></a></td>
+                                </h6>
+                            </tr>
+                            <h6>Website software by Sedi©2014. All rights reserved.</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

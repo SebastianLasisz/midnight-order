@@ -7,23 +7,20 @@
     <link rel="stylesheet" type="text/css" title="slate" href="/media/css/bootstrap.min.css">
     <link rel="Shortcut icon" href="/media/img/favicon.ico"/>
     <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+    <!-- wowhead API -->
     <script type="text/javascript" src="http://static.wowhead.com/widgets/power.js"></script>
     <script>var wowhead_tooltips = { "colorlinks": true, "iconizelinks": true, "renamelinks": true }</script>
     <!-- Scripts -->
-    <script src="/media/js/scripts2.js"></script>
     <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="/media/js/jquery/jquery.cookie.js"></script>
-    <script src="/media/js/scripts.js"></script>
-    <script src="/media/js/jquery_css.js"></script>
-    <script src="/media/js/scripts.js"></script>
     <script src="/media/js/cookie.js"></script>
     <script src="/media/js/analytics.js"></script>
+    <script src="/media/js/scripts2.js"></script>
 </head>
 
 <body>
 <script src="/media/js/bootstrap.min.js"></script>
-<div id="nav" class="btn-group butn-pos">
+<div id="nav" class="btn-group butn-pos" style="overflow: visible">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
         Change style
         <span class="caret"></span>
@@ -71,11 +68,13 @@
         </ul>
     </div>
 </div>
+{% block sidebar %}
+{% endblock %}
 <div class="container">
     <div class="row row-offcanvas row-offcanvas-right ">
         <div class="col-xs-12 col-sm-9">
             <div class="panel panel-default">
-                <div class="panel-body">
+                <div class="panel-body word-break">
                     {% block content %}
                     {% endblock %}
                 </div>
@@ -83,6 +82,8 @@
         </div>
     </div>
 </div>
+{% block progressbar %}
+{% endblock %}
 <footer>
     <div class="container">
         <div class="row row-offcanvas row-offcanvas-right">

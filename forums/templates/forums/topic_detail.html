@@ -1,32 +1,148 @@
-{% extends "creation/base.html" %}
+{% extends "creation/base_nobar.html" %}
 {% block content %}
     {% load i18n %}
+    <!-- Breadcrumb of forum topic -->
     {% block breadcrumb %}
         <ol class="breadcrumb">
             <li><a href="{% url 'forums:overview' %}">{% trans "Forums" %}</a></li>
             <li>
-                <a href="{% url 'forums:overview' %}#{{ topic.forum.category.id }}">{{ topic.forum.category.name }}</a>
+                <a href="{% url 'forums:overview' %}#{{ topic.0.topic.forum.category.id }}">{{ topic.0.topic.forum.category.name }}</a>
             </li>
-            <li><a href="{% url 'forums:forum' topic.forum.id %}">{{ topic.forum.name }}</a></li>
-            <li class="active">{{ topic.name }}</li>
+            <li><a href="/forums/{{ topic.0.topic.forum.id }}">{{ topic.0.topic.forum.name }}</a></li>
         </ol>
     {% endblock %}
+    <!-- Topic info -->
+    <table class="table">
+        <tr>
+            <td width="100" style="border-top: 0px">
+                <a href="/messages/compose/{{ first_post.user.user.username }}"><img
+                        src="/media/{{ first_post.user.avatar }}"
+                        onerror="this.src='/media/img/logo3.jpg';"
+                        alt="" width=80 height=80 class="img-rounded"
+                        alt="avatar"></a>
+            </td>
+            <td class="align-left" style="border-top: 0px">
+                <h3>{{ first_post.topic.name }}</h3>
+                <span style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black">Started by {{ first_post.user.user.username }}, {{ first_post.created }}</span>
+            </td>
+        </tr>
+    </table>
+    <!-- Pagination of forum topic -->
+    <table class="table">
+        <tr>
+            <td style="border-top: 0px">
+                {% if is_paginated %}
+                    <div>
+                        <span class="page-links" style="position: relative; bottom: 0px">
+                            {% if page_obj.has_previous %}
+                                <a href="/forums/topic/{{ topic.0.topic.id }}/page{{ page_obj.previous_page_number }}">previous</a>
+                            {% endif %}
+                            <span class="page-current">
+                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                            </span>
+                            {% if page_obj.has_next %}
+                                <a href="/forums/topic/{{ topic.0.topic.id }}/page{{ page_obj.next_page_number }}">next</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                {% endif %}
+                </div>
+            </td>
+            <td style="border-top: 0px">
+                <div class="pull-right">
+                    <div class="">
+                        {% if  user.groups.all.0.name == "Officer" %}
+                            {% if topic.0.topic.is_closed %}
+                                <a href="/forums/topic/{{ topic.0.topic.id }}/lock"
+                                   class="btn btn-default" style="text-decoration: none">{% trans "Unlock topic" %}</a>
+                            {% else %}
+                                <a href="/forums/topic/{{ topic.0.topic.id }}/lock"
+                                   class="btn btn-default" style="text-decoration: none">{% trans "Lock topic" %}</a>
+                            {% endif %}
+                        {% endif %}
+                        {% if not topic.is_closed or user.groups.all.0.name == "Officer" %}
+                            {% if not user.is_authenticated  or user.groups.all.0.name == "Initiate" %}
+                                {% if topic.forum.category.name == "Public Forums" %}
+                                    {% if not topic.forum.is_closed or user.is_staff %}
+                                        {% if topic.forum.name == "Leader's Chat" and  user.groups.all.0.name == "Leader" %}
+                                            <a href="/forums/topic/{{ topic.0.topic.id }}/create"
+                                               class="btn btn-default"
+                                               style="text-decoration: none">{% trans "Reply to this topic" %}</a>
+                                        {% else %}
+                                            <a href="/forums/topic/{{ topic.0.topic.id }}/create"
+                                               class="btn btn-default"
+                                               style="text-decoration: none">{% trans "Reply to this topic" %}</a>
+                                        {% endif %}
+                                    {% else %}
+                                        <p>{% trans "This forum is closed, only admins can create and post here." %}
+                                    {% endif %}
+                                {% endif %}
+                            {% else %}
+                            {% if user.groups.all.0.name == "Officer" or user.groups.all.0.name == "Leader" %}
+                                {% if topic.forum.name == "Officer's Chat" and  user.groups.all.0.name == "Leader" %}
+                                {% else %}
+                                    {% if not topic.forum.is_closed or user.is_staff %}
+                                        {% if topic.forum.name == "Leader's Chat" and  user.groups.all.0.name == "Leader" %}
+                                            <a href="/forums/topic/{{ topic.0.topic.id }}/create"
+                                               class="btn btn-default"
+                                               style="text-decoration: none">{% trans "Reply to this topic" %}</a>
+                                        {% else %}
+                                            <a href="/forums/topic/{{ topic.0.topic.id }}/create"
+                                               class="btn btn-default"
+                                               style="text-decoration: none">{% trans "Reply to this topic" %}</a>
+                                        {% endif %}
+                                    {% else %}
+                                        <p>{% trans "This forum is closed, only admins can create and post here." %}
+                                    {% endif %}
+                                {% endif %}
+                            {% else %}
+                            {% if user.groups.all.0.name != "Officer" and user.groups.all.0.name != "Leader" and topic.forum.category.name != "Forum: Restricted forums" %}
+                                {% if not topic.forum.is_closed or user.is_staff %}
+                                    <a href="/forums/topic/{{ topic.0.topic.id }}/create"
+                                       class="btn btn-default"
+                                       style="text-decoration: none">{% trans "Reply to this topic" %}</a>
+                                {% else %}
+                                    <p>{% trans "This forum is closed, only admins can create and post here." %}
+                                {% endif %}
+                            {% endif %}
+                            {% endif %}
+                            {% endif %}
+                        {% else %}
+                            <b><p style="color:red" class="center">This topic is closed.</p></b>
+                        {% endif %}
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <!-- Body of forum topic -->
     {% if not user.is_authenticated  or user.groups.all.0.name == "Initiate" %}
         {% if topic.forum.category.name == "Public Forums" %}
-            <table class="table table-bordered">
-                {% for post in topic.posts.all %}
+            <table class="table">
+                {% for post in topic %}
                     <div class="row">
-                        <tr>
+                        <tr class="active">
+                            <td><b>{{ post.user.user.username }}</b></td>
+                            <td>
+                                <div class="pull-right">
+                                    <small><a href="#{{ forloop.counter }}"
+                                              name="{{ forloop.counter }}">#{{ forloop.counter }}</a>
+                                    </small>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="border">
                             <td width="100">
                                 <div class="span3">
                                     <center>
                                         <b><strong><i>{{ post.user.user.username }}</i></strong></b>
                                     </center>
 
-                                    <center><img src="/media/{{ post.user.avatar }}"
-                                                 onerror="this.src='/media/img/logo3.jpg';"
-                                                 alt="" width=100 height=100 class="img-rounded"
-                                                 alt="avatar"></center>
+                                    <center><a href="/messages/compose/{{ post.user.user.username }}"><img
+                                            src="/media/{{ post.user.avatar }}"
+                                            onerror="this.src='/media/img/logo3.jpg';"
+                                            alt="" width=100 height=100 class="img-rounded"
+                                            alt="avatar"></a></center>
                                     {% if post.user.user.groups.all.1.name %}
                                         <p>
                                         <center>
@@ -41,25 +157,32 @@
                                 </div>
                             </td>
                             <td>
+                                <p style="right: 4%; position: absolute;">
+                                    {% if user.groups.all.0.name == "Officer" %}
+                                        <a href="{% url 'forums:remove' post.id %}"><span
+                                                class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                                    {% endif %}
+                                    {% if post.user.user.username == user.username or user.groups.all.0.name == "Officer" %}
+                                        <a href="{% url 'forums:edit' post.id %}"><span
+                                                class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                                    {% endif %}
+                                </p>
+
+                                <div class="span2"
+                                     style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black">
+                                    <small>Posted {{ post.created }}</small>
+                                </div>
                                 <div class="span7">
                                     <div>
                                         {{ post.body|safe|linebreaks|urlize }}
                                     </div>
                                     <div>
-                                        <p>--------------------</p>
-                                        {{ post.user.signature }}
+                                        {% if  post.user.signature %}
+                                            <hr>
+                                            {{ post.user.signature }}
+                                        {% endif %}
                                     </div>
                                     <div style="clear: both;"></div>
-                                </div>
-                                <div class="span2">
-                                    <p class="pull-right">
-                                        <small><a href="#{{ forloop.counter }}"
-                                                  name="{{ forloop.counter }}">#{{ forloop.counter }}</a>
-                                        </small>
-                                    </p>
-                                    <p class="pull-right">
-                                        <small>{{ post.created }}</small>
-                                    </p>
                                 </div>
                             </td>
                         </tr>
@@ -71,20 +194,27 @@
         {% if user.groups.all.0.name == "Officer" or user.groups.all.0.name == "Leader" %}
             {% if topic.forum.name == "Officer's Chat" and  user.groups.all.0.name == "Leader" %}
             {% else %}
-                <table class="table table-bordered">
-                    {% for post in topic.posts.all %}
+                <table class="table">
+                    {% for post in topic %}
                         <div class="row">
-                            <tr>
+                            <tr class="active">
+                                <td><b>{{ post.user.user.username }}</b></td>
+                                <td>
+                                    <div class="pull-right">
+                                        <small><a href="#{{ forloop.counter }}"
+                                                  name="{{ forloop.counter }}">#{{ forloop.counter }}</a>
+                                        </small>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="border">
                                 <td width="100">
                                     <div class="span3">
-                                        <center>
-                                            <b><strong><i>{{ post.user.user.username }}</i></strong></b>
-                                        </center>
-
-                                        <center><img src="/media/{{ post.user.avatar }}"
-                                                     onerror="this.src='/media/img/logo3.jpg';"
-                                                     alt="" width=100 height=100 class="img-rounded"
-                                                     alt="avatar"></center>
+                                        <center><a href="/messages/compose/{{ post.user.user.username }}"><img
+                                                src="/media/{{ post.user.avatar }}"
+                                                onerror="this.src='/media/img/logo3.jpg';"
+                                                alt="" width=100 height=100 class="img-rounded"
+                                                alt="avatar"></a></center>
                                         {% if post.user.user.groups.all.1.name %}
                                             <p>
                                             <center>
@@ -99,25 +229,32 @@
                                     </div>
                                 </td>
                                 <td>
+                                    <p style="right: 4%; position: absolute;">
+                                        {% if user.groups.all.0.name == "Officer" %}
+                                            <a href="{% url 'forums:remove' post.id %}"><span
+                                                    class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                                        {% endif %}
+                                        {% if post.user.user.username == user.username or user.groups.all.0.name == "Officer" %}
+                                            <a href="{% url 'forums:edit' post.id %}"><span
+                                                    class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                                        {% endif %}
+                                    </p>
+
+                                    <div class="span2"
+                                         style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black">
+                                        <small>Posted {{ post.created }}</small>
+                                    </div>
                                     <div class="span7">
                                         <div>
                                             {{ post.body|safe|linebreaks|urlize }}
                                         </div>
                                         <div>
-                                            <p>--------------------</p>
-                                            {{ post.user.signature }}
+                                            {% if  post.user.signature %}
+                                                <hr>
+                                                {{ post.user.signature }}
+                                            {% endif %}
                                         </div>
                                         <div style="clear: both;"></div>
-                                    </div>
-                                    <div class="span2">
-                                        <p class="pull-right">
-                                            <small><a href="#{{ forloop.counter }}"
-                                                      name="{{ forloop.counter }}">#{{ forloop.counter }}</a>
-                                            </small>
-                                        </p>
-                                        <p class="pull-right">
-                                            <small>{{ post.created }}</small>
-                                        </p>
                                     </div>
                                 </td>
                             </tr>
@@ -127,20 +264,31 @@
             {% endif %}
         {% else %}
             {% if user.groups.all.0.name != "Officer" and user.groups.all.0.name != "Leader" and topic.forum.category.name != "Forum: Restricted forums" %}
-                <table class="table table-bordered">
-                    {% for post in topic.posts.all %}
+                <table class="table">
+                    {% for post in topic %}
                         <div class="row">
-                            <tr>
+                            <tr class="active">
+                                <td><b>{{ post.user.user.username }}</b></td>
+                                <td>
+                                    <div class="pull-right">
+                                        <small><a href="#{{ forloop.counter }}"
+                                                  name="{{ forloop.counter }}">#{{ forloop.counter }}</a>
+                                        </small>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="border">
                                 <td width="100">
                                     <div class="span3">
                                         <center>
                                             <b><strong><i>{{ post.user.user.username }}</i></strong></b>
                                         </center>
 
-                                        <center><img src="/media/{{ post.user.avatar }}"
-                                                     onerror="this.src='/media/img/logo3.jpg';"
-                                                     alt="" width=100 height=100 class="img-rounded"
-                                                     alt="avatar"></center>
+                                        <center><a href="/messages/compose/{{ post.user.user.username }}"><img
+                                                src="/media/{{ post.user.avatar }}"
+                                                onerror="this.src='/media/img/logo3.jpg';"
+                                                alt="" width=100 height=100 class="img-rounded"
+                                                alt="avatar"></a></center>
                                         {% if post.user.user.groups.all.1.name %}
                                             <p>
                                             <center>
@@ -155,25 +303,33 @@
                                     </div>
                                 </td>
                                 <td>
+                                    <p style="right: 4%; position: absolute;">
+                                        {% if user.groups.all.0.name == "Officer" %}
+                                            <a href="{% url 'forums:remove' post.id %}"><span
+                                                    class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                                        {% endif %}
+                                        {% if post.user.user.username == user.username or user.groups.all.0.name == "Officer" %}
+                                            <a href="{% url 'forums:edit' post.id %}"><span
+                                                    class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                                        {% endif %}
+                                    </p>
+
+                                    <div class="span2"
+                                         style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black">
+                                        <small>Posted {{ post.created }}</small>
+                                    </div>
                                     <div class="span7">
+
                                         <div>
                                             {{ post.body|safe|linebreaks|urlize }}
                                         </div>
                                         <div>
-                                            <p>--------------------</p>
-                                            {{ post.user.signature }}
+                                            {% if  post.user.signature %}
+                                                <hr>
+                                                {{ post.user.signature }}
+                                            {% endif %}
                                         </div>
                                         <div style="clear: both;"></div>
-                                    </div>
-                                    <div class="span2">
-                                        <p class="pull-right">
-                                            <small><a href="#{{ forloop.counter }}"
-                                                      name="{{ forloop.counter }}">#{{ forloop.counter }}</a>
-                                            </small>
-                                        </p>
-                                        <p class="pull-right">
-                                            <small>{{ post.created }}</small>
-                                        </p>
                                     </div>
                                 </td>
                             </tr>
@@ -183,62 +339,92 @@
             {% endif %}
         {% endif %}
     {% endif %}
-    <div class="row">
-        <div class="span12">
-            {% if not topic.is_closed or user.groups.all.0.name == "Officer" %}
-                {% if not user.is_authenticated  or user.groups.all.0.name == "Initiate" %}
-                    {% if topic.forum.category.name == "Public Forums" %}
-                        {% if not topic.forum.is_closed or user.is_staff %}
-                            {% if topic.forum.name == "Leader's Chat" and  user.groups.all.0.name == "Leader" %}
-                                <p><a href="{% url 'forums:post_create' topic.id %}"
-                                      class="btn btn-primary">{% trans "Create post" %}</a></p>
+    <!-- Pagination of forum topic -->
+    <table class="table">
+        <tr>
+            <td>
+                {% if is_paginated %}
+                    <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="/forums/topic/{{ topic.0.topic.id }}/page{{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="/forums/topic/{{ topic.0.topic.id }}/page{{ page_obj.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+                    </div>
+                {% endif %}
+                </div>
+            </td>
+            <td>
+                <div class="pull-right">
+                    <div class="">
+                        {% if  user.groups.all.0.name == "Officer" %}
+                            {% if topic.0.topic.is_closed %}
+                                <a href="/forums/topic/{{ topic.0.topic.id }}/lock"
+                                   class="btn btn-default" style="text-decoration: none">{% trans "Unlock topic" %}</a>
                             {% else %}
-                                <p><a href="{% url 'forums:post_create' topic.id %}"
-                                      class="btn btn-primary">{% trans "Create post" %}</a></p>
+                                <a href="/forums/topic/{{ topic.0.topic.id }}/lock"
+                                   class="btn btn-default" style="text-decoration: none">{% trans "Lock topic" %}</a>
+                            {% endif %}
+                        {% endif %}
+                        {% if not topic.is_closed or user.groups.all.0.name == "Officer" %}
+                            {% if not user.is_authenticated  or user.groups.all.0.name == "Initiate" %}
+                                {% if topic.forum.category.name == "Public Forums" %}
+                                    {% if not topic.forum.is_closed or user.is_staff %}
+                                        {% if topic.forum.name == "Leader's Chat" and  user.groups.all.0.name == "Leader" %}
+                                            <a href="/forums/topic/{{ topic.0.topic.id }}/create"
+                                               class="btn btn-default"
+                                               style="text-decoration: none">{% trans "Reply to this topic" %}</a>
+                                        {% else %}
+                                            <a href="/forums/topic/{{ topic.0.topic.id }}/create"
+                                               class="btn btn-default"
+                                               style="text-decoration: none">{% trans "Reply to this topic" %}</a>
+                                        {% endif %}
+                                    {% else %}
+                                        <p>{% trans "This forum is closed, only admins can create and post here." %}
+                                    {% endif %}
+                                {% endif %}
+                            {% else %}
+                            {% if user.groups.all.0.name == "Officer" or user.groups.all.0.name == "Leader" %}
+                                {% if topic.forum.name == "Officer's Chat" and  user.groups.all.0.name == "Leader" %}
+                                {% else %}
+                                    {% if not topic.forum.is_closed or user.is_staff %}
+                                        {% if topic.forum.name == "Leader's Chat" and  user.groups.all.0.name == "Leader" %}
+                                            <a href="/forums/topic/{{ topic.0.topic.id }}/create"
+                                               class="btn btn-default"
+                                               style="text-decoration: none">{% trans "Reply to this topic" %}</a>
+                                        {% else %}
+                                            <a href="/forums/topic/{{ topic.0.topic.id }}/create"
+                                               class="btn btn-default"
+                                               style="text-decoration: none">{% trans "Reply to this topic" %}</a>
+                                        {% endif %}
+                                    {% else %}
+                                        <p>{% trans "This forum is closed, only admins can create and post here." %}
+                                    {% endif %}
+                                {% endif %}
+                            {% else %}
+                            {% if user.groups.all.0.name != "Officer" and user.groups.all.0.name != "Leader" and topic.forum.category.name != "Forum: Restricted forums" %}
+                                {% if not topic.forum.is_closed or user.is_staff %}
+                                    <a href="/forums/topic/{{ topic.0.topic.id }}/create"
+                                       class="btn btn-default"
+                                       style="text-decoration: none">{% trans "Reply to this topic" %}</a>
+                                {% else %}
+                                    <p>{% trans "This forum is closed, only admins can create and post here." %}
+                                {% endif %}
+                            {% endif %}
+                            {% endif %}
                             {% endif %}
                         {% else %}
-                            <p>{% trans "This forum is closed, only admins can create and post here." %}
+                            <b><p style="color:red" class="center">This topic is closed.</p></b>
                         {% endif %}
-                    {% endif %}
-                {% else %}
-                {% if user.groups.all.0.name == "Officer" or user.groups.all.0.name == "Leader" %}
-                    {% if topic.forum.name == "Officer's Chat" and  user.groups.all.0.name == "Leader" %}
-                    {% else %}
-                        {% if not topic.forum.is_closed or user.is_staff %}
-                            {% if topic.forum.name == "Leader's Chat" and  user.groups.all.0.name == "Leader" %}
-                                <p><a href="{% url 'forums:post_create' topic.id %}"
-                                      class="btn btn-primary">{% trans "Create post" %}</a></p>
-                            {% else %}
-                                <p><a href="{% url 'forums:post_create' topic.id %}"
-                                      class="btn btn-primary">{% trans "Create post" %}</a></p>
-                            {% endif %}
-                        {% else %}
-                            <p>{% trans "This forum is closed, only admins can create and post here." %}
-                        {% endif %}
-                    {% endif %}
-                {% else %}
-                {% if user.groups.all.0.name != "Officer" and user.groups.all.0.name != "Leader" and topic.forum.category.name != "Forum: Restricted forums" %}
-                    {% if not topic.forum.is_closed or user.is_staff %}
-                        <p><a href="{% url 'forums:post_create' topic.id %}"
-                              class="btn btn-primary">{% trans "Create post" %}</a></p>
-                    {% else %}
-                        <p>{% trans "This forum is closed, only admins can create and post here." %}
-                    {% endif %}
-                {% endif %}
-                {% endif %}
-                {% endif %}
-            {% else %}
-                <b><p style="color:red" class="center">This topic is closed.</p></b>
-            {% endif %}
-            {% if  user.groups.all.0.name == "Officer" %}
-                {% if topic.is_closed %}
-                    <p><a href="{% url 'forums:lock_topic' topic.id %}"
-                          class="btn btn-primary">{% trans "Unlock topic" %}</a></p>
-                {% else %}
-                    <p><a href="{% url 'forums:lock_topic' topic.id %}"
-                          class="btn btn-primary">{% trans "Lock topic" %}</a></p>
-                {% endif %}
-            {% endif %}
-        </div>
-    </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
 {% endblock %}

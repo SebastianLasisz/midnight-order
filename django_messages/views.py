@@ -94,8 +94,9 @@ def compose(request, recipient=None, form_class=ComposeForm,
             recipients = [u for u in User.objects.filter(
                 **{'%s__in' % get_username_field(): [r.strip() for r in recipient.split('+')]})]
             form.fields['recipient'].initial = recipients
+    users = User.objects.all()
     return render_to_response(template_name, {
-        'form': form,
+        'form': form, 'users': users,
     }, context_instance=RequestContext(request))
 
 

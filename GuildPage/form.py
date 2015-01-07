@@ -12,10 +12,3 @@ class ContactForm(forms.Form):
         widget=forms.TextInput(attrs={'placeholder': 'email'}),
         required=True)
     cc_myself = forms.BooleanField(required=False)
-
-    def clean(self):
-        cleaned_data = self.cleaned_data
-        f = cleaned_data.get('subject')
-        if f == "":
-            raise forms.ValidationError("Did you just enter more than 10?")
-            return cleaned_data  # Never forget this otherwise you will end up

@@ -1,0 +1,141 @@
+
+body {
+    padding-bottom: 50px;
+    background-image: url('/media/img/logo_new.png'), url('/media/img/background_3.jpg');
+    background-color: rgb(19, 10, 11);
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+div {
+    text-align: left;
+    margin: 0 auto 0 auto;
+}
+
+.div-pos {
+    margin-top: 170px;
+    #opacity: 0.7;
+    color: White;
+}
+
+.butn-pos {
+    color: red;
+    position: absolute;
+    top: 10px;
+    right: 40px;
+}
+
+.page-header {
+    margin-top: 0;
+}
+
+.panel-body {
+    padding-top: 0;
+}
+
+.panel-default {
+    color: #c8c8c8;
+    background-color: rgba(62, 68, 76, 0.6);
+    border-color: rgba(0, 0, 0, 0.4);
+}
+
+.featuredImg {
+    margin-bottom: 15px;
+}
+
+.sidebar-nav {
+	position: fixed;
+	top:250px;
+    width: 20%;
+	right: 20px;
+}
+
+.footer-logo {
+    padding-top: 10px;
+}
+
+.foo {
+    width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    background-color: transparent;
+}
+
+.foo2 {
+    width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.foo3 {
+    width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.table {
+    background-color: transparent;
+}
+
+.table_background {
+    background-color: transparent;
+}
+
+.text_size {
+    width: 400px;
+    height: 50px;
+}
+
+h1 {
+    text-align: center
+}
+
+.text_center {
+    text-align: center
+}
+
+.Undefeated {
+    color: #878787;
+}
+
+.Normal {
+    color: #199A19;
+}
+
+.Heroic {
+    color: #E68A5C;
+}
+
+.Mythic {
+    color: #E62E00;
+}
+
+.center {
+    text-align: center;
+}
+
+textarea {
+    width: 100%;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box; /* Firefox, other Gecko */
+    box-sizing: border-box; /* Opera/IE 8+ */
+}
+
+.informationbar {
+    position: absolute;
+    text-align: left;
+    width: 50%;
+    margin: 50 auto 0 auto;
+    margin-top: -70px;
+    margin-left: 280px;
+}
+
+.register-user{
+	text-align: left;
+	width: 50%;
+	background-color: transparent;
+	margin: 0 auto 0 auto;
+}

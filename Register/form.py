@@ -45,13 +45,6 @@ class RegisterForm(forms.Form):
         widget=forms.Textarea(attrs={'style': 'width:400px'}),
         required=True)
 
-    def clean(self):
-        cleaned_data = self.cleaned_data
-        f = cleaned_data.get('irl_name')
-        if f == "":
-            raise forms.ValidationError("Did you just enter more than 10?")
-            return cleaned_data
-
 
 class RegisterNewUserForm(forms.Form):
     username = forms.CharField(
@@ -68,13 +61,6 @@ class RegisterNewUserForm(forms.Form):
         required=True)
     captcha = ReCaptchaField(attrs={'theme': 'white'})
 
-    def clean(self):
-        cleaned_data = self.cleaned_data
-        f = cleaned_data.get('captcha')
-        if f == "":
-            raise forms.ValidationError("Username cannot be empty")
-            return cleaned_data
-
 
 class UserProfileForm(forms.Form):
     avatar = forms.ImageField(required=False)
@@ -90,10 +76,3 @@ class UserProfileForm(forms.Form):
     repeat_password = forms.CharField(
         widget=forms.PasswordInput(attrs={'style': 'width:200px'}),
         required=False)
-
-    def clean(self):
-        cleaned_data = self.cleaned_data
-        f = cleaned_data.get('avatar')
-        if f == "":
-            raise forms.ValidationError("Username cannot be empty")
-            return cleaned_data

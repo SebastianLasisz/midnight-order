@@ -1,43 +1,46 @@
 {% extends "creation/base.html" %}
 {% block content %}
-    {% for n in news2 %}
+    <!-- News -->
+    {% for n in news %}
         <h4><b>{{ n.title }} </b></h4>
         <p> {{ n.description | safe | urlize }}</p>
-        <p><img alt="" src= {{ n.img }}/></p>
         <h6><em>by {{ n.name.username }} Published on {{ n.time }}</em></h6>
         <hr>
     {% endfor %}
+    <!-- Number of pages -->
+    <p class="">
+        {% if number_of_pages|length > 1 %}
+            {% for pages in number_of_pages %}
+                <a href="/news/{{ pages }}">{{ pages }}</a>
+            {% endfor %}
+        {% endif %}
+    </p>
+    <!-- Button to add news -->
     {% if user.is_authenticated and user.groups.all.0.name == "Officer" %}
         <a href="/add_news" class="btn btn-primary btn-lg active" role="button">Add new news</a>
     {% endif %}
+{% endblock %}
 
-    <div class="col-xs-6 col-sm-3 sidebar-offcanvas sidebar-nav" id="sidebar" role="navigation">
+{% block progressbar %}
+    <div class="col-xs-6 col-sm-3 sidebar-offcanvas progressbar" id="sidebar" role="navigation">
         <div class="panel panel-default">
             <b><h4 class="center">Progress</h4></b>
-            <b><h4 class="center">Highmaul</h4></b>
-            <ul>
-                <li class="undefeated">Kargath Bladefist</li>
-                <li class="undefeated">The Butcher</li>
-                <li class="undefeated">Tectus</li>
-                <li class="undefeated">Brackenspore</li>
-                <li class="undefeated">Twin Ogron</li>
-                <li class="undefeated">Ko'ragh</li>
-                <li class="undefeated">Imperator Mar'gok</li>
-            </ul>
-            <b><h4 class="center">Blackrock Foundry</h4></b>
-            <ul>
-                <li class="undefeated">Gruul</li>
-                <li class="undefeated">Oregorger</li>
-                <li class="undefeated">Beastlord Darmac</li>
-                <li class="undefeated">Flamebender Ka'graz</li>
-                <li class="undefeated">Hans'gar and Franzok</li>
-                <li class="undefeated">Operator Thorgar</li>
-                <li class="undefeated">The Blast Furnace</li>
-                <li class="undefeated">Kromog</li>
-                <li class="undefeated">The Iron Maidens</li>
-                <li class="undefeated">Blackhand</li>
-            </ul>
+            {% for p in progress %}
+                <b><h4 class="center">{{ p.0.raid }}</h4></b>
+                <ul>
+                    {% for x in p %}
+                        <li class="{{ x.progress }}">
+                            {% if x.progress.progress == 'Heroic' %}
+                                <img src="/media/img/heroic.gif"/>
+                            {% endif %}
+                            {% if x.progress.progress == "Mythic" %}
+                                <img src="/media/img/mythic.gif"/>
+                            {% endif %}
+                            {{ x.name }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
         </div>
     </div>
-
 {% endblock %}

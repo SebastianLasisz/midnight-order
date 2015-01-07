@@ -6615,7 +6615,6 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
     border-color: #000
 }
 
-
 body {
     padding-bottom: 50px;
     background-image: url('/media/img/logo_new.png'), url('/media/img/background_3.jpg');
@@ -6661,10 +6660,10 @@ div {
 }
 
 .sidebar-nav {
-	position: fixed;
-	top:250px;
+    position: fixed;
+    top: 250px;
     width: 20%;
-	right: 20px;
+    right: 20px;
 }
 
 .footer-logo {
@@ -6714,24 +6713,28 @@ h1 {
     text-align: center
 }
 
-.undefeated {
+.Undefeated {
     color: #878787;
 }
 
-.normal {
+.Normal {
     color: #199A19;
 }
 
-.heroic {
+.Heroic {
     color: #E68A5C;
 }
 
-.mythic {
+.Mythic {
     color: #E62E00;
 }
 
 .center {
     text-align: center;
+}
+
+.right {
+    text-align: right;
 }
 
 textarea {
@@ -6750,9 +6753,91 @@ textarea {
     margin-left: 280px;
 }
 
-.register-user{
-	text-align: left;
-	width: 50%;
-	background-color: transparent;
-	margin: 0 auto 0 auto;
+.progressbar {
+    position: absolute;
+    top: 250px;
+    width: 20%;
+    right: 0px;
+}
+
+.register-user {
+    text-align: left;
+    width: 50%;
+    background-color: transparent;
+    margin: 0 auto 0 auto;
+}
+
+.word-break {
+    word-break: break-all;
+}
+
+.border {
+    border: 1pt solid black;
+}
+
+.noborder {
+    border-top: 0px;
+}
+
+.breadcrumb {
+    border: 0px;
+    background-image: none;
+    margin-bottom: 10px;
+    text-shadow: black 0.1em 0.1em 0.2em;
+}
+
+.box {
+    -o-text-overflow: ellipsis;   /* Opera */
+    text-overflow:    ellipsis;   /* IE, Safari (WebKit) */
+    overflow:hidden;              /* don't show excess chars */
+    white-space:nowrap;           /* force single line */
+    width: 110px;                 /* fixed width */
+}
+
+.breadcrumb > li + li:before {
+    padding: 0 5px;
+    color: #cccccc;
+    #font-family: "icons";
+    content: "→\00a0";
+}
+
+.margin_forum{
+    margin: 0px;
+}
+
+.table {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    background: None;
+}
+
+.transparent{
+    background-color:rgba(255,0,0,0.5);
+}
+
+div {
+    #width: 100%;
+    overflow: hidden;
+
+img {
+    min-width: 100%;
+    min-height: 100%;
+}
+
+}
+
+@media screen and (max-width: 1000px) {
+    .progressbar {
+        position: relative;
+        top: 0px;
+        width: 100%;
+        right: 0px;
+    }
+
+    .sidebar-nav {
+        position: relative;
+        top: 0px;
+        width: 100%;
+        right: 0px;
+    }
 }

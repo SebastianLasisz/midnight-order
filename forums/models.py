@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -32,7 +33,7 @@ class Forum(models.Model):
     def get_latest_poster(self):
         latest_topic = self.get_latest_topic()
         if latest_topic:
-            return latest_topic.last_post.user.user.username
+            return latest_topic.last_post.user
         return '-'
 
     def count_topics(self):
@@ -47,7 +48,6 @@ class Forum(models.Model):
     def __unicode__(self):
         return self.name
 
-
 class Topic(models.Model):
     forum = models.ForeignKey(Forum, related_name='topics')
     name = models.CharField(_("Name"), max_length=255)
@@ -60,6 +60,9 @@ class Topic(models.Model):
 
     def count_posts(self):
         return self.posts.count()
+
+    def posts_range(self):
+        return range(1, 1 + (self.posts.count() - ((self.posts.count()-1) % 20) + 20) / 20)
 
     def __unicode__(self):
         return self.name
@@ -79,3 +82,14 @@ class Post(models.Model):
 
     def __unicode__(self):
         return self.body
+
+
+class View(models.Model):
+    topic = models.ForeignKey(Topic)
+    user = models.ForeignKey(User)
+    visited = models.BooleanField(_("Was viewed?"), default=False)
+
+
+class CategoryView(models.Model):
+    forum = models.ForeignKey(Forum)
+    view = models.ForeignKey(View)

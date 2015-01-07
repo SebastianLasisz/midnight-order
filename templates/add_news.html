@@ -1,12 +1,11 @@
 {% extends "creation/base_create.html" %}
 {% block content %}
-    <link href="/media/css/summernote.css" rel="stylesheet">
-    <script src="/media/js/summernote.min.js"></script>
+    {{ form.media }}
     {% if user.is_authenticated and user.groups.all.0.name == "Officer" %}
         <div class="panel-body">
             <h1>Add news</h1>
             <hr>
-            <div class="span7">
+            <div class="span7 word-break">
                 <form action="/add_news/" method="post">
                     {% csrf_token %}
                     {% include "forms.html" %}

@@ -1,19 +1,21 @@
 from django.conf.urls import patterns, include, url
-from Register.views import RegisterDetailView
 from django.conf import settings
 from django.contrib import admin
-from GuildPage.views import *
-from Feed.feed import LatestEntries
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.conf.urls.static import static
 
-admin.autodiscover()
+from Register.views import RegisterDetailView
+from GuildPage.views import *
+from Feed.feed import LatestEntries
 
+
+admin.autodiscover()
 
 urlpatterns = patterns('',
                        url(r'^$', index),
                        url(r'^index/$', index),
+                       url(r'^news/(?P<pk>\d+)/$', paged_index),
                        url(r'^policies/$', policies),
                        url(r'^forums/', include('forums.urls', namespace='forums')),
                        url(r'^members/$', members),

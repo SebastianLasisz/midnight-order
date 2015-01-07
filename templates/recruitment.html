@@ -1,10 +1,9 @@
-{% extends "creation/base.html" %}
+{% extends "creation/base_nobar.html" %}
 {% block content %}
     {% if user.groups.all.0.name == "Officer" %}
         <table class="table">
             <tr>
                 <td> Name</td>
-                <td> Level</td>
                 <td> Spec</td>
                 <td> Class</td>
             </tr>
@@ -13,7 +12,6 @@
                     <td>
                         <a href="{{ m.slug }}">{{ m.username }}</a>
                     </td>
-                    <td> {{ m.level }} </td>
                     <td> {{ m.spec }} </td>
                     <td> {{ m.class_1 }} </td>
                 </tr>

@@ -20,12 +20,41 @@ from News.form import *
 from Register.models import Register, UserProfile
 from Register.form import *
 from GuildPage.form import *
+from Progress.models import *
 
 
 def index(request):
-    news = News.objects.all()[:10]
-    news2 = list(reversed(news))
+    all_news = list(reversed(News.objects.all()))
+    news = all_news[:10]
+    raids = Raid.objects.all()
+    count = len(news)
+    number_of_pages = range(1, 1 + (count - (count % 10) + 10) / 10)
+    progress = []
+    for r in raids:
+        bosses = Boss.objects.filter(raid=Raid.objects.filter(name=r.name))
+        progress.append(bosses)
     return render_to_response('index.html', locals(), RequestContext(request))
+
+
+def paged_index(request, **kwargs):
+    raids = Raid.objects.all()
+    progress = []
+    for r in raids:
+        bosses = Boss.objects.filter(raid=Raid.objects.filter(name=r.name))
+        progress.append(bosses)
+
+    pk = int(kwargs.get('pk', None))
+    all_news = list(reversed(News.objects.all()))
+    count = len(all_news)
+    number_of_pages = range(1, 1 + (count - (count % 10) + 10) / 10)
+    if pk * 10 - count < 10:
+        if pk <= 1:
+            return HttpResponseRedirect('/')
+        else:
+            news = all_news[((pk - 1) * 10):(pk * 10)]
+            return render_to_response('index.html', locals(), RequestContext(request))
+    else:
+        return HttpResponseRedirect('/')
 
 
 def policies(request):
@@ -109,6 +138,8 @@ def register(request):
                     subject = "Your Midnight Order account confirmation"
                     message = "Hello " + username + " and thanks for signing up for a Midnight Order account."
                     send_mail(subject, message, 'noreply@midnightorder.com', [email], fail_silently=False)
+                    send_mail("New user registration!", "New user has create an account. Check " + username + ".",
+                              'noreply@midnightorder.com', ["sedi1ster@gmail.com"], fail_silently=False)
                 except IntegrityError:
                     error = "That name is already taken"
                     return render_to_response('register.html', locals(), RequestContext(request))

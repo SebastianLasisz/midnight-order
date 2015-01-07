@@ -13,7 +13,7 @@
                 <a href="{% url 'forums:overview' %}#{{ topic.forum.category.id }}">{{ topic.forum.category.name }}</a>
             </li>
             <li><a href="{% url 'forums:forum' topic.forum.id %}">{{ topic.forum.name }}</a></li>
-            <li><a href="{% url 'forums:topic' topic.id %}">{{ topic.name }}</a></li>
+            <li><a href="/forums/topic/{{ topic.id }}/page1">{{ topic.name }}</a></li>
             <li class="active">{% trans "Create post" %}</li>
         </ol>
     {% endblock %}
@@ -48,7 +48,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="span7">
+                                <div class="span7 world-break">
                                     <form method="post"
                                           action="{% url 'forums:post_create' topic.id %}">
                                         {% csrf_token %}
@@ -94,7 +94,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="span7">
+                                    <div class="span7 world-break">
                                         <form method="post"
                                               action="{% url 'forums:post_create' topic.id %}">
                                             {% csrf_token %}
@@ -138,7 +138,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="span7">
+                                    <div class="span7 world-break">
                                         <form method="post"
                                               action="{% url 'forums:post_create' topic.id %}">
                                             {% csrf_token %}

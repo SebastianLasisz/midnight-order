@@ -1,4 +1,4 @@
-{% extends "creation/base.html" %}
+{% extends "creation/base_nobar.html" %}
 {% block content %}
     {% load i18n %}
     {% block breadcrumb %}
@@ -7,15 +7,152 @@
         </ol>
     {% endblock %}
     <table class="table">
-        {% if not user.is_authenticated  or user.groups.all.0.name == "Initiate" %}
-            {% for category in category_list %}
-                {% if category.name == "Public Forums" %}
-                    <thead>
+    {% if not user.is_authenticated  or user.groups.all.0.name == "Initiate" %}
+        {% for category in category_list %}
+            {% if category.name == "Public Forums" %}
+                <thead>
+                <tr class="active">
+                    <th colspan="2"><a name="{{ category.id }}">{{ category.name }}</a></th>
+                    <td><b></b></td>
+                    <td><b></b></td>
+                    <td><b></b></td>
+                </tr>
+                </thead>
+                <tbody>
+                {% for forum in category.forums.all %}
                     <tr>
+                        <td style="width: 14px;"><i class="icon-circle-arrow-right"
+                                                    style="margin-top: 1px;"></i></td>
+                        <td style="width: 70%;">
+                            {% for v in view_categories %}
+                                {% if v.forum.name == forum.name and v.view.visited == False %}
+                                    <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+                                {% endif %}
+                            {% endfor %}
+                            <a href="{% url 'forums:forum' forum.id %}">{{ forum.name }}</a>
+
+                            <p class="margin_forum">
+                                <small>
+                                    {{ forum.description }}
+                                </small>
+                            </p>
+                        </td>
+                        <td>
+                            <p></p>
+                            {{ forum.count_topics }} topics
+                            <p>{{ forum.count_posts }} posts</p>
+                        </td>
+                        <td>
+                            <table style="Background:None">
+                                <tr>
+                                    <td>
+                                        <a href="/messages/compose/{{ forum.get_latest_poster }}"><img
+                                                src="/media/{{ forum.get_latest_poster.avatar }}"
+                                                onerror="this.src='/media/img/logo3.jpg';"
+                                                alt="" width=50 height=50 class="img-rounded"
+                                                alt="avatar"></a>
+                                    </td>
+                                    <td>
+                                        {% if  forum.get_latest_topic %}
+                                            <a href="/forums/topic/{{ forum.get_latest_topic.id }}/page1">{{ forum.get_latest_topic }}</a>
+                                        {% else %}
+                                            {{ forum.get_latest_topic }}
+                                        {% endif %}
+                                        <small>
+                                            <p class="margin_forum">By <a
+                                                    href="/messages/compose/{{ forum.get_latest_poster }}">{{ forum.get_latest_poster }}</a>
+                                            </p>
+
+                                            <p class="margin forum">{{ forum.get_latest_topic.last_post.updated }}</p>
+                                        </small>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        {% if user.groups.all.0.name == "Officer" or user.groups.all.0.name == "Leader" %}
+            {% for category in category_list %}
+                <thead>
+                <tr class="active">
+                    <th colspan="2"><a name="{{ category.id }}">{{ category.name }}</a></th>
+                    <td><b></b></td>
+                    <td><b></b></td>
+                    <td><b></b></td>
+                </tr>
+                </thead>
+                <tbody>
+                {% for forum in category.forums.all %}
+                    {% if forum.name == "Officer's Chat" and user.groups.all.0.name == "Leader" %}
+                    {% else %}
+                        <tr>
+                            <td style="width: 14px;"><i class="icon-circle-arrow-right"
+                                                        style="margin-top: 1px;"></i></td>
+                            <td style="width: 70%;">
+                                {% for v in view_categories %}
+                                    {% if v.forum.name == forum.name and v.view.visited == False %}
+                                        <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+                                    {% endif %}
+                                {% endfor %}
+                                <a href="{% url 'forums:forum' forum.id %}">{{ forum.name }}</a>
+
+                                <p class="margin_forum">
+                                    <small>
+                                        {{ forum.description }}
+                                    </small>
+                                </p>
+                            </td>
+                            <td>
+                                <p></p>
+                                {{ forum.count_topics }} topics
+                                <p>{{ forum.count_posts }} posts</p>
+                            </td>
+                            <td>
+                                <table style="Background:None">
+                                    <tr>
+                                        <td>
+                                            <a href="/messages/compose/{{ forum.get_latest_poster }}"><img
+                                                    src="/media/{{ forum.get_latest_poster.avatar }}"
+                                                    onerror="this.src='/media/img/logo3.jpg';"
+                                                    alt="" width=50 height=50 class="img-rounded"
+                                                    alt="avatar"></a>
+                                        </td>
+                                        <td>
+                                            {% if  forum.get_latest_topic %}
+                                                <div class="box align-left" style="margin-left: 0px"><a href="/forums/topic/{{ forum.get_latest_topic.id }}/page1">{{ forum.get_latest_topic }}</a>
+                                                </div>
+                                            {% else %}
+                                                {{ forum.get_latest_topic }}
+                                            {% endif %}
+                                            <small>
+                                                <p class="margin_forum">By <a
+                                                        href="/messages/compose/{{ forum.get_latest_poster }}">{{ forum.get_latest_poster }}</a>
+                                                </p>
+
+                                                <p class="margin forum">{{ forum.get_latest_topic.last_post.updated }}</p>
+                                            </small>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            {% endfor %}
+        {% else %}
+            {% for category in category_list %}
+                {% if category.name != "Forum: Restricted forums" %}
+                    <thead>
+                    <tr class="active">
                         <th colspan="2"><a name="{{ category.id }}">{{ category.name }}</a></th>
-                        <td><b>{% trans "Last Poster" %}</b></td>
-                        <td><b>{% trans "Topics" %}</b></td>
-                        <td><b>{% trans "Posts" %}</b></td>
+                        <td><b></b></td>
+                        <td><b></b></td>
+                        <td><b></b></td>
                     </tr>
                     </thead>
                     <tbody>
@@ -24,74 +161,57 @@
                             <td style="width: 14px;"><i class="icon-circle-arrow-right"
                                                         style="margin-top: 1px;"></i></td>
                             <td style="width: 70%;">
+                                {% for v in view_categories %}
+                                    {% if v.forum.name == forum.name and v.view.visited == False %}
+                                        <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+                                    {% endif %}
+                                {% endfor %}
                                 <a href="{% url 'forums:forum' forum.id %}">{{ forum.name }}</a>
+
+                                <p class="margin_forum">
+                                    <small>
+                                        {{ forum.description }}
+                                    </small>
+                                </p>
                             </td>
-                            <td>{{ forum.get_latest_poster }}</td>
-                            <td>{{ forum.count_topics }}</td>
-                            <td>{{ forum.count_posts }}</td>
+                            <td>
+                                <p></p>
+                                {{ forum.count_topics }} topics
+                                <p>{{ forum.count_posts }} posts</p>
+                            </td>
+                            <td>
+                                <table style="Background:None">
+                                    <tr>
+                                        <td>
+                                            <a href="/messages/compose/{{ forum.get_latest_poster }}"><img
+                                                    src="/media/{{ forum.get_latest_poster.avatar }}"
+                                                    onerror="this.src='/media/img/logo3.jpg';"
+                                                    alt="" width=50 height=50 class="img-rounded"
+                                                    alt="avatar"></a>
+                                        </td>
+                                        <td>
+                                            {% if  forum.get_latest_topic %}
+                                                <a href="/forums/topic/{{ forum.get_latest_topic.id }}/page1">{{ forum.get_latest_topic }}</a>
+                                            {% else %}
+                                                {{ forum.get_latest_topic }}
+                                            {% endif %}
+                                            <small>
+                                                <p class="margin_forum">By <a
+                                                        href="/messages/compose/{{ forum.get_latest_poster }}">{{ forum.get_latest_poster }}</a>
+                                                </p>
+
+                                                <p class="margin forum">{{ forum.get_latest_topic.last_post.updated }}</p>
+                                            </small>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 {% endif %}
             {% endfor %}
-        {% else %}
-            {% if user.groups.all.0.name == "Officer" or user.groups.all.0.name == "Leader" %}
-                {% for category in category_list %}
-                    <thead>
-                    <tr>
-                        <th colspan="2"><a name="{{ category.id }}">{{ category.name }}</a></th>
-                        <td><b>{% trans "Last Poster" %}</b></td>
-                        <td><b>{% trans "Topics" %}</b></td>
-                        </b>
-                        <td><b>{% trans "Posts" %}</b></td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for forum in category.forums.all %}
-                        {% if forum.name == "Officer's Chat" and user.groups.all.0.name == "Leader" %}
-                        {% else %}
-                            <tr>
-                                <td style="width: 14px;"><i class="icon-circle-arrow-right"
-                                                            style="margin-top: 1px;"></i></td>
-                                <td style="width: 70%;">
-                                    <a href="{% url 'forums:forum' forum.id %}">{{ forum.name }}</a>
-                                </td>
-                                <td>{{ forum.get_latest_poster }}</td>
-                                <td>{{ forum.count_topics }}</td>
-                                <td>{{ forum.count_posts }}</td>
-                            </tr>
-                        {% endif %}
-                    {% endfor %}
-                    </tbody>
-                {% endfor %}
-            {% else %}
-                {% for category in category_list %}
-                    {% if category.name != "Forum: Restricted forums" %}
-                        <thead>
-                        <tr>
-                            <th colspan="2"><a name="{{ category.id }}">{{ category.name }}</a></th>
-                            <td><b>{% trans "Last Poster" %}</b></td>
-                            <td><b>{% trans "Topics" %}</b></td>
-                            <td><b>{% trans "Posts" %}</b></td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for forum in category.forums.all %}
-                            <tr>
-                                <td style="width: 14px;"><i class="icon-circle-arrow-right"
-                                                            style="margin-top: 1px;"></i></td>
-                                <td style="width: 70%;">
-                                    <a href="{% url 'forums:forum' forum.id %}">{{ forum.name }}</a>
-                                </td>
-                                <td>{{ forum.get_latest_poster }}</td>
-                                <td>{{ forum.count_topics }}</td>
-                                <td>{{ forum.count_posts }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
         {% endif %}
+    {% endif %}
     </table>
 {% endblock %}
