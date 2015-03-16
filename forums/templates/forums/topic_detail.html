@@ -62,9 +62,9 @@
                         {% endif %}
                         {% if not topic.is_closed or user.groups.all.0.name == "Officer" %}
                             {% if not user.is_authenticated  or user.groups.all.0.name == "Initiate" %}
-                                {% if topic.forum.category.name == "Public Forums" %}
+                                {% if topic.0.topic.forum.category.name == "Public Forums" %}
                                     {% if not topic.forum.is_closed or user.is_staff %}
-                                        {% if topic.forum.name == "Leader's Chat" and  user.groups.all.0.name == "Leader" %}
+                                        {% if topic.0.topic.forum.category.name == "Leader's Chat" and  user.groups.all.0.name == "Leader" %}
                                             <a href="/forums/topic/{{ topic.0.topic.id }}/create"
                                                class="btn btn-default"
                                                style="text-decoration: none">{% trans "Reply to this topic" %}</a>
@@ -79,10 +79,10 @@
                                 {% endif %}
                             {% else %}
                             {% if user.groups.all.0.name == "Officer" or user.groups.all.0.name == "Leader" %}
-                                {% if topic.forum.name == "Officer's Chat" and  user.groups.all.0.name == "Leader" %}
+                                {% if topic.0.topic.forum.category.name == "Officer's Chat" and  user.groups.all.0.name == "Leader" %}
                                 {% else %}
                                     {% if not topic.forum.is_closed or user.is_staff %}
-                                        {% if topic.forum.name == "Leader's Chat" and  user.groups.all.0.name == "Leader" %}
+                                        {% if topic.0.topic.forum.category.name == "Leader's Chat" and  user.groups.all.0.name == "Leader" %}
                                             <a href="/forums/topic/{{ topic.0.topic.id }}/create"
                                                class="btn btn-default"
                                                style="text-decoration: none">{% trans "Reply to this topic" %}</a>
@@ -117,7 +117,7 @@
     </table>
     <!-- Body of forum topic -->
     {% if not user.is_authenticated  or user.groups.all.0.name == "Initiate" %}
-        {% if topic.forum.category.name == "Public Forums" %}
+        {% if topic.0.topic.forum.category.name == "Public Forums" %}
             <table class="table">
                 {% for post in topic %}
                     <div class="row">
@@ -192,7 +192,7 @@
         {% endif %}
     {% else %}
         {% if user.groups.all.0.name == "Officer" or user.groups.all.0.name == "Leader" %}
-            {% if topic.forum.name == "Officer's Chat" and  user.groups.all.0.name == "Leader" %}
+            {% if topic.0.topic.forum.category.name == "Officer's Chat" and  user.groups.all.0.name == "Leader" %}
             {% else %}
                 <table class="table">
                     {% for post in topic %}
@@ -376,7 +376,7 @@
                             {% if not user.is_authenticated  or user.groups.all.0.name == "Initiate" %}
                                 {% if topic.forum.category.name == "Public Forums" %}
                                     {% if not topic.forum.is_closed or user.is_staff %}
-                                        {% if topic.forum.name == "Leader's Chat" and  user.groups.all.0.name == "Leader" %}
+                                        {% if topic.0.topic.forum.category.name == "Leader's Chat" and  user.groups.all.0.name == "Leader" %}
                                             <a href="/forums/topic/{{ topic.0.topic.id }}/create"
                                                class="btn btn-default"
                                                style="text-decoration: none">{% trans "Reply to this topic" %}</a>
@@ -391,10 +391,10 @@
                                 {% endif %}
                             {% else %}
                             {% if user.groups.all.0.name == "Officer" or user.groups.all.0.name == "Leader" %}
-                                {% if topic.forum.name == "Officer's Chat" and  user.groups.all.0.name == "Leader" %}
+                                {% if topic.0.topic.forum.category.name == "Officer's Chat" and  user.groups.all.0.name == "Leader" %}
                                 {% else %}
                                     {% if not topic.forum.is_closed or user.is_staff %}
-                                        {% if topic.forum.name == "Leader's Chat" and  user.groups.all.0.name == "Leader" %}
+                                        {% if topic.0.topic.forum.category.name == "Leader's Chat" and  user.groups.all.0.name == "Leader" %}
                                             <a href="/forums/topic/{{ topic.0.topic.id }}/create"
                                                class="btn btn-default"
                                                style="text-decoration: none">{% trans "Reply to this topic" %}</a>

@@ -6692,6 +6692,13 @@ div {
     text-align: center;
 }
 
+.navigation-bar {
+    width: 550px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
 .table {
     background-color: transparent;
 }
@@ -6738,7 +6745,7 @@ h1 {
 }
 
 textarea {
-    width: 100%;
+    width: 300%;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box; /* Firefox, other Gecko */
     box-sizing: border-box; /* Opera/IE 8+ */
@@ -6769,6 +6776,7 @@ textarea {
 
 .word-break {
     word-break: break-all;
+    word-wrap: break-word;
 }
 
 .border {
@@ -6818,12 +6826,6 @@ textarea {
 div {
     #width: 100%;
     overflow: hidden;
-
-img {
-    min-width: 100%;
-    min-height: 100%;
-}
-
 }
 
 @media screen and (max-width: 1000px) {

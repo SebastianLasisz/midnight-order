@@ -58,11 +58,11 @@ def paged_index(request, **kwargs):
 
 
 def policies(request):
-    return render(request, 'policies.html')
+    return render_to_response('policies.html', locals(), RequestContext(request))
 
 
 def login(request):
-    return render(request, 'login.html')
+    return render_to_response('login.html', locals(), RequestContext(request))
 
 
 def log_out(request):
@@ -80,7 +80,7 @@ def add_news(request):
             title = form.cleaned_data['title']
             description = form.cleaned_data['description']
             n = News(title=title, description=description, name=request.user,
-                     time=datetime.datetime.now())
+                     time=datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))
             n.save()
         else:
             return render_to_response('add_news.html', locals(), RequestContext(request))
@@ -89,7 +89,7 @@ def add_news(request):
         form = NewsForm()
 
     return render(request, 'add_news.html', {
-        'form': form,
+        'form': form
     })
 
 
@@ -112,7 +112,7 @@ def contact(request):
         form = ContactForm()
 
     return render(request, 'contact.html', {
-        'form': form,
+        'form': form
     })
 
 
@@ -153,20 +153,20 @@ def register(request):
         form = RegisterNewUserForm()
 
     return render(request, 'register.html', {
-        'form': form,
+        'form': form
     })
 
 
 def thanks(request):
-    return render(request, 'thanks.html')
+    return render_to_response('thanks.html', locals(), RequestContext(request))
 
 
 def terms(request):
-    return render(request, "terms_of_service.html")
+    return render_to_response('terms_of_service.html', locals(), RequestContext(request))
 
 
 def cookies(request):
-    return render(request, "cookies.html")
+    return render_to_response('cookies.html', locals(), RequestContext(request))
 
 
 def members(request):
@@ -320,11 +320,11 @@ def recruitment(request):
 
 
 def register_complete(request):
-    return render(request, 'register_complete.html')
+    return render_to_response('register_complete.html', locals(), RequestContext(request))
 
 
 def credit(request):
-    return render(request, 'credits.html')
+    return render_to_response('credits.html', locals(), RequestContext(request))
 
 
 def profile(request):
@@ -334,45 +334,44 @@ def profile(request):
         picture = UserProfile.objects.get(user=User.objects.get(username=username))
         avatar = picture.avatar
         signature = picture.signature
+        style = picture.style
 
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES)
         if form.is_valid():
             up = UserProfile.objects.filter(user=User.objects.get(username=username))
             u = User.objects.get(username=username)
-            if form.cleaned_data['password'] is not None and form.cleaned_data['repeat_password'] is not None and \
-                            form.cleaned_data['old_password'] is not None:
-                if form.cleaned_data['password'] != '' and form.cleaned_data['password'] != "" and form.cleaned_data[
-                    'password'] is not None and form.cleaned_data['password'] == form.cleaned_data[
-                    'repeat_password'] and request.user.check_password(
-                        form.cleaned_data['old_password']):
+            if form.cleaned_data['password'] != '' and form.cleaned_data['repeat_password'] != '' and form.cleaned_data['old_password'] != '':
+                if form.cleaned_data['password'] == form.cleaned_data['repeat_password'] and request.user.check_password(form.cleaned_data['old_password']):
                     u.password = make_password(form.cleaned_data['password'])
-                u.save()
-            else:
-                error = "Current password is invalid or new passwords doesn't match."
-                return render_to_response('profile.html', locals(), RequestContext(request))
+                    u.save()
+                else:
+                    error = "Current password is invalid or new passwords doesn't match."
+                    return render_to_response('profile.html', locals(), RequestContext(request))
             if up.exists():
                 r = UserProfile.objects.get(user=User.objects.get(username=username))
                 if form.cleaned_data['avatar'] is not None:
                     r.avatar = form.cleaned_data['avatar']
                 if form.cleaned_data['signature'] != "":
                     r.signature = form.cleaned_data['signature']
+                r.style = form.cleaned_data['style']
                 r.save()
             else:
                 r = UserProfile(user=User.objects.get(username=username),
                                 avatar=form.cleaned_data['avatar'],
-                                signature=form.cleaned_data['signature'])
+                                signature=form.cleaned_data['signature'],
+                                style=form.cleaned_data['style'])
                 r.save()
             error1 = "Your settings have been saved."
             picture = UserProfile.objects.get(user=User.objects.get(username=username))
             avatar = picture.avatar
-            signature = picture.signature
+            style = picture.style
             return render_to_response('profile.html', locals(), RequestContext(request))
         else:
             return render_to_response('profile.html', locals(), RequestContext(request))
     else:
-        form = UserProfileForm()
+        form = UserProfileForm(initial={'signature': signature, 'style': style})
 
     return render(request, 'profile.html', {
-        'form': form, 'avatar': avatar, 'username': username, 'signature': signature
+        'form': form, 'avatar': avatar, 'username': username, 'signature': signature, 'style': style
     })

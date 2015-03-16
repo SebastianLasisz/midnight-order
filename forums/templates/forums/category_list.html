@@ -1,11 +1,6 @@
 {% extends "creation/base_nobar.html" %}
 {% block content %}
     {% load i18n %}
-    {% block breadcrumb %}
-        <ol class="breadcrumb">
-            <li class="active">{% trans "Forums" %}</li>
-        </ol>
-    {% endblock %}
     <table class="table">
     {% if not user.is_authenticated  or user.groups.all.0.name == "Initiate" %}
         {% for category in category_list %}

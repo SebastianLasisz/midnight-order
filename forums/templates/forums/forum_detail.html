@@ -10,7 +10,7 @@
             <li class="active">{{ forum.name }}</li>
         </ol>
     {% endblock %}
-    <table class="table">
+    <table class="table" style="margin: 0px">
     <thead>
     <tr>
         <th colspan="2"></th>
@@ -55,7 +55,7 @@
                         <p>{{ topic.counter }} views</p>
                     </td>
                     <td>
-                        <table>
+                        <table style="Background:None">
                             <tr>
                                 <td>
                                     <a href="/messages/compose/{{ topic.last_post.user.user.username }}"><img
@@ -123,7 +123,7 @@
                             <p>{{ topic.counter }} views</p>
                         </td>
                         <td>
-                            <table>
+                            <table style="Background:None">
                                 <tr>
                                     <td>
                                         <a href="/messages/compose/{{ topic.last_post.user.user.username }}"><img
@@ -228,7 +228,7 @@
         {% if forum.category.name == "Public Forums" %}
             {% if not forum.is_closed or user.is_staff %}
                 <p class="right"><a href="{% url 'forums:topic_create' forum.id %}"
-                      class="btn btn-default">{% trans "Create new topic" %}</a></p>
+                                    class="btn btn-default">{% trans "Create new topic" %}</a></p>
             {% endif %}
         {% endif %}
     {% else %}
@@ -237,14 +237,14 @@
             {% else %}
                 {% if not forum.is_closed or user.is_staff %}
                     <p class="right"><a href="{% url 'forums:topic_create' forum.id %}"
-                          class="btn btn-default">{% trans "Create new topic" %}</a></p>
+                                        class="btn btn-default">{% trans "Create new topic" %}</a></p>
                 {% endif %}
             {% endif %}
         {% else %}
             {% if user.groups.all.0.name != "Officer" and user.groups.all.0.name != "Leader" and forum.category.name != "Forum: Restricted forums" %}
                 {% if not forum.is_closed or user.is_staff %}
                     <p class="right"><a href="{% url 'forums:topic_create' forum.id %}"
-                          class="btn btn-default">{% trans "Create new topic" %}</a></p>
+                                        class="btn btn-default">{% trans "Create new topic" %}</a></p>
                 {% endif %}
             {% endif %}
         {% endif %}
