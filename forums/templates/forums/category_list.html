@@ -49,7 +49,7 @@
                                     </td>
                                     <td>
                                         {% if  forum.get_latest_topic %}
-                                            <a href="/forums/topic/{{ forum.get_latest_topic.id }}/page1">{{ forum.get_latest_topic }}</a>
+                                            <a href="/forums/topic/{{ forum.get_latest_topic.id }}/page{{ forum.get_latest_topic.posts_range|last }}">{{ forum.get_latest_topic }}</a>
                                         {% else %}
                                             {{ forum.get_latest_topic }}
                                         {% endif %}
@@ -118,7 +118,7 @@
                                         </td>
                                         <td>
                                             {% if  forum.get_latest_topic %}
-                                                <div class="box align-left" style="margin-left: 0px"><a href="/forums/topic/{{ forum.get_latest_topic.id }}/page1">{{ forum.get_latest_topic }}</a>
+                                                <div class="box align-left" style="margin-left: 0px"><a href="/forums/topic/{{ forum.get_latest_topic.id }}/page{{ forum.get_latest_topic.posts_range|last }}">{{ forum.get_latest_topic }}</a>
                                                 </div>
                                             {% else %}
                                                 {{ forum.get_latest_topic }}
@@ -186,7 +186,7 @@
                                         </td>
                                         <td>
                                             {% if  forum.get_latest_topic %}
-                                                <a href="/forums/topic/{{ forum.get_latest_topic.id }}/page1">{{ forum.get_latest_topic }}</a>
+                                                <a href="/forums/topic/{{ forum.get_latest_topic.id }}/page{{ forum.get_latest_topic.posts_range|last }}">{{ forum.get_latest_topic }}</a>
                                             {% else %}
                                                 {{ forum.get_latest_topic }}
                                             {% endif %}

@@ -6843,3 +6843,14 @@ div {
         right: 0px;
     }
 }
+
+.pagination{
+    margin: 0px;
+    display: inline;
+}
+
+.nav-center {
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}

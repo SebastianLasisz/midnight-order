@@ -26,8 +26,9 @@ class Forum(models.Model):
         ordering = ['position']
 
     def get_latest_topic(self):
-        if self.topics.count() > 0:
-            return self.topics.all()[0]
+        topics = self.topics.order_by('-last_post__created')
+        if topics.count() > 0:
+            return topics.all()[0]
         return None
 
     def get_latest_poster(self):
@@ -48,15 +49,17 @@ class Forum(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class Topic(models.Model):
     forum = models.ForeignKey(Forum, related_name='topics')
     name = models.CharField(_("Name"), max_length=255)
     last_post = models.ForeignKey('Post', verbose_name=_("Last post"), related_name='forum_last_post', blank=True, null=True)
     counter = models.IntegerField(_("Counter"), default=0)
     is_closed = models.BooleanField(_("Is closed"), default=False)
+    pinned = models.BooleanField(_("Pinned"), default=False)
 
     class Meta:
-        ordering = ['-last_post__created']
+        ordering = ['-pinned', '-last_post__created']
 
     def count_posts(self):
         return self.posts.count()
@@ -76,6 +79,7 @@ class Post(models.Model):
     created = models.DateTimeField(_("Created"), auto_now_add=True)
     updated = models.DateTimeField(_("Updated"), auto_now=True)
     body = models.TextField(_("Body"))
+    rating = models.IntegerField(_("Rating"), default=0)
 
     class Meta:
         ordering = ['created']
@@ -88,6 +92,16 @@ class View(models.Model):
     topic = models.ForeignKey(Topic)
     user = models.ForeignKey(User)
     visited = models.BooleanField(_("Was viewed?"), default=False)
+
+    def __unicode__(self):
+        return self.topic.name
+
+
+class PostRating(models.Model):
+    post = models.ForeignKey(Post)
+    user = models.ForeignKey(User)
+    rating = models.IntegerField(_("Rating"), default=0)
+    rated = models.BooleanField(_("Was rated?"), default=False)
 
 
 class CategoryView(models.Model):

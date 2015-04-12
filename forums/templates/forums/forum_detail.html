@@ -26,6 +26,9 @@
                     <td style="width: 14px;"><i class="icon-circle-arrow-right"
                                                 style="margin-top: 1px;"></i></td>
                     <td style="width: 70%;">
+                        {% if topic.pinned %}
+                            <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
+                        {% endif %}
                         {% if topic.is_closed %}
                             <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
                         {% endif %}
@@ -94,6 +97,9 @@
                         <td style="width: 14px;"><i class="icon-circle-arrow-right"
                                                     style="margin-top: 1px;"></i></td>
                         <td style="width: 70%;">
+                            {% if topic.pinned %}
+                                <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
+                            {% endif %}
                             {% if topic.is_closed %}
                                 <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
                             {% endif %}
@@ -161,6 +167,9 @@
                         <td style="width: 14px;"><i class="icon-circle-arrow-right"
                                                     style="margin-top: 1px;"></i></td>
                         <td style="width: 70%;">
+                            {% if topic.pinned %}
+                                <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
+                            {% endif %}
                             {% if topic.is_closed %}
                                 <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
                             {% endif %}

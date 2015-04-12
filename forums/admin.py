@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from forums.models import Category, Forum, Topic, Post, View, CategoryView
+from forums.models import Category, Forum, Topic, Post, View, CategoryView, PostRating
 
 
 class ForumAdmin(admin.ModelAdmin):
@@ -11,9 +11,13 @@ class ViewAdmin(admin.ModelAdmin):
     list_display = ('user', 'topic', 'visited')
 
 
+class RateAdmin(admin.ModelAdmin):
+    list_display = ('user', 'rating', 'post', 'rated')
+
+
 admin.site.register(Category)
 admin.site.register(Forum, ForumAdmin)
 admin.site.register(Topic)
 admin.site.register(Post)
 admin.site.register(View, ViewAdmin)
-admin.site.register(CategoryView)
+admin.site.register(PostRating, RateAdmin)

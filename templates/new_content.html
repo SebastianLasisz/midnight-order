@@ -1,0 +1,63 @@
+{% extends "creation/base_nobar.html" %}
+{% block content %}
+    <div id="content">
+        <ul id="tabs" class="nav nav-tabs nav-center" data-tabs="tabs">
+            <li class="active"><a href="#unread" data-toggle="tab">Unread posts</a></li>
+            <li><a href="#day" data-toggle="tab">Past day</a></li>
+            <li><a href="#seven_day" data-toggle="tab">Past 7 days</a></li>
+            <li><a href="#month" data-toggle="tab">Past month</a></li>
+        </ul>
+        <div id="my-tab-content" class="tab-content">
+            <div class="tab-pane active" id="unread">
+                <h1>Unread posts</h1>
+                {% for p in unread_posts %}
+                    <div>
+                        <i><a href="/forums/topic/{{ p.topic.id }}/page{{ p.topic.posts_range|last }}"
+                              data-toggle="tooltip"
+                              title="{{ p|safe|truncatechars:20 }}"> {{ p.topic }} </a></i>
+                        in <i>{{ p.topic.forum }}</i>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="tab-pane" id="day">
+                <h1>Past 24 hours</h1>
+                {% for p in posts_day %}
+                    <div>
+                        <i><a href="/forums/topic/{{ p.id }}/page{{ p.posts_range|last }}"
+                              data-toggle="tooltip"
+                              title="{{ p }}"> {{ p.name }} </a></i>
+                        in <i>{{ p.forum }}</i>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="tab-pane" id="seven_day">
+                <h1>Past 7 days</h1>
+                {% for p in posts_week %}
+                    <div>
+                        <i><a href="/forums/topic/{{ p.id }}/page{{ p.posts_range|last }}"
+                              data-toggle="tooltip"
+                              title="{{ p }}"> {{ p.name }} </a></i>
+                        in <i>{{ p.forum }}</i>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="tab-pane" id="month">
+                <h1>Past month</h1>
+                {% for p in posts_month %}
+                    <div>
+                        <i><a href="/forums/topic/{{ p.id }}/page{{ p.posts_range|last }}"
+                              data-toggle="tooltip"
+                              title="{{ p }}"> {{ p.name }} </a></i>
+                        in <i>{{ p.forum }}</i>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $('#tabs').tab();
+        });
+    </script>
+{% endblock %}

@@ -30,28 +30,42 @@
     <!-- Pagination of forum topic -->
     <table class="table">
         <tr>
-            <td style="border-top: 0px">
+            <td style="border-top: 0px; vertical-align: bottom">
                 {% if is_paginated %}
-                    <div>
-                        <span class="page-links" style="position: relative; bottom: 0px">
-                            {% if page_obj.has_previous %}
-                                <a href="/forums/topic/{{ topic.0.topic.id }}/page{{ page_obj.previous_page_number }}">previous</a>
-                            {% endif %}
-                            <span class="page-current">
-                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                            </span>
-                            {% if page_obj.has_next %}
-                                <a href="/forums/topic/{{ topic.0.topic.id }}/page{{ page_obj.next_page_number }}">next</a>
-                            {% endif %}
-                        </span>
-                    </div>
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li>
+                                <a href="/forums/topic/{{ topic.0.topic.id }}/page{{ page_obj.previous_page_number }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% for pages in topic.0.topic.posts_range %}
+                            <li><a href="/forums/topic/{{ topic.0.topic.id }}/page{{ pages }}">{{ pages }}</a></li>
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <li>
+                                <a href="/forums/topic/{{ topic.0.topic.id }}/page{{ page_obj.next_page_number }}"
+                                   aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
                 {% endif %}
-                </div>
             </td>
-            <td style="border-top: 0px">
+            <td style="border-top: 0px; vertical-align: bottom">
                 <div class="pull-right">
                     <div class="">
                         {% if  user.groups.all.0.name == "Officer" %}
+                            {% if topic.0.topic.pinned %}
+                                <a href="/forums/topic/{{ topic.0.topic.id }}/pin"
+                                   class="btn btn-default" style="text-decoration: none">{% trans "Unpin topic" %}</a>
+                            {% else %}
+                                <a href="/forums/topic/{{ topic.0.topic.id }}/pin"
+                                   class="btn btn-default" style="text-decoration: none">{% trans "Pin topic" %}</a>
+                            {% endif %}
                             {% if topic.0.topic.is_closed %}
                                 <a href="/forums/topic/{{ topic.0.topic.id }}/lock"
                                    class="btn btn-default" style="text-decoration: none">{% trans "Unlock topic" %}</a>
@@ -125,6 +139,13 @@
                             <td><b>{{ post.user.user.username }}</b></td>
                             <td>
                                 <div class="pull-right">
+                                    {% if user.is_authenticated %}
+                                        <a href="{% url 'forums:uprate' post.id %}"><span
+                                                class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a>
+                                        <a href="{% url 'forums:downrate' post.id %}"><span
+                                                class="glyphicon glyphicon-thumbs-down"
+                                                aria-hidden="true"></span></a>
+                                    {% endif %}
                                     <small><a href="#{{ forloop.counter }}"
                                               name="{{ forloop.counter }}">#{{ forloop.counter }}</a>
                                     </small>
@@ -201,8 +222,17 @@
                                 <td><b>{{ post.user.user.username }}</b></td>
                                 <td>
                                     <div class="pull-right">
-                                        <small><a href="#{{ forloop.counter }}"
-                                                  name="{{ forloop.counter }}">#{{ forloop.counter }}</a>
+                                        {% if user.is_authenticated %}
+                                            <a href="{% url 'forums:uprate' post.id %}"><span
+                                                    class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a>
+                                            {{ post.rating }}
+                                            <a href="{% url 'forums:downrate' post.id %}"><span
+                                                    class="glyphicon glyphicon-thumbs-down"
+                                                    aria-hidden="true"></span></a>
+                                        {% endif %}
+                                        <small>
+                                            <a href="#{{ forloop.counter }}"
+                                               name="{{ forloop.counter }}">#{{ forloop.counter }}</a>
                                         </small>
                                     </div>
                                 </td>
@@ -271,8 +301,17 @@
                                 <td><b>{{ post.user.user.username }}</b></td>
                                 <td>
                                     <div class="pull-right">
-                                        <small><a href="#{{ forloop.counter }}"
-                                                  name="{{ forloop.counter }}">#{{ forloop.counter }}</a>
+                                        {% if user.is_authenticated %}
+                                            <a href="{% url 'forums:uprate' post.id %}"><span
+                                                    class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a>
+                                            {{ post.rating }}
+                                            <a href="{% url 'forums:downrate' post.id %}"><span
+                                                    class="glyphicon glyphicon-thumbs-down"
+                                                    aria-hidden="true"></span></a>
+                                        {% endif %}
+                                        <small>
+                                            <a href="#{{ forloop.counter }}"
+                                               name="{{ forloop.counter }}">#{{ forloop.counter }}</a>
                                         </small>
                                     </div>
                                 </td>
@@ -344,19 +383,29 @@
         <tr>
             <td>
                 {% if is_paginated %}
-                    <div class="pagination">
-            <span class="page-links">
-                {% if page_obj.has_previous %}
-                    <a href="/forums/topic/{{ topic.0.topic.id }}/page{{ page_obj.previous_page_number }}">previous</a>
-                {% endif %}
-                <span class="page-current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
-                {% if page_obj.has_next %}
-                    <a href="/forums/topic/{{ topic.0.topic.id }}/page{{ page_obj.next_page_number }}">next</a>
-                {% endif %}
-            </span>
-                    </div>
+                    <nav>
+                        <ul class="pagination">
+                            {% if page_obj.has_previous %}
+                                <li>
+                                    <a href="/forums/topic/{{ topic.0.topic.id }}/page{{ page_obj.previous_page_number }}"
+                                       aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% for pages in topic.0.topic.posts_range %}
+                                <li><a href="/forums/topic/{{ topic.0.topic.id }}/page{{ pages }}">{{ pages }}</a></li>
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                                <li>
+                                    <a href="/forums/topic/{{ topic.0.topic.id }}/page{{ page_obj.next_page_number }}"
+                                       aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
                 {% endif %}
                 </div>
             </td>
@@ -364,6 +413,13 @@
                 <div class="pull-right">
                     <div class="">
                         {% if  user.groups.all.0.name == "Officer" %}
+                            {% if topic.0.topic.pinned %}
+                                <a href="/forums/topic/{{ topic.0.topic.id }}/pin"
+                                   class="btn btn-default" style="text-decoration: none">{% trans "Unpin topic" %}</a>
+                            {% else %}
+                                <a href="/forums/topic/{{ topic.0.topic.id }}/pin"
+                                   class="btn btn-default" style="text-decoration: none">{% trans "Pin topic" %}</a>
+                            {% endif %}
                             {% if topic.0.topic.is_closed %}
                                 <a href="/forums/topic/{{ topic.0.topic.id }}/lock"
                                    class="btn btn-default" style="text-decoration: none">{% trans "Unlock topic" %}</a>

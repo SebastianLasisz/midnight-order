@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 from django.views.generic import ListView, DetailView, FormView
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 
 from forums.forms import TopicCreateForm, PostCreateForm, PostEditForm
-from forums.models import Category, Topic, Forum, Post, View, CategoryView
+from forums.models import Category, Topic, Forum, Post, View, CategoryView, PostRating
 from Register.models import UserProfile
 
 
@@ -153,7 +153,8 @@ class PostCreateView(FormView):
         self.topic = Topic.objects.get(id=kwargs.get('pk', None))
         if self.topic.forum.is_closed and not request.user.is_staff:
             messages.error(request, _("You do not have the permissions to create a topic."))
-            return HttpResponseRedirect('/forums/topic/' + str(self.topic.id) + '/page1')
+            topic_page = self.topic.posts_range()[-1]
+            return HttpResponseRedirect('/forums/topic/' + str(self.topic.id) + '/page' + str(topic_page))
         return super(PostCreateView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -169,7 +170,8 @@ class PostCreateView(FormView):
         for v in view:
             v.visited = False
             v.save()
-        self.success_url = ('/forums/topic/' + str(self.topic.id) + '/page1')
+        topic_page = self.topic.posts_range()[-1]
+        self.success_url = ('/forums/topic/' + str(self.topic.id) + '/page' + str(topic_page))
 
         return super(PostCreateView, self).form_valid(form)
 
@@ -204,7 +206,7 @@ class LockTopicView(DetailView):
             else:
                 object.is_closed = True
         object.save()
-        return HttpResponseRedirect('/forums/topic/' + self.pk + '/page1')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
 from django.template import RequestContext
@@ -230,7 +232,6 @@ class PostEditView(FormView):
         self.pk = kwargs.get('pk', None)
         self.post = Post.objects.get(id=kwargs.get('pk', None))
         name = self.post.user.user.username
-        print name
         if request.method == 'POST':
             form = PostEditForm(request.POST)
             if form.is_valid():
@@ -239,7 +240,8 @@ class PostEditView(FormView):
                 post.save()
             else:
                 return render_to_response('forums/edit_post.html', locals(), RequestContext(request))
-            return HttpResponseRedirect('/forums/topic/' + str(self.post.topic.id) + '/page1')
+            topic_page = self.post.topic.posts_range()[-1]
+            return HttpResponseRedirect('/forums/topic/' + str(self.post.topic.id) + '/page' + str(topic_page))
         else:
             form = PostEditForm(initial={'message': self.post})
         return render(request, 'forums/edit_post.html', {'form': form, 'pk': self.pk, 'post': self.post, 'name': name})
@@ -263,9 +265,82 @@ class PostRemoveView(FormView):
                         self.post.topic.last_post = posts_reversed[1]
                         self.post.topic.save()
                         self.post.delete()
-                return HttpResponseRedirect('/forums/topic/' + str(self.post.topic.id) + '/page1')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
             except EnvironmentError:
-                return HttpResponseRedirect('/forums/topic/' + str(self.post.topic.id) + 'page1')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         self.pk = kwargs.get('pk', None)
         self.post = Post.objects.get(id=kwargs.get('pk', None))
-        return HttpResponseRedirect('/forums/topic/' + str(self.post.topic.id) + 'page1')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+class PinTopicView(DetailView):
+    def get_context_data(self, **kwargs):
+        context = super(PinTopicView, self).get_context_data(**kwargs)
+        if self.request.user.groups.all()[0].name == "Officer":
+            if self.object.pinned:
+                self.object.pinned = False
+            else:
+                self.object.pinned = True
+        self.object.save()
+        return context
+
+    model = Topic
+
+    def dispatch(self, request, *args, **kwargs):
+        self.pk = kwargs.get('pk')
+        object = Topic.objects.get(id=self.pk)
+        if self.request.user.groups.all()[0].name == "Officer":
+            if object.pinned:
+                object.pinned = False
+            else:
+                object.pinned = True
+        object.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+class UpRatePostView(DetailView):
+    def dispatch(self, request, *args, **kwargs):
+        self.pk = kwargs.get('pk')
+        object = Post.objects.get(id=self.pk)
+        user = request.user
+        rated_post = PostRating.objects.filter(user=user, post=object)
+        try:
+            if rated_post[0].rated:
+                error = "You can't rate multiple times the same post."
+            else:
+                object.rating += 1
+                object.save()
+                rated_post.rated = True
+                rated_post.rating = 1
+                rated_post.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        except:
+            object.rating += 1
+            object.save()
+            rated_post = PostRating(user=user, post=object, rating=1, rated=True)
+            rated_post.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+class DownRatePostView(DetailView):
+    def dispatch(self, request, *args, **kwargs):
+        self.pk = kwargs.get('pk')
+        object = Post.objects.get(id=self.pk)
+        user = request.user
+        rated_post = PostRating.objects.filter(user=user, post=object)
+        try:
+            if rated_post[0].rated:
+                error = "You can't rate multiple times the same post."
+            else:
+                object.rating -= 1
+                object.save()
+                rated_post.rated = True
+                rated_post.rating = -1
+                rated_post.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        except:
+            object.rating -= 1
+            object.save()
+            rated_post = PostRating(user=user, post=object, rating=-1, rated=True)
+            rated_post.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

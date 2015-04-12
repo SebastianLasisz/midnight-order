@@ -13,69 +13,105 @@
             <link rel="stylesheet" type="text/css" title="slate" href="/media/css/bootstrap.min.css">
         {% endif %}
     {% endif %}
+    <!-- Recaptcha & icon -->
     <link rel="Shortcut icon" href="/media/img/favicon.ico"/>
     <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
     <!-- wowhead API -->
     <script type="text/javascript" src="http://static.wowhead.com/widgets/power.js"></script>
     <script>var wowhead_tooltips = { "colorlinks": true, "iconizelinks": true, "renamelinks": true }</script>
     <!-- Scripts -->
+    <script src="http://code.jquery.com/jquery.js"></script>
     <script src="/media/js/analytics.js"></script>
     <script src="/media/js/cookie.js"></script>
-    <!-- Add jQuery library -->
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <!-- Add mousewheel plugin (this is optional) -->
+    <script src="/media/js/fancybox.js"></script>
+    <script src="/media/js/bootstrap.min.js"></script>
+    <!-- FancyBox -->
     <script type="text/javascript" src="/media/js/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
-    <!-- Add fancyBox -->
     <link rel="stylesheet" href="/media/js/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen"/>
     <script type="text/javascript" src="/media/js/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-    <!-- Optionally add helpers - button, thumbnail and/or media -->
     <link rel="stylesheet" href="/media/js/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css"
           media="screen"/>
     <script type="text/javascript" src="/media/js/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
     <script type="text/javascript" src="/media/js/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
-
     <link rel="stylesheet" href="/media/js/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css"
           media="screen"/>
     <script type="text/javascript" src="/media/js/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+    <!-- Alertify -->
+    <script src="/media/js/alertify.min.js"></script>
+    <link rel="stylesheet" href="/media/css/alertify.core.css"/>
+    <link rel="stylesheet" href="/media/css//alertify.default.css"/>
 </head>
-
 <body>
+<!-- Notification script for messages -->
 <script>
+    var counter = {{ messages_inbox_count }};
     $(document).ready(function () {
-        $("img").each(function () {
-            var image = $(this);
-            if (image.width() > 100) {
-                $(this).replaceWith("<a class='fancybox' rel='group' href='" + $(this).attr("src") + "'>" + "<img src='" + $(this).attr("src") + "' style='width: 100%';/>" + "</a>");
-            }
-        })
+        auto_refresh();
     });
+    function auto_refresh() {
+        $.ajax({
+            url: '/ajax_test',
+            type: 'get',
+            success: function (data) {
+                if (data != counter) {
+                    alertify.set({ delay: 500000 });
+                    alertify.success("You've received new message.");
+                    counter = data;
+                }
+            }
+        });
+    }
+    var refreshId = setInterval(auto_refresh, 10000);
 </script>
-<script src="/media/js/bootstrap.min.js"></script>
-{% if  messages_inbox_count  > 0 %}
-    <div class="alert alert-info alert-dismissible informationbar" role="alert">
-        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span
-                class="sr-only">Close</span></button>
-        <strong>Information!</strong> You've got <a href="/messages">{{ messages_inbox_count }}</a> unread messages.
-    </div>
-{% endif %}
+<!-- Notification script for upvotes -->
+<script>
+    var counter_upvote = {{ post_rating_count }};
+    $(document).ready(function () {
+        auto_refresh_upvote();
+    });
+    function auto_refresh_upvote() {
+        $.ajax({
+            url: '/ajax_upvote',
+            type: 'get',
+            success: function (data) {
+                if (data != counter_upvote) {
+                    alertify.set({ delay: 500000 });
+                    alertify.success("One of your posts got rated.");
+                    counter_upvote = data;
+                }
+            }
+        });
+    }
+    var refreshId2 = setInterval(auto_refresh_upvote, 10000);
+</script>
 
-<div class="div-pos">
+<div class="div-pos" style="overflow: visible;">
     {% if not user.is_authenticated %}
-        <div class="navigation-bar">
+        <div class="navigation-bar" style="overflow: visible;">
     {% else %}
-        <div class="foo">
+        <div class="foo" style="overflow: visible;">
     {% endif %}
     <ul class="nav nav-pills">
         <li><a href="/">Home</a></li>
         <li><a href="/policies">Policies</a></li>
-        <li><a href="/forums">Forum</a></li>
+        <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Forum <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a href="/forums">Forum</a></li>
+                <li class="divider"></li>
+                <li><a href="/forums/new_content/">View new content</a></li>
+            </ul>
+        </li>
         <li><a href="/members">Members</a></li>
         <li><a href="/recruitment">Recruitment</a></li>
         {% if not user.is_authenticated %}
             <li><a href="/login">Log in</a></li>
         {% else %}
             <li><a href="/profile">Profile</a></li>
-            <li><a href="/messages">Inbox</a></li>
+            {% if  messages_inbox_count > 0 %}
+                <li><a href="/messages">Inbox <span class="badge">{{ messages_inbox_count }}</span></a></li>
+            {% else %}
+                <li><a href="/messages">Inbox</a></li>
+            {% endif %}
             <li><a href="/log-out">Log out</a></li>
         {% endif %}
     </ul>

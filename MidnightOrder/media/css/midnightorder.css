@@ -110,7 +110,7 @@ code, kbd, pre, samp {
 }
 
 button, input, optgroup, select, textarea {
-    color: inherit;
+    color: #000000;
     font: inherit;
     margin: 0
 }
@@ -552,7 +552,7 @@ a.bg-danger:hover {
 .page-header {
     padding-bottom: 9px;
     margin: 40px 0 20px;
-    border-bottom: 1px solid #1c1e22
+    border-bottom: 1px solid #1e1941
 }
 
 ul, ol {
@@ -1639,7 +1639,7 @@ th {
 }
 
 .table .table {
-    background-color: #272b30
+    background-color: none
 }
 
 .table-condensed > thead > tr > th, .table-condensed > tbody > tr > th, .table-condensed > tfoot > tr > th, .table-condensed > thead > tr > td, .table-condensed > tbody > tr > td, .table-condensed > tfoot > tr > td {
@@ -1647,11 +1647,11 @@ th {
 }
 
 .table-bordered {
-    border: 1px solid #1c1e22
+    border: 1px solid #1e1941
 }
 
 .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
-    border: 1px solid #1c1e22
+    border: 1px solid #1e1941
 }
 
 .table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
@@ -1663,7 +1663,7 @@ th {
 }
 
 .table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th {
-    background-color: #49515a
+    background-color: #1e1941
 }
 
 table col[class*="col-"] {
@@ -2206,8 +2206,8 @@ textarea.input-lg, select[multiple].input-lg {
 
 .btn-primary {
     color: #ffffff;
-    background-color: #02005c;
-    border-color: #02005c;
+    background-image: linear-gradient(#1e1941, #030321 100%, #1e1941);
+    border-color: rgba(30, 25, 65, 1);
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
@@ -3273,9 +3273,8 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
     margin: 2px 0 0;
     list-style: none;
     font-size: 14px;
-    background-color: #3a3f44;
-    border: 1px solid #272b30;
-    border: 1px solid rgba(0, 0, 0, 0.15);
+    background-image: linear-gradient(#1e1941, #030321 100%, #1e1941);
+    border: 1px solid rgba(30, 25, 65, 0.85)
     border-radius: 4px;
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
@@ -3291,7 +3290,7 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
     height: 1px;
     margin: 9px 0;
     overflow: hidden;
-    background-color: #272b30
+    background-color: #1e1941
 }
 
 .dropdown-menu > li > a {
@@ -3307,7 +3306,7 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
     text-decoration: none;
     color: #ffffff;
-    background-color: #272b30
+    #background-color: #1e1941
 }
 
 .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
@@ -3742,7 +3741,7 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
 }
 
 .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
-    background-color: #3e444c;
+    background-image: linear-gradient(#1e1941, #030321 100%, #1e1941);
     border-color: #ffffff
 }
 
@@ -3758,7 +3757,7 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
 }
 
 .nav-tabs {
-    border-bottom: 1px solid #1c1e22
+    border-bottom: 1px solid #1e1941
 }
 
 .nav-tabs > li {
@@ -3774,13 +3773,13 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
 }
 
 .nav-tabs > li > a:hover {
-    border-color: #1c1e22 #1c1e22 #1c1e22
+    border-color: rgba(30, 25, 65, 0.2)
 }
 
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
     color: #ffffff;
-    background-color: #3e444c;
-    border: 1px solid #1c1e22;
+    background-image: linear-gradient(#1e1941, #030321 100%, #1e1941);
+    border: 1px solid #1e1941;
     border-bottom-color: transparent;
     cursor: default
 }
@@ -6295,7 +6294,7 @@ button.close {
 }
 
 .btn, .btn:hover {
-    border-color: rgba(0, 0, 0, 0.6);
+    border-color: rgba(30, 25, 65, 0.2)
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3)
 }
 
@@ -6308,24 +6307,24 @@ button.close {
 }
 
 .btn-default:hover {
-    background-image: -webkit-linear-gradient(#020202, #101112 40%, #191b1d);
-    background-image: linear-gradient(#020202, #101112 40%, #191b1d);
+    background-image: linear-gradient(#1e1941, #1e1941 100%, #1e1941);
+    background-image: linear-gradient(#1e1941, #1e1941 100%, #1e1941);
     background-repeat: no-repeat;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff020202', endColorstr='#ff191b1d', GradientType=0);
     filter: none
 }
 
 .btn-primary {
-    background-image: -webkit-linear-gradient(#100841, #02005c 60%, #100841);
-    background-image: linear-gradient(#100841, #02005c 60%, #100841);
+    background-image: -webkit-linear-gradient(#1e1941, #030321 100%, #1e1941);
+    background-image: linear-gradient(#1e1941, #030321 100%, #1e1941);
     background-repeat: no-repeat;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8a9196', endColorstr='#ff70787d', GradientType=0);
     filter: none
 }
 
 .btn-primary:hover {
-    background-image: -webkit-linear-gradient(#02005c, #02005c 100%, #02005c);
-    background-image: linear-gradient(#02005c, #02005c 100%, #02005c);
+    background-image: -webkit-linear-gradient(#1e1941, #1e1941 100%, #1e1941);
+    background-image: linear-gradient(#1e1941, #1e1941 100%, #1e1941);
     background-repeat: no-repeat;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff404448', endColorstr='#ff585e62', GradientType=0);
     filter: none
@@ -6624,7 +6623,7 @@ body {
 }
 
 .active{
-    background-color: #030321
+    background-color: rgba(30, 25, 65, 0.2)
 }
 
 div {
@@ -6655,28 +6654,28 @@ div {
 .panel-default {
     color: #c8c8c8;
     background-color: rgba(3,3,33, 0.85);
-    border-color: rgba(95, 49, 97, 0.5);
+    border-color: rgba(30, 25, 65, 0.85);
 }
 
 .nav > li > a:hover, .nav > li > a:focus {
     text-decoration: none;
-    background-color: #030321;
+    background-color: #1e1941;
 }
 
 .nav-pills > li > a {
-    background-image: linear-gradient(#030321, #030321 100%, #030321);
-    border: 1px solid rgba(95, 49, 97, 0.6);
+    background-image: linear-gradient(#1e1941, #030321 100%, #1e1941);
+    border: 1px solid rgba(30, 25, 65, 0.85)
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
 }
 
 .nav-pills > li > a:hover {
-    background-image: -webkit-linear-gradient(#100841, #02005c 40%, #190041);
-    background-image: linear-gradient(#100841, #02005c 40%, #190041);
-    border: 1px solid rgba(95, 49, 97, 0.6);
+    background-image: linear-gradient(#1e1941, #1e1941 100%, #1e1941);
+    background-image: linear-gradient(#1e1941, #1e1941 100%, #1e1941);
+    border: 1px solid rgba(30, 25, 65, 0.2);
 }
 
 hr {
-    border-top: 1px solid rgba(95, 49, 97, 1);
+    border-top: 1px solid rgba(30, 25, 65, 0.85);
 }
 
 .featuredImg {
@@ -6851,22 +6850,21 @@ div {
 }
 
 .btn-default{
-    background-image: linear-gradient(#030321, #030321 100%, #030321);
-    border: 1px solid rgba(95, 49, 97, 0.6);
+    background-image: linear-gradient(#1e1941, #030321 100%, #1e1941);
+    border: 1px solid rgba(30, 25, 65, 0.85)
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
-    background-color: #030321;
-    #background-image: linear-gradient(#030321, #030321 100%, #030321);
-    border: 1px solid rgba(95, 49, 97, 0.6);
+    background-image: linear-gradient(#1e1941, #1e1941 100%, #1e1941);
+    border: 1px solid rgba(30, 25, 65, 0.2)
 }
 
 .list-group-item{
-    background-color: #030321;
+    background-image: linear-gradient(#1e1941, #1e1941 100%, #1e1941);
 }
 
 a.list-group-item:hover, a.list-group-item:focus {
-    background-color:  #02005c;
+    background-image: linear-gradient(#1e1941, #030321 100%, #1e1941);
 }
 
 @media screen and (max-width: 1000px) {
@@ -6883,4 +6881,15 @@ a.list-group-item:hover, a.list-group-item:focus {
         width: 100%;
         right: 0px;
     }
+}
+
+.pagination{
+    margin: 0px;
+    display: inline;
+}
+
+.nav-center {
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
 }

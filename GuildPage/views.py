@@ -8,12 +8,12 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.contrib.auth import logout
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
-
+from django_messages.models import inbox_count_for
 from Members.models import Member
 from News.models import News
 from News.form import *
@@ -21,6 +21,7 @@ from Register.models import Register, UserProfile
 from Register.form import *
 from GuildPage.form import *
 from Progress.models import *
+from forums.models import Post, PostRating, View, Topic
 
 
 def index(request):
@@ -375,3 +376,52 @@ def profile(request):
     return render(request, 'profile.html', {
         'form': form, 'avatar': avatar, 'username': username, 'signature': signature, 'style': style
     })
+
+
+def ajax_test(request):
+    if request.is_ajax():
+        msg = inbox_count_for(request.user)
+    else:
+        msg = "Woops! Something went wrong."
+    return HttpResponse(msg)
+
+
+def ajax_upvote(request):
+    if request.is_ajax():
+        if request.user.is_authenticated():
+            user = UserProfile.objects.get(user=request.user)
+            posts = Post.objects.filter(user=user)
+            rated_posts = PostRating.objects.filter(post__in=posts).count()
+            msg = rated_posts
+        else:
+            msg = "Woops! Something went wrong."
+    else:
+        msg = "Woops! Something went wrong."
+    return HttpResponse(msg)
+
+
+def new_content(request):
+    user = request.user
+    unread_posts = View.objects.filter(visited=False, user=user)
+    date_day = datetime.datetime.now() - datetime.timedelta(days=1)
+    date_week = datetime.datetime.now() - datetime.timedelta(days=7)
+    date_month = datetime.datetime.now() - datetime.timedelta(days=31)
+    posts_day = Post.objects.filter(created__gte=date_day)
+    posts_week = Post.objects.filter(created__gte=date_week)
+    posts_month = Post.objects.filter(created__gte=date_month)
+    #List of topics posted in past day
+    topics_day = []
+    for t in posts_day:
+        topics_day.append(t.topic)
+    posts_day = set(topics_day)
+    #List of topics posted in past week
+    topics_week = []
+    for t in posts_week:
+        topics_week.append(t.topic)
+    posts_week = set(topics_week)
+    #List of topics posted in past week
+    topics_month = []
+    for t in posts_month:
+        topics_month.append(t.topic)
+    posts_month = set(topics_month)
+    return render_to_response('new_content.html', locals(), RequestContext(request))
