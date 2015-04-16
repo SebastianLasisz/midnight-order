@@ -5,153 +5,62 @@
     {% endblock %}
     <link href="/media/css/summernote.css" rel="stylesheet">
     <script src="/media/js/summernote.min.js"></script>
-    {% block breadcrumb %}
-        <ol class="breadcrumb">
-            <li><a href="{% url 'forums:overview' %}">{% trans "Forums" %}</a></li>
-            <li>
-                <a href="{% url 'forums:overview' %}#{{ forum.category.id }}">{{ forum.category.name }}</a>
-            </li>
-            <li><a href="{% url 'forums:forum' forum.id %}">{{ forum.name }}</a></li>
-            <li class="active">{% trans "Create topic" %}</li>
-        </ol>
-    {% endblock %}
-    {% if not user.is_authenticated  or user.groups.all.0.name == "Initiate" %}
-        {% if forum.category.name == "Public Forums" %}
-            <div class="page-header">
-                <h1>{% trans "Create Topic" %}</h1>
-            </div>
-            <table class="table table-bordered">
-                <div class="row">
-                    <tr>
-                        <td width="100">
-                            <div class="span3">
+    {% if forum.category.name == "Public Forums" or user.is_authenticated and user.groups.all.0.name != "Initiate" and forum.category.name != "Forum: Restricted forums" or forum.category.name == "Forum: Restricted forums" and forum.name != "Officer's Chat" and user.groups.all.0.name == "Leader" or user.groups.all.0.name == "Officer" %}
+        {% block breadcrumb %}
+            <ol class="breadcrumb">
+                <li><a href="{% url 'forums:overview' %}">{% trans "Forums" %}</a></li>
+                <li>
+                    <a href="{% url 'forums:overview' %}#{{ forum.category.id }}">{{ forum.category.name }}</a>
+                </li>
+                <li><a href="{% url 'forums:forum' forum.id %}">{{ forum.name }}</a></li>
+                <li class="active">{% trans "Create topic" %}</li>
+            </ol>
+        {% endblock %}
+        <div class="page-header">
+            <h1>{% trans "Create Topic" %}</h1>
+        </div>
+        <table class="table table-bordered">
+            <div class="row">
+                <tr>
+                    <td width="100">
+                        <div class="span3">
+                            <center>
+                                <b><strong><i>{{ user.username }}</i></strong></b>
+                            </center>
+
+                            <center><img src="/media/{{ avatar }}"
+                                         onerror="this.src='/media/img/logo3.jpg';"
+                                         alt="" width=100 height=100 class="img-rounded"
+                                         alt="avatar"></center>
+                            {% if user.groups.all.1.name %}
+                                <p>
                                 <center>
-                                    <b><strong><i>{{ user.username }}</i></strong></b>
-                                </center>
-
-                                <center><img src="/media/{{ avatar }}"
-                                             onerror="this.src='/media/img/logo3.jpg';"
-                                             alt="" width=100 height=100 class="img-rounded"
-                                             alt="avatar"></center>
-                                {% if user.groups.all.1.name %}
-                                    <p>
-                                    <center>
-                                        <font color="#87ceeb"><strong><i>{{ user.groups.all.1.name }}</i></strong></font>
-                                    </center></p>
-                                {% else %}
-                                    <p>
-                                    <center>
-                                        <strong><i>{{ user.groups.all.0.name }}</i></strong>
-                                    </center></p>
-                                {% endif %}</div>
-                        </td>
-                        <td>
-                            <div class="span7 world-break">
-                                <form method="post"
-                                      action="{% url 'forums:topic_create' forum.id %}">
-                                    {% csrf_token %}
-                                    {% include "forms.html" %}
-                                    <p><input type="submit" class="btn btn-primary"
-                                              value="{% trans "Create topic" %}"></p>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                </div>
-            </table>
-        {% endif %}
+                                    <font color="#87ceeb"><strong><i>{{ user.groups.all.1.name }}</i></strong></font>
+                                </center></p>
+                            {% else %}
+                                <p>
+                                <center>
+                                    <strong><i>{{ user.groups.all.0.name }}</i></strong>
+                                </center></p>
+                            {% endif %}</div>
+                    </td>
+                    <td>
+                        <div class="span7 world-break">
+                            <form method="post"
+                                  action="{% url 'forums:topic_create' forum.id %}">
+                                {% csrf_token %}
+                                {% include "forms.html" %}
+                                <p><input type="submit" class="btn btn-primary"
+                                          value="{% trans "Create topic" %}"></p>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </div>
+        </table>
     {% else %}
-        {% if user.groups.all.0.name == "Officer" or user.groups.all.0.name == "Leader" %}
-            {% if forum.name == "Officer's Chat" and user.groups.all.0.name == "Leader" %}
-            {% else %}
-                <div class="page-header">
-                    <h1>{% trans "Create Topic" %}</h1>
-                </div>
-                <table class="table table-bordered">
-                    <div class="row">
-                        <tr>
-                            <td width="100">
-                                <div class="span3">
-                                    <center>
-                                        <b><strong><i>{{ user.username }}</i></strong></b>
-                                    </center>
-
-                                    <center><img src="/media/{{ avatar }}"
-                                                 onerror="this.src='/media/img/logo3.jpg';"
-                                                 alt="" width=100 height=100 class="img-rounded"
-                                                 alt="avatar"></center>
-                                    {% if user.groups.all.1.name %}
-                                        <p>
-                                        <center>
-                                            <font color="#87ceeb"><strong><i>{{ user.groups.all.1.name }}</i></strong></font>
-                                        </center></p>
-                                    {% else %}
-                                        <p>
-                                        <center>
-                                            <strong><i>{{ user.groups.all.0.name }}</i></strong>
-                                        </center></p>
-                                    {% endif %}</div>
-                            </td>
-                            <td>
-                                <div class="span7 world-break">
-                                    <form method="post"
-                                          action="{% url 'forums:topic_create' forum.id %}">
-                                        {% csrf_token %}
-                                        {% include "forms.html" %}
-                                        <p><input type="submit" class="btn btn-primary"
-                                                  value="{% trans "Create topic" %}"></p>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    </div>
-                </table>
-            {% endif %}
-        {% else %}
-            {% if user.groups.all.0.name != "Officer" and user.groups.all.0.name != "Leader" and forum.category.name != "Forum: Restricted forums" %}
-                <div class="page-header">
-                    <h1>{% trans "Create Topic" %}</h1>
-                </div>
-                <table class="table table-bordered">
-                    <div class="row">
-                        <tr>
-                            <td width="100">
-                                <div class="span3">
-                                    <center>
-                                        <b><strong><i>{{ user.username }}</i></strong></b>
-                                    </center>
-
-                                    <center><img src="/media/{{ avatar }}"
-                                                 onerror="this.src='/media/img/logo3.jpg';"
-                                                 alt="" width=100 height=100 class="img-rounded"
-                                                 alt="avatar"></center>
-                                    {% if user.groups.all.1.name %}
-                                        <p>
-                                        <center>
-                                            <font color="#87ceeb"><strong><i>{{ user.groups.all.1.name }}</i></strong></font>
-                                        </center></p>
-                                    {% else %}
-                                        <p>
-                                        <center>
-                                            <strong><i>{{ user.groups.all.0.name }}</i></strong>
-                                        </center></p>
-                                    {% endif %}</div>
-                            </td>
-                            <td>
-                                <div class="span7 world-break">
-                                    <form method="post"
-                                          action="{% url 'forums:topic_create' forum.id %}">
-                                        {% csrf_token %}
-                                        {% include "forms.html" %}
-                                        <p><input type="submit" class="btn btn-primary"
-                                                  value="{% trans "Create topic" %}"></p>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    </div>
-                </table>
-            {% endif %}
-        {% endif %}
+        <div class="center Mythic">
+            You don't have access to see this page.
+        </div>
     {% endif %}
 {% endblock %}

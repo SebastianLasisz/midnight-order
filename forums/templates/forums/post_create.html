@@ -6,155 +6,68 @@
     {% endblock %}
     <link href="/media/css/summernote.css" rel="stylesheet">
     <script src="/media/js/summernote.min.js"></script>
-    {% block breadcrumb %}
-        <ol class="breadcrumb">
-            <li><a href="{% url 'forums:overview' %}">{% trans "Forums" %}</a></li>
-            <li>
-                <a href="{% url 'forums:overview' %}#{{ topic.forum.category.id }}">{{ topic.forum.category.name }}</a>
-            </li>
-            <li><a href="{% url 'forums:forum' topic.forum.id %}">{{ topic.forum.name }}</a></li>
-            <li><a href="/forums/topic/{{ topic.id }}/page1">{{ topic.name }}</a></li>
-            <li class="active">{% trans "Create post" %}</li>
-        </ol>
-    {% endblock %}
     {% if not topic.is_closed or user.groups.all.0.name == "Officer" %}
-        {% if not user.is_authenticated  or user.groups.all.0.name == "Initiate" %}
-            {% if topic.forum.category.name == "Public Forums" %}
-                <h1>{% trans "Create Post" %}</h1>
-                <table class="table table-bordered">
-                    <div class="row">
-                        <tr>
-                            <td width="100">
-                                <div class="span3">
+        {% if topic.forum.category.name == "Public Forums" or user.is_authenticated and user.groups.all.0.name != "Initiate" and topic.forum.category.name != "Forum: Restricted forums" or topic.forum.category.name == "Forum: Restricted forums" and topic.forum.name != "Officer's Chat" and user.groups.all.0.name == "Leader" or user.groups.all.0.name == "Officer" %}
+            {% block breadcrumb %}
+                <ol class="breadcrumb">
+                    <li><a href="{% url 'forums:overview' %}">{% trans "Forums" %}</a></li>
+                    <li>
+                        <a href="{% url 'forums:overview' %}#{{ topic.forum.category.id }}">{{ topic.forum.category.name }}</a>
+                    </li>
+                    <li><a href="{% url 'forums:forum' topic.forum.id %}">{{ topic.forum.name }}</a></li>
+                    <li><a href="/forums/topic/{{ topic.id }}/page1">{{ topic.name }}</a></li>
+                    <li class="active">{% trans "Create post" %}</li>
+                </ol>
+            {% endblock %}
+            <h1>{% trans "Create Post" %}</h1>
+            <table class="table table-bordered">
+                <div class="row">
+                    <tr>
+                        <td width="100">
+                            <div class="span3">
+                                <center>
+                                    <b><strong><i>{{ user.username }}</i></strong></b>
+                                </center>
+
+                                <center><img src="/media/{{ avatar }}"
+                                             onerror="this.src='/media/img/logo3.jpg';"
+                                             alt="" width=100 height=100 class="img-rounded"
+                                             alt="avatar"></center>
+                                {% if user.groups.all.1.name %}
+                                    <p>
                                     <center>
-                                        <b><strong><i>{{ user.username }}</i></strong></b>
-                                    </center>
-
-                                    <center><img src="/media/{{ avatar }}"
-                                                 onerror="this.src='/media/img/logo3.jpg';"
-                                                 alt="" width=100 height=100 class="img-rounded"
-                                                 alt="avatar"></center>
-                                    {% if user.groups.all.1.name %}
-                                        <p>
-                                        <center>
-                                            <font color="#87ceeb"><strong><i>{{ user.groups.all.1.name }}</i></strong></font>
-                                        </center></p>
-                                    {% else %}
-                                        <p>
-                                        <center>
-                                            <strong><i>{{ user.groups.all.0.name }}</i></strong>
-                                        </center></p>
-                                    {% endif %}
-                                </div>
-                            </td>
-                            <td>
-                                <div class="span7 world-break">
-                                    <form method="post"
-                                          action="{% url 'forums:post_create' topic.id %}">
-                                        {% csrf_token %}
-                                        {% include "forms.html" %}
-                                        <p><input type="submit" class="btn btn-primary"
-                                                  value="{% trans "Create post" %}"></p>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    </div>
-                </table>
-            {% endif %}
+                                        <font color="#87ceeb"><strong><i>{{ user.groups.all.1.name }}</i></strong></font>
+                                    </center></p>
+                                {% else %}
+                                    <p>
+                                    <center>
+                                        <strong><i>{{ user.groups.all.0.name }}</i></strong>
+                                    </center></p>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="span7 world-break">
+                                <form method="post"
+                                      action="{% url 'forums:post_create' topic.id %}">
+                                    {% csrf_token %}
+                                    {% include "forms.html" %}
+                                    <p><input type="submit" class="btn btn-primary"
+                                              value="{% trans "Create post" %}"></p>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </div>
+            </table>
         {% else %}
-            {% if user.groups.all.0.name == "Officer" or user.groups.all.0.name == "Leader" %}
-                {% if topic.forum.name == "Officer's Chat" and user.groups.all.0.name == "Leader" %}
-                {% else %}
-                    <h1>{% trans "Create Post" %}</h1>
-                    <table class="table table-bordered">
-                        <div class="row">
-                            <tr>
-                                <td width="100">
-                                    <div class="span3">
-                                        <center>
-                                            <b><strong><i>{{ user.username }}</i></strong></b>
-                                        </center>
-
-                                        <center><img src="/media/{{ avatar }}"
-                                                     onerror="this.src='/media/img/logo3.jpg';"
-                                                     alt="" width=100 height=100 class="img-rounded"
-                                                     alt="avatar"></center>
-                                        {% if user.groups.all.1.name %}
-                                            <p>
-                                            <center>
-                                                <font color="#87ceeb"><strong><i>{{ user.groups.all.1.name }}</i></strong></font>
-                                            </center></p>
-                                        {% else %}
-                                            <p>
-                                            <center>
-                                                <strong><i>{{ user.groups.all.0.name }}</i></strong>
-                                            </center></p>
-                                        {% endif %}
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="span7 world-break">
-                                        <form method="post"
-                                              action="{% url 'forums:post_create' topic.id %}">
-                                            {% csrf_token %}
-                                            {% include "forms.html" %}
-                                            <p><input type="submit" class="btn btn-primary"
-                                                      value="{% trans "Create post" %}"></p>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        </div>
-                    </table>
-                {% endif %}
-            {% else %}
-                {% if user.groups.all.0.name != "Officer" and user.groups.all.0.name != "Leader" and topic.forum.category.name != "Forum: Restricted forums" %}
-                    <h1>{% trans "Create Post" %}</h1>
-                    <table class="table table-bordered">
-                        <div class="row">
-                            <tr>
-                                <td width="100">
-                                    <div class="span3">
-                                        <center>
-                                            <b><strong><i>{{ user.username }}</i></strong></b>
-                                        </center>
-
-                                        <center><img src="/media/{{ avatar }}"
-                                                     onerror="this.src='/media/img/logo3.jpg';"
-                                                     alt="" width=100 height=100 class="img-rounded"
-                                                     alt="avatar"></center>
-                                        {% if user.groups.all.1.name %}
-                                            <p>
-                                            <center>
-                                                <font color="#87ceeb"><strong><i>{{ user.groups.all.1.name }}</i></strong></font>
-                                            </center></p>
-                                        {% else %}
-                                            <p>
-                                            <center>
-                                                <strong><i>{{ user.groups.all.0.name }}</i></strong>
-                                            </center></p>
-                                        {% endif %}
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="span7 world-break">
-                                        <form method="post"
-                                              action="{% url 'forums:post_create' topic.id %}">
-                                            {% csrf_token %}
-                                            {% include "forms.html" %}
-                                            <p><input type="submit" class="btn btn-primary"
-                                                      value="{% trans "Create post" %}"></p>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        </div>
-                    </table>
-                {% endif %}
-            {% endif %}
+            <div class="center Mythic">
+                You don't have access to see this page.
+            </div>
         {% endif %}
     {% else %}
-        <p>You cannot add new posts to locked topics.</p>
+        <div class="center Mythic">
+            You don't have access to see this page.
+        </div>
     {% endif %}
 {% endblock %}

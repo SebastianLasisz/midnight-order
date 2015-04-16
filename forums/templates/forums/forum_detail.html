@@ -1,26 +1,25 @@
 {% extends "creation/base_nobar.html" %}
 {% block content %}
     {% load i18n %}
-    {% block breadcrumb %}
-        <ol class="breadcrumb">
-            <li><a href="{% url 'forums:overview' %}">{% trans "Forums" %}</a></li>
-            <li>
-                <a href="{% url 'forums:overview' %}#{{ forum.category.id }}">{{ forum.category.name }}</a>
-            </li>
-            <li class="active">{{ forum.name }}</li>
-        </ol>
-    {% endblock %}
-    <table class="table" style="margin: 0px">
-    <thead>
-    <tr>
-        <th colspan="2"></th>
-        <td></td>
-        <td></td>
-    </tr>
-    </thead>
-    <tbody>
-    {% if not user.is_authenticated  or user.groups.all.0.name == "Initiate" %}
-        {% if forum.category.name == "Public Forums" %}
+    {% if forum.category.name == "Public Forums" or user.is_authenticated and user.groups.all.0.name != "Initiate" and forum.category.name != "Forum: Restricted forums" or forum.category.name == "Forum: Restricted forums" and forum.name != "Officer's Chat" and user.groups.all.0.name == "Leader" or user.groups.all.0.name == "Officer" %}
+        {% block breadcrumb %}
+            <ol class="breadcrumb">
+                <li><a href="{% url 'forums:overview' %}">{% trans "Forums" %}</a></li>
+                <li>
+                    <a href="{% url 'forums:overview' %}#{{ forum.category.id }}">{{ forum.category.name }}</a>
+                </li>
+                <li class="active">{{ forum.name }}</li>
+            </ol>
+        {% endblock %}
+        <table class="table" style="margin: 0px">
+            <thead>
+            <tr>
+                <th colspan="2"></th>
+                <td></td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
             {% for topic in forum.topics.all %}
                 <tr>
                     <td style="width: 14px;"><i class="icon-circle-arrow-right"
@@ -87,175 +86,13 @@
                     </tr>
                 {% endif %}
             {% endfor %}
-        {% endif %}
+            </tbody>
+        </table>
+        <p class="right"><a href="{% url 'forums:topic_create' forum.id %}"
+                            class="btn btn-default">{% trans "Create new topic" %}</a></p>
     {% else %}
-        {% if user.groups.all.0.name == "Officer" or user.groups.all.0.name == "Leader" and forum.category.name == "Forum: Restricted forums" %}
-            {% if forum.name == "Officer's Chat" and user.groups.all.0.name == "Leader" %}
-            {% else %}
-                {% for topic in forum.topics.all %}
-                    <tr>
-                        <td style="width: 14px;"><i class="icon-circle-arrow-right"
-                                                    style="margin-top: 1px;"></i></td>
-                        <td style="width: 70%;">
-                            {% if topic.pinned %}
-                                <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
-                            {% endif %}
-                            {% if topic.is_closed %}
-                                <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
-                            {% endif %}
-                            {% for v in view_topic %}
-                                {% if v.topic.name == topic.name and v.visited == False %}
-                                    <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-                                {% endif %}
-                            {% endfor %}
-                            <a href="/forums/topic/{{ topic.id }}/page1">{{ topic.name }}</a>
-
-                            <p class="margin_forum">
-                                <small>
-                                    {% for posts in first_post %}
-                                        {% if forloop.counter == forloop.parentloop.counter %}
-                                            Started by {{ posts.user.user.username }}, {{ posts.created }}
-                                        {% endif %}
-                                    {% endfor %}
-                                    {% if topic.count_posts > 20 %}
-                                        {% for pages in topic.posts_range %}
-                                            <a href="/forums/topic/{{ topic.id }}/page{{ pages }}">{{ pages }}</a>
-                                        {% endfor %}
-                                    {% endif %}
-                                </small>
-                            </p>
-                        </td>
-                        <td>{{ topic.count_posts }} replies
-                            <p>{{ topic.counter }} views</p>
-                        </td>
-                        <td>
-                            <table style="Background:None">
-                                <tr>
-                                    <td>
-                                        <a href="/messages/compose/{{ topic.last_post.user.user.username }}"><img
-                                                src="/media/{{ topic.last_post.user.avatar }}"
-                                                onerror="this.src='/media/img/logo3.jpg';"
-                                                alt="" width=30 height=30 class="img-rounded"
-                                                alt="avatar"></a>
-                                    </td>
-                                    <td>
-                                        <p class="margin_forum">{{ topic.last_post.user.user.username }}</p>
-
-                                        <p class="margin_forum">{{ topic.last_post.updated }}</p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                {% empty %}
-                    {% if forum.is_closed %}
-                        <tr>
-                            <td colspan="5">{% trans "No topics in this forum, only admins can create and post here." %}</td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="5">{% trans "No topics in this forum, create one :)" %}</td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-        {% else %}
-            {% if user.groups.all.0.name != "Officer" and user.groups.all.0.name != "Leader" and forum.category.name == "Forum: Restricted forums" %}
-            {% else %}
-                {% for topic in forum.topics.all %}
-                    <tr>
-                        <td style="width: 14px;"><i class="icon-circle-arrow-right"
-                                                    style="margin-top: 1px;"></i></td>
-                        <td style="width: 70%;">
-                            {% if topic.pinned %}
-                                <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
-                            {% endif %}
-                            {% if topic.is_closed %}
-                                <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
-                            {% endif %}
-                            {% for v in view_topic %}
-                                {% if v.topic.name == topic.name and v.visited == False %}
-                                    <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-                                {% endif %}
-                            {% endfor %}
-                            <a href="/forums/topic/{{ topic.id }}/page1">{{ topic.name }}</a>
-
-                            <p class="margin_forum">
-                                <small>
-                                    {% for posts in first_post %}
-                                        {% if forloop.counter == forloop.parentloop.counter %}
-                                            Started by {{ posts.user.user.username }}, {{ posts.created }}
-                                        {% endif %}
-                                    {% endfor %}
-                                    {% if topic.count_posts > 20 %}
-                                        {% for pages in topic.posts_range %}
-                                            <a href="/forums/topic/{{ topic.id }}/page{{ pages }}">{{ pages }}</a>
-                                        {% endfor %}
-                                    {% endif %}
-                                </small>
-                            </p>
-                        </td>
-                        <td>{{ topic.count_posts }} replies
-                            <p>{{ topic.counter }} views</p>
-                        </td>
-                        <td>
-                            <table style="Background:None">
-                                <tr>
-                                    <td>
-                                        <a href="/messages/compose/{{ topic.last_post.user.user.username }}"><img
-                                                src="/media/{{ topic.last_post.user.avatar }}"
-                                                onerror="this.src='/media/img/logo3.jpg';"
-                                                alt="" width=30 height=30 class="img-rounded"
-                                                alt="avatar"></a>
-                                    </td>
-                                    <td>
-                                        <p class="margin_forum">{{ topic.last_post.user.user.username }}</p>
-
-                                        <p class="margin_forum">{{ topic.last_post.updated }}</p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                {% empty %}
-                    {% if forum.is_closed %}
-                        <tr>
-                            <td colspan="5">{% trans "No topics in this forum, only admins can create and post here." %}</td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="5">{% trans "No topics in this forum, create one :)" %}</td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-        {% endif %}
-    {% endif %}
-    </tbody>
-    </table>
-    {% if not user.is_authenticated  or user.groups.all.0.name == "Initiate" %}
-        {% if forum.category.name == "Public Forums" %}
-            {% if not forum.is_closed or user.is_staff %}
-                <p class="right"><a href="{% url 'forums:topic_create' forum.id %}"
-                                    class="btn btn-default">{% trans "Create new topic" %}</a></p>
-            {% endif %}
-        {% endif %}
-    {% else %}
-        {% if user.groups.all.0.name == "Officer" or user.groups.all.0.name == "Leader" %}
-            {% if forum.name == "Officer's Chat" and user.groups.all.0.name == "Leader" %}
-            {% else %}
-                {% if not forum.is_closed or user.is_staff %}
-                    <p class="right"><a href="{% url 'forums:topic_create' forum.id %}"
-                                        class="btn btn-default">{% trans "Create new topic" %}</a></p>
-                {% endif %}
-            {% endif %}
-        {% else %}
-            {% if user.groups.all.0.name != "Officer" and user.groups.all.0.name != "Leader" and forum.category.name != "Forum: Restricted forums" %}
-                {% if not forum.is_closed or user.is_staff %}
-                    <p class="right"><a href="{% url 'forums:topic_create' forum.id %}"
-                                        class="btn btn-default">{% trans "Create new topic" %}</a></p>
-                {% endif %}
-            {% endif %}
-        {% endif %}
+        <div class="center Mythic">
+            You don't have access to see this page.
+        </div>
     {% endif %}
 {% endblock %}
