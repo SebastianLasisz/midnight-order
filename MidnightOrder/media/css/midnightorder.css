@@ -6524,16 +6524,16 @@ legend {
 
 .pagination > li > a {
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-    background-image: -webkit-linear-gradient(#484e55, #3a3f44 60%, #313539);
-    background-image: linear-gradient(#484e55, #3a3f44 60%, #313539);
+    background-image: -webkit-linear-gradient(#1e1941, #030321 100%, #1e1941);
+    background-image: linear-gradient(#1e1941, #030321 100%, #1e1941);
     background-repeat: no-repeat;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff484e55', endColorstr='#ff313539', GradientType=0);
     filter: none
 }
 
 .pagination > li > a:hover {
-    background-image: -webkit-linear-gradient(#020202, #101112 40%, #191b1d);
-    background-image: linear-gradient(#020202, #101112 40%, #191b1d);
+    background-image: -webkit-linear-gradient(#1e1941, #1e1941 100%, #1e1941);
+    background-image: linear-gradient(#1e1941, #1e1941 100%, #1e1941);
     background-repeat: no-repeat;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff020202', endColorstr='#ff191b1d', GradientType=0);
     filter: none

@@ -380,7 +380,10 @@ def profile(request):
 
 def ajax_test(request):
     if request.is_ajax():
-        msg = inbox_count_for(request.user)
+        if request.user.is_authenticated():
+            msg = inbox_count_for(request.user)
+        else:
+            msg = "Woops! Something went wrong."
     else:
         msg = "Woops! Something went wrong."
     return HttpResponse(msg)
@@ -409,19 +412,50 @@ def new_content(request):
     posts_day = Post.objects.filter(created__gte=date_day)
     posts_week = Post.objects.filter(created__gte=date_week)
     posts_month = Post.objects.filter(created__gte=date_month)
-    #List of topics posted in past day
-    topics_day = []
-    for t in posts_day:
-        topics_day.append(t.topic)
-    posts_day = set(topics_day)
-    #List of topics posted in past week
-    topics_week = []
-    for t in posts_week:
-        topics_week.append(t.topic)
-    posts_week = set(topics_week)
-    #List of topics posted in past week
-    topics_month = []
-    for t in posts_month:
-        topics_month.append(t.topic)
-    posts_month = set(topics_month)
+    #filtering
+    posts_day = get_topic(posts_day)
+    posts_week = get_topic(posts_week)
+    posts_month = get_topic(posts_month)
+    #another filtering
+    unread_posts = collection_filter_view(user, unread_posts)
+    posts_day = collection_filter_post(user, posts_day)
+    posts_week = collection_filter_post(user, posts_week)
+    posts_month = collection_filter_post(user, posts_month)
     return render_to_response('new_content.html', locals(), RequestContext(request))
+
+
+def collection_filter_view(user, collection):
+    col = []
+    for t in collection:
+        if user.groups.all()[0].name != 'Initiate':
+            if t.topic.forum.category.name != 'Forum: Restricted forums':
+                col.append(t)
+            else:
+                if user.groups.all()[0].name == 'Leader' and t.topic.forum.name == 'Leader\'s Chat':
+                    col.append(t)
+                else:
+                    if user.groups.all()[0].name == 'Officer':
+                        col.append(t)
+    return col
+
+
+def get_topic(collection):
+    topics_day = []
+    for t in collection:
+        topics_day.append(t.topic)
+    return set(topics_day)
+
+
+def collection_filter_post(user, collection):
+    col = []
+    for t in collection:
+        if user.groups.all()[0].name != 'Initiate':
+            if t.forum.category.name != 'Forum: Restricted forums':
+                col.append(t)
+            else:
+                if user.groups.all()[0].name == 'Leader' and t.forum.name == 'Leader\'s Chat':
+                    col.append(t)
+                else:
+                    if user.groups.all()[0].name == 'Officer':
+                        col.append(t)
+    return col
