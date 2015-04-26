@@ -330,7 +330,6 @@ def credit(request):
 
 
 def profile(request):
-    username = None
     if request.user.is_authenticated():
         username = request.user.username
         picture = UserProfile.objects.get(user=User.objects.get(username=username))
@@ -409,24 +408,16 @@ def media(request):
 
 
 def new_content(request):
-    user = request.user
-    unread_posts = View.objects.filter(visited=False, user=user)
-    date_day = datetime.datetime.now() - datetime.timedelta(days=1)
-    date_week = datetime.datetime.now() - datetime.timedelta(days=7)
-    date_month = datetime.datetime.now() - datetime.timedelta(days=31)
-    posts_day = Post.objects.filter(created__gte=date_day)
-    posts_week = Post.objects.filter(created__gte=date_week)
-    posts_month = Post.objects.filter(created__gte=date_month)
-    #filtering
-    posts_day = get_topic(posts_day)
-    posts_week = get_topic(posts_week)
-    posts_month = get_topic(posts_month)
-    #another filtering
-    unread_posts = collection_filter_view(user, unread_posts)
-    posts_day = collection_filter_post(user, posts_day)
-    posts_week = collection_filter_post(user, posts_week)
-    posts_month = collection_filter_post(user, posts_month)
+    unread_posts = collection_filter_view(request.user, View.objects.filter(visited=False, user=request.user))
+    posts_day = collection_filter_post(request.user, get_topic(get_posts(1)))
+    posts_week = collection_filter_post(request.user, get_topic(get_posts(7)))
+    posts_month = collection_filter_post(request.user, get_topic(get_posts(31)))
     return render_to_response('new_content.html', locals(), RequestContext(request))
+
+
+def get_posts(days):
+    date = datetime.datetime.now() - datetime.timedelta(days=days)
+    return Post.objects.filter(created__gte=date)
 
 
 def collection_filter_view(user, collection):

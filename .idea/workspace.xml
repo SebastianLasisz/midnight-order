@@ -34,7 +34,7 @@
       <file leaf-file-name="new_content.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/new_content.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="1173">
+            <state vertical-scroll-proportion="-3.9230769" vertical-offset="102" max-vertical-offset="1173">
               <caret line="12" column="43" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
               <folding />
             </state>
@@ -44,21 +44,9 @@
       <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/GuildPage/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7042017" vertical-offset="6041" max-vertical-offset="7599">
-              <caret line="404" column="0" selection-start-line="404" selection-start-column="0" selection-end-line="404" selection-end-column="0" />
+            <state vertical-scroll-proportion="1.2571429" vertical-offset="4522" max-vertical-offset="7446">
+              <caret line="334" column="83" selection-start-line="334" selection-start-column="83" selection-end-line="334" selection-end-column="83" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MidnightOrder/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="884">
-              <caret line="39" column="72" selection-start-line="39" selection-start-column="72" selection-end-line="39" selection-end-column="72" />
-              <folding>
-                <element signature="e#0#51#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -1033,7 +1021,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/new_content.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="1173">
+        <state vertical-scroll-proportion="-3.9230769" vertical-offset="102" max-vertical-offset="1173">
           <caret line="12" column="43" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
           <folding />
         </state>
@@ -1041,8 +1029,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MidnightOrder/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="884">
-          <caret line="39" column="72" selection-start-line="39" selection-start-column="72" selection-end-line="39" selection-end-column="72" />
+        <state vertical-scroll-proportion="0.50328946" vertical-offset="204" max-vertical-offset="884">
+          <caret line="30" column="37" selection-start-line="30" selection-start-column="30" selection-end-line="30" selection-end-column="37" />
           <folding>
             <element signature="e#0#51#0" expanded="true" />
           </folding>
@@ -1051,8 +1039,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/GuildPage/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7042017" vertical-offset="6041" max-vertical-offset="7599">
-          <caret line="404" column="0" selection-start-line="404" selection-start-column="0" selection-end-line="404" selection-end-column="0" />
+        <state vertical-scroll-proportion="1.2571429" vertical-offset="4522" max-vertical-offset="7446">
+          <caret line="334" column="83" selection-start-line="334" selection-start-column="83" selection-end-line="334" selection-end-column="83" />
           <folding />
         </state>
       </provider>
