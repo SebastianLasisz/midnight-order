@@ -22,6 +22,7 @@ from Register.form import *
 from GuildPage.form import *
 from Progress.models import *
 from forums.models import Post, PostRating, View, Topic
+from django.core.exceptions import PermissionDenied
 
 
 def index(request):
@@ -401,6 +402,10 @@ def ajax_upvote(request):
     else:
         msg = "Woops! Something went wrong."
     return HttpResponse(msg)
+
+
+def media(request):
+    return HttpResponse(status=403)
 
 
 def new_content(request):

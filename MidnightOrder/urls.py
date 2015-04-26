@@ -34,6 +34,7 @@ urlpatterns = patterns('',
                        url(r'^ajax_test/$', ajax_test),
                        url(r'^forums/new_content/$', login_required(new_content)),
                        url(r'^ajax_upvote/$', ajax_upvote),
+                       url(r'^media/$', media),
                        (r'^summernote/', include('django_summernote.urls')),
                        (r'^messages/', include('django_messages.urls')),
                        (r'^login/$', 'django.contrib.auth.views.login'),
@@ -42,4 +43,4 @@ urlpatterns = patterns('',
                        url(r'^recruitment/(?P<slug>[-_\w]+)/$', RegisterDetailView.as_view(), name='register-detail'),
                        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
                        (r'^media/&', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
-)+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
