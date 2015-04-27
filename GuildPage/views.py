@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
+
 from django_messages.models import inbox_count_for
 from Members.models import Member
 from News.models import News
@@ -21,16 +22,15 @@ from Register.models import Register, UserProfile
 from Register.form import *
 from GuildPage.form import *
 from Progress.models import *
-from forums.models import Post, PostRating, View, Topic
-from django.core.exceptions import PermissionDenied
+from forums.models import Post, PostRating, View
 
 
 def index(request):
     all_news = list(reversed(News.objects.all()))
+    count = len(all_news)
     news = all_news[:10]
     raids = Raid.objects.all()
-    count = len(news)
-    number_of_pages = range(1, 1 + (count - (count % 10) + 10) / 10)
+    number_of_pages = range(1, int(1 + (count - ((count - 1) % 10) + 10) / 10))
     progress = []
     for r in raids:
         bosses = Boss.objects.filter(raid=Raid.objects.filter(name=r.name))
@@ -48,13 +48,10 @@ def paged_index(request, **kwargs):
     pk = int(kwargs.get('pk', None))
     all_news = list(reversed(News.objects.all()))
     count = len(all_news)
-    number_of_pages = range(1, 1 + (count - (count % 10) + 10) / 10)
-    if pk * 10 - count < 10:
-        if pk <= 1:
-            return HttpResponseRedirect('/')
-        else:
-            news = all_news[((pk - 1) * 10):(pk * 10)]
-            return render_to_response('index.html', locals(), RequestContext(request))
+    number_of_pages = range(1, int(1 + (count - ((count - 1) % 10) + 10) / 10))
+    if pk * 10 - count < 10 and pk > 1:
+        news = all_news[((pk - 1) * 10):(pk * 10)]
+        return render_to_response('index.html', locals(), RequestContext(request))
     else:
         return HttpResponseRedirect('/')
 
@@ -69,10 +66,7 @@ def login(request):
 
 def log_out(request):
     logout(request)
-    logged_out = True
-    news = News.objects.all()[:10]
-    news2 = list(reversed(news))
-    return render_to_response('index.html', locals(), RequestContext(request))
+    return index(request)
 
 
 def add_news(request):
@@ -86,7 +80,7 @@ def add_news(request):
             n.save()
         else:
             return render_to_response('add_news.html', locals(), RequestContext(request))
-        return HttpResponseRedirect('/index/')
+        return index(request)
     else:
         form = NewsForm()
 
@@ -108,8 +102,8 @@ def contact(request):
                 recipients.append(sender)
         else:
             return render_to_response('contact.html', locals(), RequestContext(request))
-        send_mail("Midnight Order: contact_us - " + subject, message, sender, recipients)
-        return HttpResponseRedirect('/thanks/')
+        send_mail("Midnight Order: Contact us - " + subject, message, sender, recipients)
+        return thanks(request)
     else:
         form = ContactForm()
 
@@ -138,16 +132,17 @@ def register(request):
                     g = Group.objects.get(name='Initiate')
                     g.user_set.add(r)
                     subject = "Your Midnight Order account confirmation"
-                    message = "Hello " + username + " and thanks for signing up for a Midnight Order account."
+                    message = "Hello " + username + ". Thanks for signing up for a Midnight Order account. " \
+                                                    "Your account will be given full access after confirmation."
                     send_mail(subject, message, 'noreply@midnightorder.com', [email], fail_silently=False)
                     send_mail("New user registration!", "New user has create an account. Check " + username + ".",
                               'noreply@midnightorder.com', ["sedi1ster@gmail.com"], fail_silently=False)
                 except IntegrityError:
-                    error = "That name is already taken"
+                    error = "That user name is already taken"
                     return render_to_response('register.html', locals(), RequestContext(request))
             else:
                 return render_to_response('register.html', locals(), RequestContext(request))
-            return HttpResponseRedirect('/register_complete/')
+            return register_complete(request)
         except:
             error = "Captcha input doesn't match. Please reenter it."
             return render_to_response('register.html', locals(), RequestContext(request))
@@ -160,7 +155,13 @@ def register(request):
 
 
 def thanks(request):
-    return render_to_response('thanks.html', locals(), RequestContext(request))
+    message = "Thanks for sending us request. We will look into it soon."
+    return render_to_response('notifications.html', locals(), RequestContext(request))
+
+
+def register_complete(request):
+    message = "Your account is activated. You can log in <a href=\"/login\">here."
+    return render_to_response('notifications.html', locals(), RequestContext(request))
 
 
 def terms(request):
@@ -169,6 +170,14 @@ def terms(request):
 
 def cookies(request):
     return render_to_response('cookies.html', locals(), RequestContext(request))
+
+
+def media(request):
+    return HttpResponse(status=403)
+
+
+def credit(request):
+    return render_to_response('credits.html', locals(), RequestContext(request))
 
 
 def members(request):
@@ -303,8 +312,13 @@ def recruitment(request):
             topic_name = username + "'s Application"
             topic = Topic(forum=topic_forum, name=topic_name)
             topic.save()
-            post_body = "Real name: 	" + irl_name + "\nAge: 	" + str(
-                age) + "\nFrom: 	" + country + "\nAbout: 	" + about_yourself + "\nCharacter name: 	" + username + "\nClass: 	" + class_1 + "\nSpecialisation: 	" + spec + "\nWorld of Logs: 	" + wol_logs + "\nProfessions: 	" + professions + "\nReason of leaving previous guilds: 	" + previous_guilds + "\nKnowledge of other people in guild: 	" + contacs + "\nReason to join us: 	" + reason + "\nQuestions to us: 	" + questions + "\nRaiding experience: 	" + experience
+            post_body = "Real name: 	" + irl_name + "\nAge: 	" + str(age) + "\nFrom: 	" + country +\
+                        "\nAbout: 	" + about_yourself + "\nCharacter name: 	" + username + \
+                        "\nClass: 	" + class_1 + "\nSpecialisation: 	" + spec + "\nWorld of Logs: 	" + \
+                        wol_logs + "\nProfessions: 	" + professions + "\nReason of leaving previous guilds: 	" + \
+                        previous_guilds + "\nKnowledge of other people in guild: 	" + contacs + \
+                        "\nReason to join us: 	" + reason + "\nQuestions to us: 	" \
+                        + questions + "\nRaiding experience: 	" + experience
 
             post = Post(topic=topic, body=post_body, user=user)
             post.save()
@@ -321,14 +335,6 @@ def recruitment(request):
     })
 
 
-def register_complete(request):
-    return render_to_response('register_complete.html', locals(), RequestContext(request))
-
-
-def credit(request):
-    return render_to_response('credits.html', locals(), RequestContext(request))
-
-
 def profile(request):
     if request.user.is_authenticated():
         username = request.user.username
@@ -342,8 +348,10 @@ def profile(request):
         if form.is_valid():
             up = UserProfile.objects.filter(user=User.objects.get(username=username))
             u = User.objects.get(username=username)
-            if form.cleaned_data['password'] != '' and form.cleaned_data['repeat_password'] != '' and form.cleaned_data['old_password'] != '':
-                if form.cleaned_data['password'] == form.cleaned_data['repeat_password'] and request.user.check_password(form.cleaned_data['old_password']):
+            if form.cleaned_data['password'] != '' and form.cleaned_data['repeat_password'] != '' \
+                    and form.cleaned_data['old_password'] != '':
+                if form.cleaned_data['password'] == form.cleaned_data['repeat_password'] and \
+                        request.user.check_password(form.cleaned_data['old_password']):
                     u.password = make_password(form.cleaned_data['password'])
                     u.save()
                 else:
@@ -401,10 +409,6 @@ def ajax_upvote(request):
     else:
         msg = "Woops! Something went wrong."
     return HttpResponse(msg)
-
-
-def media(request):
-    return HttpResponse(status=403)
 
 
 def new_content(request):
