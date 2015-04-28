@@ -6846,7 +6846,11 @@ textarea {
 }
 
 div {
-    overflow: hidden;
+    word-break: initial;
+}
+
+p {
+    word-break: initial;
 }
 
 .btn-default{
@@ -6865,22 +6869,6 @@ div {
 
 a.list-group-item:hover, a.list-group-item:focus {
     background-image: linear-gradient(#1e1941, #030321 100%, #1e1941);
-}
-
-@media screen and (max-width: 1000px) {
-    .progressbar {
-        position: relative;
-        top: 0px;
-        width: 100%;
-        right: 0px;
-    }
-
-    .sidebar-nav {
-        position: relative;
-        top: 0px;
-        width: 100%;
-        right: 0px;
-    }
 }
 
 .pagination{

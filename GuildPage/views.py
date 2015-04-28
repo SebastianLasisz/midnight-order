@@ -23,6 +23,7 @@ from Register.form import *
 from GuildPage.form import *
 from Progress.models import *
 from forums.models import Post, PostRating, View
+from Policies.models import *
 
 
 def index(request):
@@ -56,7 +57,8 @@ def paged_index(request, **kwargs):
         return HttpResponseRedirect('/')
 
 
-def policies(request):
+def policy(request):
+    policies = Policies.objects.all()
     return render_to_response('policies.html', locals(), RequestContext(request))
 
 
@@ -155,12 +157,12 @@ def register(request):
 
 
 def thanks(request):
-    message = "Thanks for sending us request. We will look into it soon."
+    message = "Thanks for sending us message. We will look into it soon."
     return render_to_response('notifications.html', locals(), RequestContext(request))
 
 
 def register_complete(request):
-    message = "Your account is activated. You can log in <a href=\"/login\">here."
+    message = "Your account is activated. You can now <a href=\"/login\">log in.</a>"
     return render_to_response('notifications.html', locals(), RequestContext(request))
 
 
@@ -338,10 +340,10 @@ def recruitment(request):
 def profile(request):
     if request.user.is_authenticated():
         username = request.user.username
-        picture = UserProfile.objects.get(user=User.objects.get(username=username))
-        avatar = picture.avatar
-        signature = picture.signature
-        style = picture.style
+        user_profile = UserProfile.objects.get(user=User.objects.get(username=username))
+        avatar = user_profile.avatar
+        signature = user_profile.signature
+        style = user_profile.style
 
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES)
@@ -372,9 +374,9 @@ def profile(request):
                                 style=form.cleaned_data['style'])
                 r.save()
             error1 = "Your settings have been saved."
-            picture = UserProfile.objects.get(user=User.objects.get(username=username))
-            avatar = picture.avatar
-            style = picture.style
+            user_profile = UserProfile.objects.get(user=User.objects.get(username=username))
+            avatar = user_profile.avatar
+            style = user_profile.style
             return render_to_response('profile.html', locals(), RequestContext(request))
         else:
             return render_to_response('profile.html', locals(), RequestContext(request))
