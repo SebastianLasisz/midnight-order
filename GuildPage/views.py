@@ -3,6 +3,7 @@ import urllib2
 import operator
 import datetime
 
+from django.conf import settings
 from django.db import IntegrityError
 from django.shortcuts import render
 from django.template import RequestContext
@@ -185,7 +186,8 @@ def credit(request):
 def members(request):
     a = []
     j = urllib2.urlopen(
-        'https://eu.api.battle.net/wow/guild/Defias%20Brotherhood/Midnight%20Order?fields=members&locale=en_GB&apikey=a7w8cuncze9u7nqrnubfx3dzkmahdy55')
+        'https://eu.api.battle.net/wow/guild/Defias%20Brotherhood/Midnight%20Order?fields=members&locale=en_GB&apikey='
+        + settings.API_KEY)
     js = json.load(j)
     arr = js['members']
     for rs in arr:
@@ -314,7 +316,7 @@ def recruitment(request):
             topic_name = username + "'s Application"
             topic = Topic(forum=topic_forum, name=topic_name)
             topic.save()
-            post_body = "Real name: 	" + irl_name + "\nAge: 	" + str(age) + "\nFrom: 	" + country +\
+            post_body = "Real name: 	" + irl_name + "\nAge: 	" + str(age) + "\nFrom: 	" + country + \
                         "\nAbout: 	" + about_yourself + "\nCharacter name: 	" + username + \
                         "\nClass: 	" + class_1 + "\nSpecialisation: 	" + spec + "\nWorld of Logs: 	" + \
                         wol_logs + "\nProfessions: 	" + professions + "\nReason of leaving previous guilds: 	" + \
