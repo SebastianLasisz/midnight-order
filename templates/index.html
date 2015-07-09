@@ -31,8 +31,13 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion"
+                                {% if forloop.last %}
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                    href="#{{ p.0.raid.id }}">{{ p.0.raid }}</a>
+                                {% else %}
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion"
+                                   href="#{{ p.0.raid.id }}">{{ p.0.raid }}</a>
+                                {% endif %}
                             </h4>
                         </div>
                         {% if forloop.last %}
