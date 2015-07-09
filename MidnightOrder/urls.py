@@ -7,6 +7,7 @@ from django.conf.urls.static import static
 
 from Register.views import RegisterDetailView
 from GuildPage.views import *
+from warcraftlogs.views import *
 from Feed.feed import LatestEntries
 
 
@@ -35,6 +36,7 @@ urlpatterns = patterns('',
                        url(r'^forums/new_content/$', login_required(new_content)),
                        url(r'^ajax_upvote/$', ajax_upvote),
                        url(r'^media/$', media),
+                       url(r'^test/$', zone_test),
                        (r'^summernote/', include('django_summernote.urls')),
                        (r'^messages/', include('django_messages.urls')),
                        (r'^login/$', 'django.contrib.auth.views.login'),
