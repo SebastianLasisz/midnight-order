@@ -6,7 +6,7 @@ $(document).ready(function () {
     $("img").each(function () {
         var image = $(this);
         if (image.width() > 100) {
-            $(this).replaceWith("<a class='fancybox' rel='group' href='" + $(this).attr("src") + "'>" + "<img src='" + $(this).attr("src") + "' style=width:100% />" + "</a>");
+            image.wrap("<a href='" +image.attr('src')+ "' class='fancybox' rel='group'></a>");
         }
     })
     $(".fancybox").fancybox();

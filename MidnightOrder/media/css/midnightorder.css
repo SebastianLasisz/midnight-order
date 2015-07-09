@@ -5328,7 +5328,7 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-g
 
 .panel-default > .panel-heading {
     color: #c8c8c8;
-    background-color: #3e444c;
+    background-image: linear-gradient(#1e1941, #030321 100%, #1e1941);
     border-color: rgba(0, 0, 0, 0.6)
 }
 

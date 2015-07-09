@@ -316,13 +316,13 @@ def recruitment(request):
             topic_name = username + "'s Application"
             topic = Topic(forum=topic_forum, name=topic_name)
             topic.save()
-            post_body = "Real name: 	" + irl_name + "\nAge: 	" + str(age) + "\nFrom: 	" + country + \
-                        "\nAbout: 	" + about_yourself + "\nCharacter name: 	" + username + \
-                        "\nClass: 	" + class_1 + "\nSpecialisation: 	" + spec + "\nWorld of Logs: 	" + \
-                        wol_logs + "\nProfessions: 	" + professions + "\nReason of leaving previous guilds: 	" + \
-                        previous_guilds + "\nKnowledge of other people in guild: 	" + contacs + \
-                        "\nReason to join us: 	" + reason + "\nQuestions to us: 	" \
-                        + questions + "\nRaiding experience: 	" + experience
+            post_body = "Real name: 	" + irl_name + "\n Age: 	" + str(age) + "\n From: 	" + country + \
+                        "\n About: 	" + about_yourself + "\n Character name: 	" + username + \
+                        "\n Class: 	" + class_1 + "\n Specialisation: 	" + spec + "\n World of Logs: 	" + \
+                        wol_logs + "\n Professions: 	" + professions + "\n Reason of leaving previous guilds: 	" + \
+                        previous_guilds + "\n Knowledge of other people in guild: 	" + contacs + \
+                        "\n Reason to join us: 	" + reason + "\n Questions to us: 	" \
+                        + questions + "\n Raiding experience: 	" + experience
 
             post = Post(topic=topic, body=post_body, user=user)
             post.save()
