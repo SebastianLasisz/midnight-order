@@ -31,7 +31,8 @@ def index(request):
     all_news = list(reversed(News.objects.all()))
     count = len(all_news)
     news = all_news[:10]
-    raids = Raid.objects.all()
+    latest_expansion = Expansion.objects.all().order_by('-id')[0]
+    raids = Raid.objects.filter(expansion=latest_expansion)
     number_of_pages = range(1, int(1 + (count - ((count - 1) % 10) + 10) / 10))
     progress = []
     for r in raids:
@@ -41,7 +42,8 @@ def index(request):
 
 
 def paged_index(request, **kwargs):
-    raids = Raid.objects.all()
+    latest_expansion = Expansion.objects.all().order_by('-id')[0]
+    raids = Raid.objects.filter(expansion=latest_expansion)
     progress = []
     for r in raids:
         bosses = Boss.objects.filter(raid=Raid.objects.filter(name=r.name))
