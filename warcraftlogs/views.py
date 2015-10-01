@@ -4,6 +4,7 @@ import string
 
 from django.conf import settings
 from django.http import HttpResponse
+
 from Progress.models import Boss, Raid
 
 
@@ -132,11 +133,11 @@ def test_guild_progress(request):
     errors = []
     for r in raiders:
         try:
-            sedi = character_progress(r[0], r[1])
-            for x, sp in enumerate(sedi):
-                for idx, s in enumerate(sedi[x]):
+            character = character_progress(r[0], r[1])
+            for x, sp in enumerate(character):
+                for idx, s in enumerate(character[x]):
                     if s >= 1:
-                        new_bosses[idx][x+1] += 1
+                        new_bosses[idx][x + 1] += 1
         except:
             errors.insert(0, [r[0], r[1]])
 
@@ -169,7 +170,7 @@ def get_raiders():
     raiders = []
     for m in members:
         if m['rank'] <= 5:
-            raider = [m['character']['name'], replace_realm_name(m['character']['realm'].encode('ascii','ignore'))]
+            raider = [m['character']['name'], replace_realm_name(m['character']['realm'].encode('ascii', 'ignore'))]
             raiders.append(raider)
     return raiders
 
