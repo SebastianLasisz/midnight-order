@@ -32,5 +32,8 @@ class Boss(models.Model):
     raid = models.ForeignKey(Raid)
     progress = models.ForeignKey(Stage)
 
+    def __unicode__(self):
+        return self.name
+
 
 

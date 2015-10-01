@@ -1,8 +1,10 @@
 import json
 import urllib2
+import string
+
 from django.conf import settings
 from django.http import HttpResponse
-import string
+from Progress.models import Boss, Raid
 
 
 def get_zones():
@@ -118,3 +120,59 @@ def get_spec_id(name_or_id__of_class, name_of_spec):
 
 def zone_test(request):
     return HttpResponse(get_spec_id('druid', 'balance'))
+
+
+def test_guild_progress(request):
+    raiders = get_raiders()
+    latest_expansion = Raid.objects.all().order_by('-id')[0]
+    bosses = list(Boss.objects.filter(raid=latest_expansion))
+    new_bosses = []
+    for b in bosses:
+        new_bosses.append([str(b.name), 0, 0, 0])
+    errors = []
+    for r in raiders:
+        try:
+            sedi = character_progress(r[0], r[1])
+            for x, sp in enumerate(sedi):
+                for idx, s in enumerate(sedi[x]):
+                    if s >= 1:
+                        new_bosses[idx][x+1] += 1
+        except:
+            errors.insert(0, [r[0], r[1]])
+
+    return HttpResponse(new_bosses)
+
+
+def character_progress(name, realm):
+    character_json = urllib2.urlopen(
+        'https://eu.api.battle.net/wow/character/' + realm + '/' + name + '?fields=progression&locale=en_GB&apikey=' + settings.API_KEY)
+    character = json.load(character_json)
+    raids = character['progression']['raids']
+    index_of_last_raid = raids.__len__() - 1
+    bosses = raids[index_of_last_raid]['bosses']
+    normal_kills = []
+    heroic_kills = []
+    mythic_kills = []
+    for b in bosses:
+        normal_kills.append(b['normalKills'])
+        heroic_kills.append(b['heroicKills'])
+        mythic_kills.append(b['mythicKills'])
+    result = [normal_kills, heroic_kills, mythic_kills]
+    return result
+
+
+def get_raiders():
+    members_json = urllib2.urlopen(
+        'https://eu.api.battle.net/wow/guild/Defias%20Brotherhood/Midnight%20Order?fields=members&locale=en_GB&apikey=' + settings.API_KEY)
+    members = json.load(members_json)
+    members = members['members']
+    raiders = []
+    for m in members:
+        if m['rank'] <= 5:
+            raider = [m['character']['name'], replace_realm_name(m['character']['realm'].encode('ascii','ignore'))]
+            raiders.append(raider)
+    return raiders
+
+
+def replace_realm_name(realm_name):
+    return realm_name.replace(" ", "%20")
