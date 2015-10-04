@@ -5,7 +5,7 @@ import string
 from django.conf import settings
 from django.http import HttpResponse
 
-from Progress.models import Boss, Raid
+from Progress.models import Boss, Raid, Stage
 
 
 def get_zones():
@@ -123,57 +123,92 @@ def zone_test(request):
     return HttpResponse(get_spec_id('druid', 'balance'))
 
 
-def test_guild_progress(request):
-    raiders = get_raiders()
+def character_progress(name, realm):
+    try:
+        character_json = urllib2.urlopen(
+            'https://eu.api.battle.net/wow/character/' + replace_name(realm) + '/' + replace_name(
+                name) + '?fields=progression&locale=en_GB&apikey=' + settings.API_KEY)
+        character = json.load(character_json)
+        raids = character['progression']['raids']
+        index_of_last_raid = raids.__len__() - 1
+        bosses = raids[index_of_last_raid]['bosses']
+        normal_kills = []
+        heroic_kills = []
+        mythic_kills = []
+        for b in bosses:
+            normal_kills.append(b['normalKills'])
+            heroic_kills.append(b['heroicKills'])
+            mythic_kills.append(b['mythicKills'])
+        result = [normal_kills, heroic_kills, mythic_kills]
+        return result
+    except:
+        latest_expansion = Raid.objects.all().order_by('-id')[0]
+        bosses = list(Boss.objects.filter(raid=latest_expansion))
+        kills = []
+        for b in bosses:
+            kills.append([0])
+        return [kills, kills, kills]
+
+
+def replace_name(realm_name):
+    return realm_name.replace(" ", "%20")
+
+
+def get_raiders(realm, name):
+    try:
+        members_json = urllib2.urlopen(
+            'https://eu.api.battle.net/wow/guild/' + replace_name(realm) + '/' + replace_name(
+                name) + '?fields=members&locale=en_GB&apikey=' + settings.API_KEY)
+        members = json.load(members_json)
+        members = members['members']
+        raiders = []
+        for m in members:
+            if m['rank'] <= 5:
+                raider = [m['character']['name'], replace_name(m['character']['realm'].encode('ascii', 'ignore'))]
+                raiders.append(raider)
+        return raiders
+    except:
+        return []
+
+
+def boss_kills():
+    raiders = get_raiders('Defias Brotherhood', 'Midnight Order')
     latest_expansion = Raid.objects.all().order_by('-id')[0]
     bosses = list(Boss.objects.filter(raid=latest_expansion))
     new_bosses = []
     for b in bosses:
         new_bosses.append([str(b.name), 0, 0, 0])
-    errors = []
     for r in raiders:
-        try:
-            character = character_progress(r[0], r[1])
-            for x, sp in enumerate(character):
-                for idx, s in enumerate(character[x]):
-                    if s >= 1:
-                        new_bosses[idx][x + 1] += 1
-        except:
-            errors.insert(0, [r[0], r[1]])
-
-    return HttpResponse(new_bosses)
+        character = character_progress(r[0], r[1])
+        for x, sp in enumerate(character):
+            for idx, s in enumerate(character[x]):
+                if s >= 1:
+                    new_bosses[idx][x + 1] += 1
+    return new_bosses
 
 
-def character_progress(name, realm):
-    character_json = urllib2.urlopen(
-        'https://eu.api.battle.net/wow/character/' + realm + '/' + name + '?fields=progression&locale=en_GB&apikey=' + settings.API_KEY)
-    character = json.load(character_json)
-    raids = character['progression']['raids']
-    index_of_last_raid = raids.__len__() - 1
-    bosses = raids[index_of_last_raid]['bosses']
-    normal_kills = []
-    heroic_kills = []
-    mythic_kills = []
-    for b in bosses:
-        normal_kills.append(b['normalKills'])
-        heroic_kills.append(b['heroicKills'])
-        mythic_kills.append(b['mythicKills'])
-    result = [normal_kills, heroic_kills, mythic_kills]
-    return result
+def get_guild_progress():
+    boss_spreadsheet = boss_kills()
+    guild_progress = []
+    for b in boss_spreadsheet:
+        boss = b[0]
+        if b[3] >= 7:
+            progress = "Mythic"
+        elif b[2] >= 7:
+            progress = "Heroic"
+        elif b[1] >= 7:
+            progress = "Normal"
+        else:
+            progress = "Undefeated"
+        guild_progress.append([boss, progress])
+    return guild_progress
 
 
-def get_raiders():
-    members_json = urllib2.urlopen(
-        'https://eu.api.battle.net/wow/guild/Defias%20Brotherhood/Midnight%20Order?fields=members&locale=en_GB&apikey=' + settings.API_KEY)
-    members = json.load(members_json)
-    members = members['members']
-    raiders = []
-    for m in members:
-        if m['rank'] <= 5:
-            raider = [m['character']['name'], replace_realm_name(m['character']['realm'].encode('ascii', 'ignore'))]
-            raiders.append(raider)
-    return raiders
-
-
-def replace_realm_name(realm_name):
-    return realm_name.replace(" ", "%20")
+def update_guild_progress(request):
+    guild_progress = get_guild_progress()
+    for g in guild_progress:
+        stage_of_progress = Stage.objects.get(progress=g[1])
+        boss = Boss.objects.get(name=g[0])
+        boss.progress = stage_of_progress
+        boss.save()
+    return HttpResponse(guild_progress)

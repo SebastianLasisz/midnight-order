@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, include, url
-from django.conf import settings
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
@@ -7,9 +6,8 @@ from django.conf.urls.static import static
 
 from Register.views import RegisterDetailView
 from GuildPage.views import *
-from warcraftlogs.views import *
+from Progress.views import *
 from Feed.feed import LatestEntries
-
 
 admin.autodiscover()
 
@@ -36,7 +34,7 @@ urlpatterns = patterns('',
                        url(r'^forums/new_content/$', login_required(new_content)),
                        url(r'^ajax_upvote/$', ajax_upvote),
                        url(r'^media/$', media),
-                       url(r'^test/$', test_guild_progress),
+                       url(r'^test/$', update_guild_progress),
                        (r'^summernote/', include('django_summernote.urls')),
                        (r'^messages/', include('django_messages.urls')),
                        (r'^login/$', 'django.contrib.auth.views.login'),
